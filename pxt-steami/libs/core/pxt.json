@@ -1,0 +1,54 @@
+{
+    "name": "core",
+    "description": "The STeaMi core library",
+    "additionalFilePath": "../../node_modules/pxt-common-packages/libs/base",
+    "files": [
+        "README.md",
+        "platform.h",
+        "pxt.cpp",
+        "pxt.h",
+        "pxtbase.h",
+        "pxtcore.h",
+        "math.ts",
+        "dal.d.ts",
+        "enums.d.ts",
+        "shims.d.ts",
+        "pxt-core.d.ts",
+        "core.cpp",
+        "pxt-helpers.ts",
+        "helpers.ts",
+        "pxt-python.d.ts",
+        "pxt-python-helpers.ts",
+        "configkeys.h",
+        "gc.cpp",
+        "codal.cpp"
+    ],
+    "testFiles": [],
+    "public": true,
+    "dependencies": {},
+    "dalDTS": {
+        "compileServiceVariant": "mbcodal",
+        "includeDirs": [
+            "libraries/codal-core/inc",
+            "libraries/codal-stm32-STEAM32_WB55RG/inc",
+            "libraries/codal-stm32-STEAM32_WB55RG/model",
+            "libraries/codal-stm32-STEAM32_WB55RG/inc/compat",
+            "pxtapp"
+        ],
+        "excludePrefix": [
+            "USB_",
+            "REQUEST_",
+            "LIS3DH_",
+            "FXOS8700_",
+            "MMA8",
+            "LSM303_",
+            "MAG_",
+            "MPU6050_",
+            "REF_TAG_",
+            "HF2_",
+            "PXT_REF_TAG_",
+            "MS_",
+            "SCSI_"
+        ]
+    }
+}

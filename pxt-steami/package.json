@@ -1,0 +1,65 @@
+{
+    "name": "pxt-steami",
+    "version": "0.0.1",
+    "description": "MakeCode editor for STeaMi programming board",
+    "public": true,
+    "keywords": [
+        "JavaScript",
+        "Education",
+        "STeaMi",
+        "STM32",
+        "Let's STEAM",
+        "pxt",
+        "MakeCode"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/steamicc/makecode-steami.git"
+    },
+    "author": "",
+    "license": "MIT",
+    "homepage": "https://github.com/steamicc/makecode-steami#readme",
+    "scripts": {
+        "setup": "npm install && ln -s ../../pxt node_modules/pxt-core",
+        "serve": "pxt serve --cloud --just --no-browser --no-serial -h 0.0.0.0 -p 8080 -w 8081",
+        "test": "pxt ci",
+        "build": "npm run setup && pxt buildtarget",
+        "staticpackage": "pxt staticpkg",
+        "staticserve": "http-server -c-1 built/packaged",
+        "clean": "pxt clean"
+    },
+    "files": [
+        "README.md",
+        "pxtarget.json",
+        "targetconfig.json",
+        "built/*.js",
+        "built/*.json",
+        "built/*.d.ts",
+        "sim/public",
+        "docs/*.md",
+        "docs/*/*.md",
+        "docs/*/*/*.md",
+        "docs/static/*.svg",
+        "docs/static/*.png",
+        "docs/static/libs/*.png",
+        "docs/static/fonts/*",
+        "docs/static/icons/favicon.ico"
+    ],
+    "devDependencies": {
+        "@types/dom-mediacapture-record": "^1.0.16",
+        "@types/marked": "0.3.0",
+        "@types/node": "8.10.66",
+        "@types/react": "16.4.7",
+        "@types/react-dom": "16.0.3",
+        "@types/web-bluetooth": "0.0.4",
+        "less": "3.13.1",
+        "react": "16.8.3",
+        "react-dom": "16.11.0",
+        "semantic-ui-less": "2.4.1",
+        "typescript": "4.8.3"
+    },
+    "dependencies": {
+        "pxt-core": "file:../pxt",
+        "pxt-common-packages": "12.0.1"
+    }
+}

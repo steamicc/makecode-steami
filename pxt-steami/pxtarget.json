@@ -1,0 +1,442 @@
+{
+    "id": "steami",
+    "nickname": "steami",
+    "name": "makecode.steami.",
+    "title": "MakeCode for STeaMi",
+    "description": "A Blocks / JavaScript code editor for the STeaMi:bit powered by Microsoft MakeCode.",
+    "corepkg": "core",
+    "bundleddirs": ["libs/core"],
+    "cloud": {
+        "workspace": false,
+        "packages": true,
+        "sharing": true,
+        "thumbnails": true,
+        "publishing": true,
+        "importing": true,
+        "showBadges": false,
+        "preferredPackages": ["Microsoft/pxt-neopixel"],
+        "githubPackages": true,
+        "cloudProviders": {
+            "github": {
+                "id": "github",
+                "name": "GitHub",
+                "icon": "/static/providers/github-mark.png",
+                "identity": false,
+                "order": 3
+            },
+            "microsoft": {
+                "id": "microsoft",
+                "name": "Microsoft",
+                "icon": "/static/providers/microsoft-logo.svg",
+                "identity": true,
+                "redirect": true,
+                "order": 1
+            },
+            "google": {
+                "id": "google",
+                "name": "Google",
+                "icon": "/static/providers/google-logo.svg",
+                "identity": true,
+                "redirect": true,
+                "order": 2
+            },
+            "clever": {
+                "id": "clever",
+                "name": "Clever",
+                "icon": "/static/providers/clever-logo.png",
+                "identity": true,
+                "redirect": true,
+                "order": 3
+            }
+        }
+    },
+
+    "compile": {
+        "isNative": false,
+        "hasHex": true,
+        "deployDrives": "(DAPLINK|UNDEFINED)",
+        "driveName": "DAPLINK",
+        "hexMimeType": "application/x-steami-hex",
+        "openocdScript": "source [find interface/cmsis-dap.cfg]; source [find target/nrf51.cfg]",
+        "flashUsableEnd": 242688,
+        "flashEnd": 242688,
+        "flashCodeAlign": 1024,
+        "floatingPoint": true,
+        "taggedInts": true,
+        "utf8": false,
+        "gc": true,
+        "imageRefTag": 9,
+        "hidSelectors": [
+            {
+                "usagePage": "0xFF00",
+                "usageId": "0x0001",
+                "vid": "0x0d28",
+                "pid": "0x0204"
+            }
+        ],
+        "webUSB": true,
+        "useNewFunctions": true
+    },
+
+    "compileService": {
+        "buildEngine": "codal",
+        "codalTarget": {
+            "name": "codal-stm32-STEAM32_WB55RG",
+            "url": "https://github.com/letssteam/codal-stm32-STEAM32_WB55RG",
+            "branch": "main",
+            "type": "git",
+            "dev": true
+        },
+        "codalBinary": "STM32",
+        "githubCorePackage": "letssteam/codal",
+        "gittag": "v0.10.0",
+        "serviceId": "steami",
+        "dockerImage": "pext/yotta:latest"
+    },
+
+    "multiVariants": ["codalsteami"],
+
+    "alwaysMultiVariant": true,
+
+    "variants": {
+        "codalsteami": {
+            "compile": {
+                "flashCodeAlign": 4096,
+                "flashUsableEnd": 487424,
+                "flashEnd": 524288
+            },
+            "compileService": {
+                "buildEngine": "codal",
+                "codalTarget": {
+                    "name": "codal-stm32-STEAM32_WB55RG",
+                    "url": "https://github.com/letssteam/codal-stm32-STEAM32_WB55RG",
+                    "branch": "main",
+                    "type": "git",
+                    "dev": true
+                },
+                "codalBinary": "STM32",
+                "githubCorePackage": "letssteam/codal",
+                "gittag": "v0.10.0",
+                "serviceId": "codalsteami",
+                "dockerImage": "pext/yotta:latest"
+            }
+        }
+    },
+
+    "runtime": {
+        "mathBlocks": true,
+        "loopsBlocks": true,
+        "logicBlocks": true,
+        "variablesBlocks": true,
+        "textBlocks": true,
+        "listsBlocks": true,
+        "functionBlocks": true,
+        "breakBlock": true,
+        "continueBlock": true,
+        "functionsOptions": {
+            "useNewFunctions": true,
+            "extraFunctionEditorTypes": [
+                {
+                    "typeName": "game.LedSprite",
+                    "label": "LedSprite",
+                    "icon": "send",
+                    "defaultName": "sprite"
+                },
+                {
+                    "typeName": "Image",
+                    "label": "Image",
+                    "icon": "image outline",
+                    "defaultName": "image"
+                }
+            ]
+        },
+        "onStartColor": "#1E90FF",
+        "onStartNamespace": "basic",
+        "onStartWeight": 54
+    },
+
+    "simulator": {
+        "autoRun": true,
+        "streams": false,
+        "aspectRatio": 1.22,
+        "parts": true,
+        "partsAspectRatio": 0.69,
+        "dynamicBoardDefinition": true,
+        "messageSimulators": {
+            "jacdac": {
+                "url": "https://microsoft.github.io/jacdac-docs/tools/makecode-sim?webusb=0&parentOrigin=$PARENT_ORIGIN$",
+                "localHostUrl": "http://localhost:8000/tools/makecode-sim?webusb=0&parentOrigin=$PARENT_ORIGIN$",
+                "aspectRatio": 1.22,
+                "permanent": true
+            },
+            "robot": {
+                "url": "https://microsoft.github.io/microbit-robot/?parentOrigin=$PARENT_ORIGIN$",
+                "localHostUrl": "http://localhost:3000/microbit-robot/?parentOrigin=$PARENT_ORIGIN$",
+                "aspectRatio": 1.22,
+                "permanent": true
+            }
+        }
+    },
+
+    "serial": {
+        "nameFilter": "^(mbed Serial Port|DAPLink CMSIS-DAP)",
+        "log": true,
+        "useEditor": true,
+        "editorTheme": {
+            "graphBackground": "#d9d9d9",
+            "lineColors": [
+                "#6633cc",
+                "#2C7485",
+                "#3454D1",
+                "#EF767A",
+                "#F46197",
+                "#107C10"
+            ]
+        },
+        "vendorId": "0x0d28",
+        "productId": "0x0204",
+        "rawHID": true
+    },
+
+    "appTheme": {
+        "accentColor": "#0089BF",
+        "logoUrl": "https://steami.cc/",
+        "logo": "./static/logo.portrait.white.svg",
+        "docsLogo": "./static/logo.square.white.svg",
+        "portraitLogo": "./static/logo.square.white.svg",
+        "footerLogo": "./static/logo.portrait.black.svg",
+        "cardLogo": "./static/icons/apple-touch-icon.png",
+        "appLogo": "./static/icons/apple-touch-icon.png",
+        "organization": "Microsoft MakeCode",
+        "organizationUrl": "https://makecode.com/",
+        "organizationLogo": "./static/Microsoft_logo_rgb_W-white_D-square.png",
+        "organizationWideLogo": "./static/Microsoft_logo_rgb_W-white_D.png",
+        "homeScreenHero": {
+            "imageUrl": "/static/herogallery/hero-banner.png",
+            "name": "Flashing Heart",
+            "url": "/projects/flashing-heart",
+            "description": "New? Start here!",
+            "cardType": "tutorial"
+        },
+        "homeScreenHeroGallery": "/hero-banner",
+        "homeUrl": "https://makecode.steami.cc/",
+        "embedUrl": "https://makecode.steami.cc/",
+        "shareUrl": "https://makecode.steami.cc/",
+        "privacyUrl": "https://makecode.com/privacy",
+        "termsOfUseUrl": "https://makecode.com/termsofuse",
+        "githubUrl": "https://github.com/Microsoft/pxt-microbit",
+        "boardName": "steami",
+        "boardNickname": "STeaMi",
+        "driveDisplayName": "STEAMI",
+        "crowdinProject": "makecode-steami",
+        "extendEditor": true,
+        "extendFieldEditors": true,
+        "enableTrace": true,
+        "ignoreDocsErrors": false,
+        "errorList": true,
+        "workspaceSearch": true,
+        "allowPackageExtensions": true,
+        "addNewTypeScriptFile": true,
+        "experiments": [
+            "accessibleBlocks",
+            "debugExtensionCode",
+            "bluetoothUartConsole",
+            "bluetoothPartialFlashing",
+            "identity",
+            "blocksErrorList"
+        ],
+        "bluetoothUartFilters": [
+            {
+                "namePrefix": "STeaMi"
+            }
+        ],
+        "docMenu": [
+            {
+                "name": "Support",
+                "path": "https://support.steami.cc/"
+            },
+            {
+                "name": "Reference",
+                "path": "/reference"
+            },
+            {
+                "name": "Hardware",
+                "path": "/device"
+            },
+            {
+                "name": "Buy",
+                "path": "https://steami.cc/resellers"
+            }
+        ],
+        "hasReferenceDocs": true,
+        "usbDocs": "/device/usb",
+        "hideHomeDetailsVideo": true,
+        "invertedMenu": true,
+        "coloredToolbox": true,
+        "monacoToolbox": true,
+        "hasAudio": true,
+        "socialOptions": {
+            "orgTwitterHandle": "MSMakeCode",
+            "hashtags": "MakeCode",
+            "discourse": "https://forum.makecode.com/",
+            "discourseCategory": "micro:bit"
+        },
+        "blocklyOptions": {
+            "grid": {
+                "spacing": 45,
+                "length": 7,
+                "colour": "rgba(189, 195, 199, 0.30)",
+                "snap": false
+            }
+        },
+        "blockColors": {
+            "input": "#E9407F",
+            "loops": "#61b22f",
+            "logic": "#fdc400",
+            "math": "#62549f",
+            "variables": "#140e4e",
+            "text": "#3BBDD6",
+            "advanced": "#00272B",
+            "functions": "#005a9e",
+            "arrays": "#8A1C7C"
+        },
+        "blocksCollapsing": true,
+        "highContrast": true,
+        "greenScreen": true,
+        "print": true,
+        "selectLanguage": true,
+        "availableLocales": [
+            "en",
+            "ar",
+            "bg",
+            "ca",
+            "cs",
+            "cy",
+            "da",
+            "de",
+            "el",
+            "es-ES",
+            "fi",
+            "fr",
+            "he",
+            "hu",
+            "is",
+            "it",
+            "ja",
+            "ko",
+            "nl",
+            "nb",
+            "nn-NO",
+            "pl",
+            "pt-BR",
+            "pt-PT",
+            "ru",
+            "si-LK",
+            "sk",
+            "sr",
+            "sv-SE",
+            "tr",
+            "uk",
+            "vi",
+            "zh-CN",
+            "zh-TW"
+        ],
+        "monacoColors": {
+            "editor.background": "#39474e"
+        },
+        "monacoFieldEditors": ["soundeffect-editor", "image-editor"],
+        "browserDbPrefixes": {
+            "1": "v1",
+            "2": "v2",
+            "3": "v3",
+            "4": "v4",
+            "5": "v5",
+            "6": "v6",
+            "7": "v7"
+        },
+        "editorVersionPaths": {
+            "0": "v0"
+        },
+        "showProjectSettings": true,
+        "scriptManager": true,
+        "debugger": true,
+        "simGifTransparent": "rgba(0,0,0,0)",
+        "simGifMaxFrames": 44,
+        "simScreenshot": true,
+        "simScreenshotMaxUriLength": 300000,
+        "simGif": true,
+        "simGifWidth": 240,
+        "qrCode": true,
+        "importExtensionFiles": true,
+        "nameProjectFirst": true,
+        "githubEditor": true,
+        "chooseLanguageRestrictionOnNewProject": true,
+        "openProjectNewTab": true,
+        "python": true,
+        "appFlashingTroubleshoot": "/device/windows-app/troubleshoot",
+        "immersiveReader": true,
+        "tutorialCodeValidation": true,
+        "downloadDialogTheme": {
+            "webUSBDeviceNames": ["STeaMi CMSIS-DAP", "DAPLink CMSIS-DAP"],
+            "minimumFirmwareVersion": "0249",
+            "deviceIcon": "xicon microbit",
+            "deviceSuccessIcon": "xicon microbit-check",
+
+            "downloadMenuHelpURL": "/device/usb",
+            "downloadHelpURL": "/device/usb",
+            "troubleshootWebUSBHelpURL": "/device/usb/webusb/troubleshoot",
+            "incompatibleHardwareHelpURL": "/device/v2",
+
+            "dragFileImage": "/static/download/transfer.png",
+            "connectDeviceImage": "/static/download/connect-microbit.gif",
+            "selectDeviceImage": "/static/download/selecting-microbit.gif",
+            "connectionSuccessImage": "/static/download/successfully-paired.png",
+            "incompatibleHardwareImage": "/static/download/incompatible.png",
+            "usbDeviceForgottenImage": "/static/download/device-forgotten.gif",
+            "browserUnpairImage": "/static/download/browser-unpair-image.gif"
+        },
+        "winAppDeprImage": "/static/winapp.PNG",
+        "showWinAppDeprBanner": false,
+        "tours": {
+            "editor": "/tours/editor-tour"
+        },
+        "tutorialSimSidebarLayout": true,
+        "preferWebUSBDownload": true,
+        "hideReplaceMyCode": true,
+        "matchWebUSBDeviceInSim": true,
+        "condenseProfile": true,
+        "cloudProfileIcon": "/static/profile/microbit-cloud.png",
+        "timeMachine": true,
+        "timeMachineDiffInterval": 600000,
+        "timeMachineSnapshotInterval": 1800000
+    },
+
+    "queryVariants": {
+        "hidemenu": {
+            "appTheme": {
+                "hideMenuBar": true
+            }
+        },
+        "androidapp": {
+            "compile": {
+                "webUSB": false
+            },
+            "appTheme": {
+                "disableBlobObjectDownload": true
+            }
+        },
+        "skillsMap=1": {
+            "appTheme": {
+                "hideReplaceMyCode": false
+            }
+        },
+        "teachertool=1": {
+            "appTheme": {
+                "hideMenuBar": true,
+                "workspaceSearch": true
+            }
+        }
+    },
+
+    "uploadDocs": false
+}
