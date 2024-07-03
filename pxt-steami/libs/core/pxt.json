@@ -1,54 +1,63 @@
 {
     "name": "core",
     "description": "The STeaMi core library",
-    "additionalFilePath": "../../node_modules/pxt-common-packages/libs/base",
     "files": [
-        "README.md",
-        "platform.h",
-        "pxt.cpp",
-        "pxt.h",
-        "pxtbase.h",
-        "pxtcore.h",
-        "math.ts",
+        "codal.cpp",
+        "control.cpp",
         "dal.d.ts",
         "enums.d.ts",
+        "pins.cpp",
+        "pins.h",
+        "pins.ts",
+        "platform.cpp",
+        "platform.h",
+        "pxt.h",
+        "pxtcore.h",
+        "README.md",
         "shims.d.ts",
-        "pxt-core.d.ts",
-        "core.cpp",
-        "pxt-helpers.ts",
-        "helpers.ts",
-        "pxt-python.d.ts",
-        "pxt-python-helpers.ts",
-        "configkeys.h",
-        "gc.cpp",
-        "codal.cpp"
+        "timer.ts",
+        "usb.cpp"
     ],
     "testFiles": [],
+
+    "yotta": {
+        "config": {
+            "codal": {
+                "component_count": 64,
+                "dmesg_buffer_size": 1024
+            }
+        }
+    },
+
     "public": true,
-    "dependencies": {},
+
     "dalDTS": {
-        "compileServiceVariant": "mbcodal",
+        "compileServiceVariant": "codalsteami",
         "includeDirs": [
             "libraries/codal-core/inc",
             "libraries/codal-stm32-STEAM32_WB55RG/inc",
             "libraries/codal-stm32-STEAM32_WB55RG/model",
-            "libraries/codal-stm32-STEAM32_WB55RG/inc/compat",
             "pxtapp"
         ],
         "excludePrefix": [
+            "JD_",
             "USB_",
             "REQUEST_",
             "LIS3DH_",
             "FXOS8700_",
-            "MMA8",
-            "LSM303_",
-            "MAG_",
-            "MPU6050_",
-            "REF_TAG_",
             "HF2_",
             "PXT_REF_TAG_",
             "MS_",
-            "SCSI_"
+            "SCSI_",
+            "MAG_",
+            "MAG3",
+            "MPU6",
+            "MADCTL",
+            "MMA8"
         ]
+    },
+
+    "dependencies": {
+        "base": "file:../base"
     }
 }

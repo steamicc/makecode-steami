@@ -1,35 +1,20 @@
 #ifndef __PXTCORE_H
 #define __PXTCORE_H
 
-#include "MicroBit.h"
-#include "MicroBitImage.h"
-#include "ManagedString.h"
-#include "ManagedType.h"
+#include "CodalDmesg.h"
+#include "CodalHeapAllocator.h"
 
-namespace pxt {
-void debuglog(const char *format, ...);
-}
+#define PXT_CODAL 1
 
-// #define GC_GET_HEAP_SIZE() device_heap_size(0)
-#define xmalloc malloc
-#define xfree free
+#define itoa(a, b) codal::itoa(a, b)
 
-#define NON_GC_HEAP_RESERVATION 1024
+#define GC_GET_HEAP_SIZE() device_heap_size(0)
+#define GC_STACK_BASE DEVICE_STACK_BASE
+#define xmalloc device_malloc
+#define xfree device_free
 
-#ifdef CODAL_CONFIG_H
-#define MICROBIT_CODAL 1
-#define GC_MAX_ALLOC_SIZE 11000
-#else
-#define MICROBIT_CODAL 0
-#define GC_MAX_ALLOC_SIZE 9000
-#define GC_BLOCK_SIZE 256
-#endif
-
-#if !MICROBIT_CODAL
-#undef DMESG
-#define DMESG NOLOG
-#endif
-
-#undef BYTES_TO_WORDS
+// on most devices we allocate the entire heap at once, so large allocs should work
+// if they don't you just get the regular out of memory instead of alloc too large
+#define GC_MAX_ALLOC_SIZE (128 * 1024)
 
 #endif
