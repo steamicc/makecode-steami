@@ -20,7 +20,7 @@
     "license": "MIT",
     "homepage": "https://github.com/steamicc/makecode-steami#readme",
     "scripts": {
-        "setup": "npm install && ln -s ../../pxt node_modules/pxt-core",
+        "setup": "npm install --link",
         "serve": "pxt serve --cloud --just --no-browser --no-serial -h 0.0.0.0 -p 8080 -w 8081",
         "test": "pxt ci",
         "build": "npm run setup && pxt buildtarget",
@@ -60,6 +60,6 @@
     },
     "dependencies": {
         "pxt-core": "file:../pxt",
-        "pxt-common-packages": "12.0.1"
+        "pxt-common-packages": "file:../pxt-common-packages"
     }
 }

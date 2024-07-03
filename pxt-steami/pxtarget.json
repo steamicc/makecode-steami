@@ -53,27 +53,18 @@
 
     "compile": {
         "isNative": false,
+        "useUF2": false,
         "hasHex": true,
         "deployDrives": "(DAPLINK|UNDEFINED)",
         "driveName": "DAPLINK",
         "hexMimeType": "application/x-steami-hex",
         "openocdScript": "source [find interface/cmsis-dap.cfg]; source [find target/nrf51.cfg]",
-        "flashUsableEnd": 242688,
-        "flashEnd": 242688,
         "flashCodeAlign": 1024,
+        "flashChecksumAddr": 0,
         "floatingPoint": true,
         "taggedInts": true,
         "utf8": false,
-        "gc": true,
-        "imageRefTag": 9,
-        "hidSelectors": [
-            {
-                "usagePage": "0xFF00",
-                "usageId": "0x0001",
-                "vid": "0x0d28",
-                "pid": "0x0204"
-            }
-        ],
+        "gc": false,
         "webUSB": true,
         "useNewFunctions": true
     },
@@ -201,10 +192,10 @@
     "appTheme": {
         "accentColor": "#0089BF",
         "logoUrl": "https://steami.cc/",
-        "logo": "./static/logo.portrait.white.svg",
-        "docsLogo": "./static/logo.square.white.svg",
-        "portraitLogo": "./static/logo.square.white.svg",
-        "footerLogo": "./static/logo.portrait.black.svg",
+        "logo": "./static/logo.svg",
+        "docsLogo": "./static/logo.svg",
+        "portraitLogo": "./static/logo.svg",
+        "footerLogo": "./static/logo.svg",
         "cardLogo": "./static/icons/apple-touch-icon.png",
         "appLogo": "./static/icons/apple-touch-icon.png",
         "organization": "Microsoft MakeCode",
@@ -212,7 +203,7 @@
         "organizationLogo": "./static/Microsoft_logo_rgb_W-white_D-square.png",
         "organizationWideLogo": "./static/Microsoft_logo_rgb_W-white_D.png",
         "homeScreenHero": {
-            "imageUrl": "/static/herogallery/hero-banner.png",
+            "imageUrl": "./static/hero.svg",
             "name": "Flashing Heart",
             "url": "/projects/flashing-heart",
             "description": "New? Start here!",
