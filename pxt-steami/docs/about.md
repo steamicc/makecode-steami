@@ -23,18 +23,12 @@ You can program the @boardname@ using [Blocks](/blocks), [JavaScript](/javascrip
 
 ```blocks
 forever(function() {
-    pins.LED.digitalWrite(true)
-    pause(500)
-    pins.LED.digitalWrite(false)
     pause(500)
 })
 ```
 
 ```typescript
 forever(function () {
-    pins.LED.digitalWrite(true);
-    pause(500);
-    pins.LED.digitalWrite(false);
     pause(500);
 });
 ```
@@ -54,9 +48,6 @@ You can run your code using the STeaMi simulator, all within the confines of a w
 
 ```sim
 forever(function() {
-    pins.LED.digitalWrite(true)
-    pause(500)
-    pins.LED.digitalWrite(false)
     pause(500)
 })
 ```
