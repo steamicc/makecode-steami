@@ -22,6 +22,7 @@
 ## Documentation
 
 -   [*] Add `about.md`
+-   [ ] Update code example in `about.md`
 -   [ ] Add `blocks.md`
 -   [ ] Add `browsers.md`
 -   [ ] Add `cli.md`

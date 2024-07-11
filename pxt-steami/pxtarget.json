@@ -92,9 +92,8 @@
     "variants": {
         "codalsteami": {
             "compile": {
-                "flashCodeAlign": 4096,
-                "flashUsableEnd": 487424,
-                "flashEnd": 524288
+                "flashCodeAlign": 1024,
+                "flashChecksumAddr": 0
             },
             "compileService": {
                 "buildEngine": "codal",
