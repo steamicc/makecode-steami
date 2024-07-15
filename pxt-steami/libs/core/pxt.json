@@ -1,44 +1,62 @@
 {
     "name": "core",
     "description": "The STeaMi core library",
+    "public": true,
+
+    "additionalFilePath": "../../node_modules/pxt-common-packages/libs/base",
+
     "files": [
-        "codal.cpp",
-        "control.cpp",
+        "README.md",
+        "platform.h",
+        "platform.cpp",
+        "pxt.cpp",
+        "pxt.h",
+        "pxtbase.h",
+        "pxtcore.h",
+        "math.ts",
         "dal.d.ts",
         "enums.d.ts",
-        "pins.cpp",
-        "pins.h",
-        "pins.ts",
-        "platform.cpp",
-        "platform.h",
-        "pxt.h",
-        "pxtcore.h",
-        "README.md",
         "shims.d.ts",
-        "timer.ts",
+        "pxt-core.d.ts",
+        "core.cpp",
+        "pxt-helpers.ts",
+        "helpers.ts",
+        "pxt-python.d.ts",
+        "pxt-python-helpers.ts",
+        "configkeys.h",
+        "gc.cpp",
+        "codal.cpp",
+        "control.ts",
+        "control.cpp",
+        "controlgc.cpp",
+        "perfcounters.ts",
+        "interval.ts",
+        "console.ts",
+        "gcstats.ts",
+        "pins.h",
+        "pins.cpp",
+        "pins.ts",
+        "buffer.cpp",
+        "buffer.ts",
+        "json.ts",
+        "poll.ts",
+        "controlmessage.ts",
+        "pxtparts.json",
+        "advmath.cpp",
+        "trig.cpp",
+        "fixed.ts",
+        "templates.ts",
+        "loops.cpp",
+        "pause.ts",
+        "forever.ts",
         "usb.cpp"
     ],
+
+    "dependencies": {},
     "testFiles": [],
-
-    "yotta": {
-        "config": {
-            "codal": {
-                "component_count": 64,
-                "dmesg_buffer_size": 1024
-            }
-        }
-    },
-
-    "public": true,
 
     "dalDTS": {
         "compileServiceVariant": "codalsteami",
-        "includeDirs": [
-            "libraries/codal-core/inc",
-            "libraries/codal-stm32-STEAM32_WB55RG/inc",
-            "libraries/codal-stm32-STEAM32_WB55RG/model",
-            "pxtapp"
-        ],
         "excludePrefix": [
             "JD_",
             "USB_",
@@ -54,10 +72,21 @@
             "MPU6",
             "MADCTL",
             "MMA8"
+        ],
+        "includeDirs": [
+            "libraries/codal-core/inc",
+            "libraries/codal-stm32-STEAM32_WB55RG/inc",
+            "libraries/codal-stm32-STEAM32_WB55RG/model",
+            "pxtapp"
         ]
     },
 
-    "dependencies": {
-        "base": "file:../base"
+    "yotta": {
+        "config": {
+            "codal": {
+                "component_count": 64,
+                "dmesg_buffer_size": 1024
+            }
+        }
     }
 }
