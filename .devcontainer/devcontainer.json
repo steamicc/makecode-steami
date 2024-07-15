@@ -18,7 +18,7 @@
     },
     "features": {
         "ghcr.io/devcontainers/features/node:1": {
-            "version": "lts/gallium"
+            "version": "lts/iron"
         },
         "ghcr.io/devcontainers-contrib/features/typescript:2": {},
         // Install common utilities
