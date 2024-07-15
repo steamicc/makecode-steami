@@ -5,27 +5,22 @@
     "build": {
         "dockerfile": "Dockerfile"
     },
+    "capAdd": ["SYS_PTRACE"],
+    "securityOpt": ["seccomp=unconfined"],
+    "privileged": true,
     "mounts": ["type=bind,source=/dev/bus/usb,target=/dev/bus/usb"],
-    "runArgs": [
-        "--cap-add=SYS_PTRACE",
-        "--security-opt",
-        "seccomp=unconfined",
-        "--privileged"
-    ],
+
     "remoteEnv": {
         "PXT_NODOCKER": "1",
         "PXT_FORCE_LOCAL": "1",
         "PXT_ASMDEBUG": "1",
         "PXT_RUNTIME_DEV": "1"
     },
-
     "features": {
         "ghcr.io/devcontainers/features/node:1": {
             "version": "lts/gallium"
         },
-
         "ghcr.io/devcontainers-contrib/features/typescript:2": {},
-
         // Install common utilities
         "ghcr.io/devcontainers/features/common-utils:2": {
             "installZsh": true,
@@ -34,7 +29,6 @@
             "username": "vscode"
         }
     },
-
     "customizations": {
         // Configure properties specific to VS Code.
         "vscode": {
@@ -49,15 +43,12 @@
                 "editor.minimap.enabled": false,
                 "editor.formatOnSave": true,
                 "editor.formatOnPaste": true,
-
                 "[typescript]": {
                     "editor.defaultFormatter": "esbenp.prettier-vscode"
                 },
-
                 "[cpp]": {
                     "editor.defaultFormatter": "ms-vscode.cpptools"
                 },
-
                 "editor.rulers": [130],
                 "javascript.validate.enable": false,
                 "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
@@ -79,8 +70,7 @@
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     "forwardPorts": [3232, 3233],
     // Use 'postCreateCommand' to run commands after the container is created.
-
-    "postCreateCommand": "npm install -g http-server&&npm install -g eslint&& npm install -g pxt && npm run setup",
+    "postCreateCommand": "npm install -g http-server&&npm install -g eslint&& npm install -g pxt && make deepclean",
     // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
     "remoteUser": "vscode"
 }
