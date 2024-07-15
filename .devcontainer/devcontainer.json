@@ -80,7 +80,7 @@
     "forwardPorts": [3232, 3233],
     // Use 'postCreateCommand' to run commands after the container is created.
 
-    "postCreateCommand": "npm install -g eslint&& npm install -g pxt && npm run setup",
+    "postCreateCommand": "npm install -g http-server&&npm install -g eslint&& npm install -g pxt && npm run setup",
     // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
     "remoteUser": "vscode"
 }
