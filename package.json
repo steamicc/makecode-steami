@@ -1,0 +1,25 @@
+{
+    "name": "makecode-steami",
+    "description": "STeaMi's Makecode editor",
+    "version": "0.0.1",
+    "author": "nedseb",
+    "license": "MIT",
+    "scripts": {
+        "build": "make build",
+        "clean": "make clean",
+        "serve": "make serve",
+        "setup": "make setup",
+        "staticpackage": "make package",
+        "staticserve": "make staticserve"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/steamicc/makecode-steami"
+    },
+    "bugs": {
+        "url": "https://github.com/steamicc/makecode-steami/issues"
+    },
+    "dependencies": {
+        "pxt": "^0.5.1"
+    }
+}
