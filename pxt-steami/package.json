@@ -19,15 +19,6 @@
     "author": "",
     "license": "MIT",
     "homepage": "https://github.com/steamicc/makecode-steami#readme",
-    "scripts": {
-        "setup": "npm install --link",
-        "serve": "pxt serve --cloud --just --no-browser --no-serial -h 0.0.0.0 -p 8080 -w 8081",
-        "test": "pxt ci",
-        "build": "npm run setup && pxt buildtarget",
-        "staticpackage": "pxt staticpkg",
-        "staticserve": "http-server -c-1 built/packaged",
-        "clean": "pxt clean"
-    },
     "files": [
         "README.md",
         "pxtarget.json",
