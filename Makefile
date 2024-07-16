@@ -1,37 +1,82 @@
+.ONESHELL: # Applies to every targets in the file!
+
+export PATH := $(shell pwd)/node_modules/.bin:$(PATH)
+
+export PXT_FORCE_LOCAL := 1 
+export PXT_RUNTIME_DEV := 1 
+export PXT_ASMDEBUG := 1 
+export PXT_NODOCKER := 1 
+
 .PHONY : all
 all : setup
 
-setup : |install-pxt install-pxt-common-packages install-pxt-steami build
+.PHONY : setup
+setup : | install _deepclean install-pxt install-pxt-common-packages install-pxt-steami
 
-install-pxt : pxt/package-lock.json
-pxt/package-lock.json:
-	./scripts/install-pxt.sh
+.PHONY : install
+install : node_modules
 
-install-pxt-common-packages : pxt-common-packages/package-lock.json
-pxt-common-packages/package-lock.json :
-	./scripts/install-pxt-common-packages.sh
+.PHONY : install-pxt
+install-pxt : pxt/node_modules
 
-install-pxt-steami : pxt-steami/package-lock.json
-pxt-steami/package-lock.json:
-	./scripts/install-pxt-steami.sh
+.PHONY : install-pxt-common-packages
+install-pxt-common-packages : pxt-common-packages/node_modules
 
-deepclean : |_deepclean setup
-_deepclean :
-	./scripts/deepclean.sh
+.PHONY : install-pxt-steami
+install-pxt-steami : pxt-steami/node_modules
 
-clean : |_clean build
+.PHONY : clean
+clean : | _clean
+
+node_modules: package.json
+	npm install
+
+pxt/node_modules : pxt/package.json
+	cd pxt || exit
+	npm install
+	npm run build
+
+pxt-common-packages/node_modules : pxt-common-packages/package.json
+	cd pxt-common-packages || exit
+	npm install
+
+pxt-steami/node_modules : pxt-steami/package.json
+	cd pxt-steami || exit
+	npm install --link
+
+.PHONY : _clean
 _clean :
-	./scripts/clean.sh
+	rm -Rf static
+	cd pxt-steami || exit
+	pxt clean
 
+.PHONY : _deepclean
+_deepclean : _clean
+	rm -Rf pxt/node_modules
+	rm -Rf pxt-common-packages/node_modules
+	rm -Rf pxt-steami/node_modules
+	rm -f package-lock.json
+	rm -f pxt/package-lock.json
+	rm -f pxt-common-packages/package-lock.json
+	rm -f pxt-steami/package-lock.json
+
+.PHONY : build
 build :
-	./scripts/build.sh
+	cd pxt-steami || exit
+	pxt buildtarget
 
+.PHONY : serve
 serve :
-	./scripts/serve.sh
+	cd pxt-steami || exit
+	pxt serve --no-browser --no-serial -h '0.0.0.0'
 
-pxt-steami/built/packaged :package
+.PHONY : package
 package :
-	./scripts/package.sh
+	cd pxt-steami || exit
+	pxt staticpkg -o ../static/
 
-staticserve : pxt-steami/built/packaged
-	./scripts/staticserve.sh
+static/target.json : package
+
+.PHONY : staticserve
+staticserve : static/target.json
+	http-server -c-1 static

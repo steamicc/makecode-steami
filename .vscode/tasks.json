@@ -1,0 +1,44 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "npm",
+            "script": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "label": "build pxt-steami target",
+            "detail": "make build"
+        },
+        {
+            "type": "npm",
+            "script": "clean",
+            "group": "build",
+            "problemMatcher": [],
+            "label": "clean pxt-steami target"
+        },
+        {
+            "type": "npm",
+            "script": "package",
+            "group": "build",
+            "problemMatcher": [],
+            "label": "build static package of pxt-steami"
+        },
+        {
+            "type": "npm",
+            "script": "staticserve",
+            "group": "test",
+            "problemMatcher": [],
+            "label": "serve static pxt-steami editor"
+        },
+        {
+            "type": "npm",
+            "script": "serve",
+            "group": "test",
+            "problemMatcher": [],
+            "label": "serve pxt-steami editor"
+        }
+    ]
+}

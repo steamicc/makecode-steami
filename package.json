@@ -9,7 +9,7 @@
         "clean": "make clean",
         "serve": "make serve",
         "setup": "make setup",
-        "staticpackage": "make package",
+        "package": "make package",
         "staticserve": "make staticserve"
     },
     "repository": {
@@ -20,6 +20,8 @@
         "url": "https://github.com/steamicc/makecode-steami/issues"
     },
     "dependencies": {
+        "eslint": "^9.7.0",
+        "http-server": "^14.1.1",
         "pxt": "^0.5.1"
     }
 }

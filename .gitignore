@@ -8,6 +8,7 @@ tmp/
 temp/
 projects/
 packaged
+/static/
 gh-pages
 _locales
 package-lock.json
