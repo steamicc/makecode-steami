@@ -46,9 +46,9 @@ pxt-steami/node_modules : pxt-steami/package.json
 
 .PHONY : _clean
 _clean :
-	rm -Rf static
+	if [ -d static ]; then rm -Rf static; fi
 	cd pxt-steami || exit
-	pxt clean
+	if [ -d pxt-steami/buit ]; then pxt clean; fi
 
 .PHONY : _deepclean
 _deepclean : _clean
@@ -64,6 +64,11 @@ _deepclean : _clean
 build :
 	cd pxt-steami || exit
 	pxt buildtarget
+
+.PHONY : ci
+ci :
+	cd pxt-steami || exit
+	pxt ci
 
 .PHONY : serve
 serve :

@@ -2,17 +2,18 @@
     "packages": {
         "approvedRepoLib": {
             "microsoft/pxt-neopixel": {
-                "tags": [ "Lights and Display" ],
+                "tags": ["Lights and Display"],
                 "preferred": true
             }
         },
-  
-      "approvedEditorExtensionUrls": [
-        "https://microsoft.github.io/ml4f/",
-        "https://microsoft.github.io/jacdac-docs/tools/makecode-editor-extension"
-      ]
+
+        "approvedEditorExtensionUrls": [
+            "https://microsoft.github.io/ml4f/",
+            "https://microsoft.github.io/jacdac-docs/tools/makecode-editor-extension"
+        ]
     },
-  
+
     "galleries": {
+        "Tutorials": "tutorials"
     }
-  }
+}

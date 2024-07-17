@@ -30,6 +30,45 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | s
     sudo apt install gh && \
     apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+# Install dependency for chromium headless
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
+    sudo apt update && \
+    sudo apt-get install -y -q \
+    libx11-xcb1 \ 
+    libxcomposite1 \ 
+    libasound2 \ 
+    libatk1.0-0 \ 
+    libatk-bridge2.0-0 \ 
+    libcairo2 \ 
+    libcups2 \ 
+    libdbus-1-3 \ 
+    libexpat1 \ 
+    libfontconfig1 \ 
+    libgbm1 \ 
+    libgcc1 \ 
+    libglib2.0-0 \ 
+    libgtk-3-0 \ 
+    libnspr4 \ 
+    libpango-1.0-0 \ 
+    libpangocairo-1.0-0 \ 
+    libstdc++6 \ 
+    libx11-6 \ 
+    libx11-xcb1 \ 
+    libxcb1 \ 
+    libxcomposite1 \ 
+    libxcursor1 \ 
+    libxdamage1 \ 
+    libxext6 \ 
+    libxfixes3 \ 
+    libxi6 \ 
+    libxrandr2 \ 
+    libxrender1 \ 
+    libxss1 \ 
+    libxtst6 && \
+    apt-get autoremove -y && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install the last GCC from ARM
 ENV ARM_TOOLCHAIN_VERSION 13.3.rel1
 ENV ARM_TOOLCHAIN_PATH 13.3.rel1/binrel
