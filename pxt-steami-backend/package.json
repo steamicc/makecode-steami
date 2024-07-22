@@ -1,0 +1,16 @@
+{
+    "name": "pxt-lets-steam-backend",
+    "version": "0.0.1",
+    "description": "Basic backend for the Let's STEAM project's Makecode editor",
+    "repository": "https://github.com/steamicc/makecode-steami",
+    "author": "Sébastien NEDJAR",
+    "license": "MIT",
+    "private": false,
+    "main": "server.js",
+    "dependencies": {
+        "@fastify/reply-from": "^9.8.0",
+        "@fastify/static": "^7.0.4",
+        "fastify": "^4.28.1",
+        "make-promises-safe": "^5.1.0"
+    }
+}

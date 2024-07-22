@@ -11,7 +11,7 @@ export PXT_NODOCKER := 1
 all : setup
 
 .PHONY : setup
-setup : | install _deepclean install-pxt install-pxt-common-packages install-pxt-steami
+setup : | install _deepclean install-pxt install-pxt-common-packages install-pxt-steami install-pxt-steami-backend
 
 .PHONY : install
 install : node_modules
@@ -24,6 +24,9 @@ install-pxt-common-packages : pxt-common-packages/node_modules
 
 .PHONY : install-pxt-steami
 install-pxt-steami : pxt-steami/node_modules
+
+.PHONY : install-pxt-steami-backend
+install-pxt-steami-backend : pxt-steami-backend/node_modules
 
 .PHONY : clean
 clean : | _clean
@@ -43,6 +46,10 @@ pxt-common-packages/node_modules : pxt-common-packages/package.json
 pxt-steami/node_modules : pxt-steami/package.json
 	cd pxt-steami || exit
 	npm install --link
+
+pxt-steami-backend/node_modules : pxt-steami-backend/package.json
+	cd pxt-steami-backend || exit
+	npm install
 
 .PHONY : _clean
 _clean :
@@ -83,5 +90,24 @@ package :
 static/target.json : package
 
 .PHONY : staticserve
-staticserve : static/target.json
-	http-server -c-1 static
+staticserve : static/target.json pxt-steami-backend/https/fastify.cert pxt-steami-backend/https/fastify.key
+	nodemon pxt-steami-backend/server.js
+
+.PHONY : localcertificates
+localcertificates: pxt-steami-backend/https/fastify.cert pxt-steami-backend/https/fastify.key pxt-steami-backend/https/rootCA.pem
+
+pxt-steami-backend/https/fastify.cert pxt-steami-backend/https/fastify.key pxt-steami-backend/https/rootCA.pem &:
+	export CAROOT=$(PWD)/pxt-steami-backend/https
+	mkcert -install 
+	mkcert -cert-file pxt-steami-backend/https/fastify.cert -key-file pxt-steami-backend/https/fastify.key 'makecode.local' localhost 127.0.0.1 ::1
+
+.SILENT: install_cert_for_local_dev
+.PHONY : install_cert_for_local_dev
+install_cert_for_local_dev : pxt-steami-backend/https/rootCA.pem
+	if [ -f /.dockerenv ]; then 
+		echo "This rule work only for the host system"
+	else
+		sudo cp pxt-steami-backend/https/rootCA.pem /usr/local/share/ca-certificates/rootCA.crt
+		sudo update-ca-certificates
+		sudo sh -c "echo 127.0.0.1 makecode.local>>/etc/hosts"
+	fi

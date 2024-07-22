@@ -26,3 +26,9 @@ package-lock.json
 
 hexcache
 build
+
+# Ignore self-signed certificates created by mkcert
+pxt-steami-backend/https/**/*.pem
+pxt-steami-backend/https/**/*.key
+pxt-steami-backend/https/**/*.crt
+pxt-steami-backend/https/**/*.cert

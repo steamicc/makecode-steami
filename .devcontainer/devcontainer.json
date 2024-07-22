@@ -20,6 +20,9 @@
         "ghcr.io/devcontainers/features/node:1": {
             "version": "lts/iron"
         },
+
+        "ghcr.io/devcontainers-contrib/features/mkcert:1": {},
+
         "ghcr.io/devcontainers-contrib/features/typescript:2": {},
         // Install common utilities
         "ghcr.io/devcontainers/features/common-utils:2": {
