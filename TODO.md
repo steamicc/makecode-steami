@@ -2,7 +2,7 @@
 
 ## Setup basic editor
 
-### `pxtarget.jsson`
+### `pxtarget.json`
 
 -   [ ] Verify `flashUsableEnd`, `flashEnd` and `flashCodeAlign`
 -   [ ] Customize `openocdScript`
@@ -41,6 +41,8 @@
 -   [ ] Add `reference.md`
 -   [ ] Add `share.md`
 -   [ ] Add `translate.md`
+-   [ ] Update `hero-banner.md`
+-   [ ] Update `editor-tour.md`
 
 ## STEAMI.cc Web site
 
