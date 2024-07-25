@@ -1,6 +1,5 @@
 .ONESHELL: # Applies to every targets in the file!
 
-
 export PATH := $(shell pwd)/node_modules/.bin:$(PATH)
 
 export PXT_FORCE_LOCAL := 1 
@@ -33,63 +32,14 @@ define pxt_command
 	pxt $1
 endef
 
-.PHONY : all
-all : setup
-
-.PHONY : setup
-setup : | _deepclean install-makecode-steami install-pxt install-pxt-common-packages install-pxt-steami install-pxt-steami-backend
-
-.PHONY : install-makecode-steami
-install-makecode-steami : node_modules package-lock.json
-
-.PHONY : install-pxt
-install-pxt : pxt/node_modules pxt/package-lock.json 
-
-.PHONY : install-pxt-common-packages
-install-pxt-common-packages : pxt-common-packages/node_modules pxt-common-packages/package-lock.json
-
-.PHONY : install-pxt-steami
-install-pxt-steami : pxt-steami/node_modules pxt-steami/package-lock.json
-
-.PHONY : install-pxt-steami-backend
-install-pxt-steami-backend : pxt-steami-backend/node_modules pxt-steami-backend/package-lock.json
-
-$(PXT) : pxt/built/target.json pxt-common-packages/node_modules pxt-steami/node_modules
-
-node_modules package-lock.json $(PXT): package.json
-	@$(call install_node_package,$(<D))
-
-pxt/node_modules pxt/package-lock.json : pxt/package.json 
-	@$(call install_node_package,$(<D))
-
-pxt-common-packages/node_modules pxt-common-packages/package-lock.json: pxt-common-packages/package.json pxt/built/target.json
-	@$(call install_node_package,$(<D))
-
-pxt-steami/node_modules pxt-steami/package-lock.json: pxt-steami/package.json pxt/built/target.json
-	@$(call install_node_package,$(<D))
-
-pxt-steami-backend/node_modules pxt-steami-backend/package-lock.json : pxt-steami-backend/package.json
-	@$(call install_node_package,$(<D))
-
-pxt/built/target.json : pxt/node_modules
-	cd pxt || exit 
-	npm run build
-
-.PHONY : clean
-clean : | _clean
-
-.PHONY : _clean
-_clean : _clean_static _clean_pxt_steami _clean_pxt_core
-
-.PHONY : _clean_static
-_clean_static:
+define _clean_static
 	@if [ -d static ]; then
 		echo "Clean static build" 
 		rm -Rf static 
 	fi
+endef
 
-.PHONY : _clean_pxt_steami
-_clean_pxt_steami:
+define _clean_pxt_steami
 	@if [ -d pxt-steami/built ]; then
 		echo "Clean pxt-steami build" 
 
@@ -105,13 +55,62 @@ _clean_pxt_steami:
 			pxt clean
 		fi
 	fi
+endef
 
-.PHONY : _clean_pxt_core
-_clean_pxt_core:
+define _clean_pxt_core
 	@if [ -d pxt/built ]; then 
 		echo "Clean pxt-core build" 
 		rm -Rf pxt/built; 
 	fi
+endef
+
+.PHONY : all
+all : setup
+
+.PHONY : setup
+setup : | _deepclean install-makecode-steami install-pxt install-pxt-common-packages install-pxt-steami install-pxt-steami-backend
+
+.PHONY : install-makecode-steami
+install-makecode-steami : node_modules/.package-lock.json package-lock.json
+
+.PHONY : install-pxt
+install-pxt : pxt/node_modules/.package-lock.json pxt/package-lock.json 
+
+.PHONY : install-pxt-common-packages
+install-pxt-common-packages : pxt-common-packages/node_modules/.package-lock.json pxt-common-packages/package-lock.json
+
+.PHONY : install-pxt-steami
+install-pxt-steami : pxt-steami/node_modules/.package-lock.json pxt-steami/package-lock.json
+
+.PHONY : install-pxt-steami-backend
+install-pxt-steami-backend : pxt-steami-backend/node_modules/.package-lock.json pxt-steami-backend/package-lock.json
+
+$(PXT) : pxt/built/target.json pxt-common-packages/node_modules/.package-lock.json
+
+node_modules/.package-lock.json package-lock.json $(PXT): package.json
+	@$(call install_node_package,$(<D))
+
+pxt/node_modules/.package-lock.json pxt/package-lock.json : pxt/package.json 
+	@$(call install_node_package,$(<D))
+
+pxt-common-packages/node_modules/.package-lock.json pxt-common-packages/package-lock.json: pxt-common-packages/package.json pxt/built/target.json
+	@$(call install_node_package,$(<D))
+
+pxt-steami/node_modules/.package-lock.json pxt-steami/package-lock.json: pxt-steami/package.json pxt/built/target.json
+	@$(call install_node_package,$(<D))
+
+pxt-steami-backend/node_modules/.package-lock.json pxt-steami-backend/package-lock.json : pxt-steami-backend/package.json
+	@$(call install_node_package,$(<D))
+
+pxt/built/target.json : pxt/node_modules/.package-lock.json
+	cd pxt || exit 
+	npm run build
+
+.PHONY : clean
+clean : 
+	@$(call _clean_static)
+	@$(call _clean_pxt_steami)
+	@$(call _clean_pxt_core)
 
 .PHONY : _deepclean
 _deepclean : _clean _deepclean_pxt_core _deepclean_pxt_common_packages _deepclean_pxt_steami _deepclean_pxt_steami_backend _deepclean_makecode_steami
@@ -156,7 +155,7 @@ static/target.json : $(PXT)
 	@$(call pxt_command,staticpkg -o ../static/)
 
 .PHONY : staticserve
-staticserve : static/target.json pxt-steami-backend/https/fastify.cert pxt-steami-backend/https/fastify.key
+staticserve : static/target.json pxt-steami-backend/https/fastify.cert pxt-steami-backend/https/fastify.key pxt-steami-backend/node_modules/.package-lock.json
 	nodemon pxt-steami-backend/server.js
 
 .PHONY : localcertificates
