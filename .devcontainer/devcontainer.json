@@ -11,7 +11,6 @@
     "mounts": ["type=bind,source=/dev/bus/usb,target=/dev/bus/usb"],
 
     "remoteEnv": {
-        "PATH": "${containerEnv:PATH}:/workspaces/makecode-steami/node_modules/.bin",
         "PXT_NODOCKER": "1",
         "PXT_FORCE_LOCAL": "1",
         "PXT_ASMDEBUG": "1",

@@ -1,5 +1,6 @@
 .ONESHELL: # Applies to every targets in the file!
 
+
 export PATH := $(shell pwd)/node_modules/.bin:$(PATH)
 
 export PXT_FORCE_LOCAL := 1 
@@ -7,91 +8,152 @@ export PXT_RUNTIME_DEV := 1
 export PXT_ASMDEBUG := 1 
 export PXT_NODOCKER := 1 
 
+PXT="/workspaces/makecode-steami/node_modules/.bin/pxt"
+
+define install_node_package
+	echo "Installing $1 ..." 
+	cd $1 || exit
+	npm install --link
+endef
+
+define deepclean_node_package
+	echo "Deep clean $1" 
+	rm -Rf "$1/node_modules"
+	rm -f "$1/package-lock.json"
+endef
+
+define pxt_command
+	echo "PXT = $(PXT)"
+	echo "Call pxt $1"
+	if ! [ -x $(PXT) ]; then
+		echo "pxt is not installed ! Please run make setup first" 
+		exit
+	fi
+	cd pxt-steami || exit
+	pxt $1
+endef
+
 .PHONY : all
 all : setup
 
 .PHONY : setup
-setup : | install _deepclean install-pxt install-pxt-common-packages install-pxt-steami install-pxt-steami-backend
+setup : | _deepclean install-makecode-steami install-pxt install-pxt-common-packages install-pxt-steami install-pxt-steami-backend
 
-.PHONY : install
-install : node_modules
+.PHONY : install-makecode-steami
+install-makecode-steami : node_modules package-lock.json
 
 .PHONY : install-pxt
-install-pxt : pxt/node_modules
+install-pxt : pxt/node_modules pxt/package-lock.json 
 
 .PHONY : install-pxt-common-packages
-install-pxt-common-packages : pxt-common-packages/node_modules
+install-pxt-common-packages : pxt-common-packages/node_modules pxt-common-packages/package-lock.json
 
 .PHONY : install-pxt-steami
-install-pxt-steami : pxt-steami/node_modules
+install-pxt-steami : pxt-steami/node_modules pxt-steami/package-lock.json
 
 .PHONY : install-pxt-steami-backend
-install-pxt-steami-backend : pxt-steami-backend/node_modules
+install-pxt-steami-backend : pxt-steami-backend/node_modules pxt-steami-backend/package-lock.json
+
+$(PXT) : pxt/built/target.json pxt-common-packages/node_modules pxt-steami/node_modules
+
+node_modules package-lock.json $(PXT): package.json
+	@$(call install_node_package,$(<D))
+
+pxt/node_modules pxt/package-lock.json : pxt/package.json 
+	@$(call install_node_package,$(<D))
+
+pxt-common-packages/node_modules pxt-common-packages/package-lock.json: pxt-common-packages/package.json pxt/built/target.json
+	@$(call install_node_package,$(<D))
+
+pxt-steami/node_modules pxt-steami/package-lock.json: pxt-steami/package.json pxt/built/target.json
+	@$(call install_node_package,$(<D))
+
+pxt-steami-backend/node_modules pxt-steami-backend/package-lock.json : pxt-steami-backend/package.json
+	@$(call install_node_package,$(<D))
+
+pxt/built/target.json : pxt/node_modules
+	cd pxt || exit 
+	npm run build
 
 .PHONY : clean
 clean : | _clean
 
-node_modules: package.json
-	npm install
-
-pxt/node_modules : pxt/package.json
-	cd pxt || exit
-	npm install
-	npm run build
-
-pxt-common-packages/node_modules : pxt-common-packages/package.json
-	cd pxt-common-packages || exit
-	npm install
-
-pxt-steami/node_modules : pxt-steami/package.json
-	cd pxt-steami || exit
-	npm install --link
-
-pxt-steami-backend/node_modules : pxt-steami-backend/package.json
-	cd pxt-steami-backend || exit
-	npm install
-
 .PHONY : _clean
-_clean :
-	if [ -d static ]; then rm -Rf static; fi
-	cd pxt-steami || exit
-	if [ -d pxt-steami/buit ]; then pxt clean; fi
+_clean : _clean_static _clean_pxt_steami _clean_pxt_core
+
+.PHONY : _clean_static
+_clean_static:
+	@if [ -d static ]; then
+		echo "Clean static build" 
+		rm -Rf static 
+	fi
+
+.PHONY : _clean_pxt_steami
+_clean_pxt_steami:
+	@if [ -d pxt-steami/built ]; then
+		echo "Clean pxt-steami build" 
+
+		if ! [ -x "$(PXT)" ]; then
+			echo "pxt not found ! \n Manual cleanning"
+			rm -Rf pxt-steami/built
+			rm -Rf pxt-steami/libs/core/built
+			rm -Rf pxt-steami/libs/blocksprj/built
+			exit 0
+		else
+			echo "pxt found ! \n Automatic cleanning"
+			cd pxt-steami || exit
+			pxt clean
+		fi
+	fi
+
+.PHONY : _clean_pxt_core
+_clean_pxt_core:
+	@if [ -d pxt/built ]; then 
+		echo "Clean pxt-core build" 
+		rm -Rf pxt/built; 
+	fi
 
 .PHONY : _deepclean
-_deepclean : _clean
-	rm -Rf pxt/node_modules
-	rm -Rf pxt-common-packages/node_modules
-	rm -Rf pxt-steami/node_modules
-	rm -Rf pxt-steami-backend/node_modules
+_deepclean : _clean _deepclean_pxt_core _deepclean_pxt_common_packages _deepclean_pxt_steami _deepclean_pxt_steami_backend _deepclean_makecode_steami
 
-	rm -f package-lock.json
-	rm -f pxt/package-lock.json
-	rm -f pxt-common-packages/package-lock.json
-	rm -f pxt-steami/package-lock.json
-	rm -f pxt-steami-backend/package-lock.json
+.PHONY : _deepclean_pxt_core
+_deepclean_pxt_core:
+	@$(call deepclean_node_package,pxt)
 
+.PHONY : _deepclean_pxt_common_packages
+_deepclean_pxt_common_packages:
+	@$(call deepclean_node_package,pxt-common-packages)
+
+.PHONY : _deepclean_pxt_steami
+_deepclean_pxt_steami:
+	@$(call deepclean_node_package,pxt-steami)
+
+.PHONY : _deepclean_pxt_steami_backend
+_deepclean_pxt_steami_backend:
+	@$(call deepclean_node_package,pxt-steami-backend)
+
+
+.PHONY : _deepclean_makecode_steami
+_deepclean_makecode_steami:
+	@$(call deepclean_node_package,.)
 
 .PHONY : build
-build :
-	cd pxt-steami || exit
-	pxt buildtarget
+build : $(PXT)
+	@$(call pxt_command,buildtarget)
 
 .PHONY : ci
-ci :
-	cd pxt-steami || exit
-	pxt ci
+ci : $(PXT)
+	@$(call pxt_command,ci)
 
 .PHONY : serve
-serve :
-	cd pxt-steami || exit
-	pxt serve --no-browser --no-serial -h '0.0.0.0'
+serve : $(PXT)
+	@$(call pxt_command,serve --no-browser --no-serial -h '0.0.0.0')
 
 .PHONY : package
-package :
-	cd pxt-steami || exit
-	pxt staticpkg -o ../static/
+package : static/target.json
 
-static/target.json : package
+static/target.json : $(PXT)
+	@$(call pxt_command,staticpkg -o ../static/)
 
 .PHONY : staticserve
 staticserve : static/target.json pxt-steami-backend/https/fastify.cert pxt-steami-backend/https/fastify.key
