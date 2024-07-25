@@ -2,6 +2,7 @@
     "name": "core",
     "description": "The STeaMi core library",
     "public": true,
+    "core": true,
 
     "additionalFilePath": "../../node_modules/pxt-common-packages/libs/base",
 
@@ -22,7 +23,6 @@
         "pxt-helpers.ts",
         "helpers.ts",
         "pxt-python.d.ts",
-        "pxt-python-helpers.ts",
         "configkeys.h",
         "gc.cpp",
         "codal.cpp",
@@ -40,7 +40,6 @@
         "buffer.ts",
         "json.ts",
         "poll.ts",
-        "controlmessage.ts",
         "pxtparts.json",
         "advmath.cpp",
         "trig.cpp",
@@ -49,7 +48,10 @@
         "loops.cpp",
         "pause.ts",
         "forever.ts",
-        "usb.cpp"
+        "usb.cpp",
+        "board.svg",
+        "board.json",
+        "config.ts"
     ],
 
     "dependencies": {},
