@@ -37,6 +37,20 @@
         "vscode": {
             // Set *default* container specific settings.json values on container create.
             "settings": {
+                "files.watcherExclude": {
+                    "**/.git/objects/**": true,
+                    "**/built/**": true,
+                    "**/node_modules/**": true,
+                    "**/yotta_modules/**": true,
+                    "**/yotta_targets": true,
+                    "**/pxt_modules/**": true
+                },
+                "search.exclude": {
+                    "**/node_modules": true,
+                    "**/yotta_modules/**": true,
+                    "**/yotta_targets": true,
+                    "**/pxt_modules/**": true
+                },
                 "terminal.integrated.profiles.linux": {
                     "zsh": {
                         "path": "zsh"
