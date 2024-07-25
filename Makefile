@@ -62,10 +62,14 @@ _deepclean : _clean
 	rm -Rf pxt/node_modules
 	rm -Rf pxt-common-packages/node_modules
 	rm -Rf pxt-steami/node_modules
+	rm -Rf pxt-steami-backend/node_modules
+
 	rm -f package-lock.json
 	rm -f pxt/package-lock.json
 	rm -f pxt-common-packages/package-lock.json
 	rm -f pxt-steami/package-lock.json
+	rm -f pxt-steami-backend/package-lock.json
+
 
 .PHONY : build
 build :
