@@ -15,10 +15,24 @@ define install_node_package
 	npm install --link
 endef
 
+define _remove_file_if_exist
+	if [ -f $1 ] ; then 
+		echo "Remove $1" 
+		rm -f $1
+	fi
+endef
+
+define _remove_directory_if_exist
+	if [ -d $1 ] ; then 
+		echo "Remove directory $1" 
+		rm -Rf $1
+	fi
+endef
+
 define deepclean_node_package
-	echo "Deep clean $1" 
-	rm -Rf "$1/node_modules"
-	rm -f "$1/package-lock.json"
+	echo "Deep cleanning $1 .."
+	$(call _remove_file_if_exist,$1/package-lock.json)
+	$(call _remove_directory_if_exist,$1/node_modules)
 endef
 
 define pxt_command
@@ -33,21 +47,19 @@ define pxt_command
 endef
 
 define _clean_static
-	@if [ -d static ]; then
-		echo "Clean static build" 
-		rm -Rf static 
-	fi
+	echo "Clean static build" 
+	$(call _remove_directory_if_exist,static)
 endef
 
 define _clean_pxt_steami
-	@if [ -d pxt-steami/built ]; then
+	if [ -d pxt-steami/built ]; then
 		echo "Clean pxt-steami build" 
 
 		if ! [ -x "$(PXT)" ]; then
 			echo "pxt not found ! \n Manual cleanning"
-			rm -Rf pxt-steami/built
-			rm -Rf pxt-steami/libs/core/built
-			rm -Rf pxt-steami/libs/blocksprj/built
+			$(call _remove_directory_if_exist,pxt-steami/built)
+			$(call _remove_directory_if_exist,pxt-steami/libs/core/built)
+			$(call _remove_directory_if_exist,pxt-steami/libs/blocksprj/built)
 			exit 0
 		else
 			echo "pxt found ! \n Automatic cleanning"
@@ -58,45 +70,42 @@ define _clean_pxt_steami
 endef
 
 define _clean_pxt_core
-	@if [ -d pxt/built ]; then 
-		echo "Clean pxt-core build" 
-		rm -Rf pxt/built; 
-	fi
+	echo "Clean pxt-core build" 
+	$(call _remove_directory_if_exist,pxt/built)
 endef
 
-define _remove_file_if_exist
-	if [ -f $1 ] ; then 
-		echo "Remove $1" 
-		rm -f $1
-	fi
+define _clean_pxt_common_packages
+	echo "Clean pxt-common-packages build" 
+	$(call _remove_directory_if_exist,pxt-common-packages/built)
 endef
 
 define _clean_pxt_steami_backend_certificates
 	echo "Clean pxt-steami-backend certificates ..." 
 	$(call _remove_file_if_exist,pxt-steami-backend/https/fastify.cert)
-	$(call _remove_file_if_exist,	pxt-steami-backend/https/fastify.key)
+	$(call _remove_file_if_exist,pxt-steami-backend/https/fastify.key)
 	$(call _remove_file_if_exist,pxt-steami-backend/https/rootCA.pem)
 endef
 
 
 #remove @$(call _clean_pxt_steami_backend_certificates) to avoid host certificates regeneration after each clean 
 define _clean
-	@$(call _clean_static)
-	@$(call _clean_pxt_steami)
-	@$(call _clean_pxt_core)
+	$(call _clean_static)
+	$(call _clean_pxt_steami)
+	$(call _clean_pxt_common_packages)
+	$(call _clean_pxt_core)
 endef
 
 define _deepclean
 	$(call _clean)
-	@$(call deepclean_node_package,pxt)
-	@$(call deepclean_node_package,pxt-common-packages)
-	@$(call deepclean_node_package,pxt-steami)
-	@$(call deepclean_node_package,pxt-steami-backend)
-	@$(call deepclean_node_package,.)
+	$(call deepclean_node_package,pxt)
+	$(call deepclean_node_package,pxt-common-packages)
+	$(call deepclean_node_package,pxt-steami)
+	$(call deepclean_node_package,pxt-steami-backend)
+	$(call deepclean_node_package,.)
 endef
 
 define _generate_localcertificates
-	@export CAROOT=$(PWD)/pxt-steami-backend/https
+	export CAROOT=$(PWD)/pxt-steami-backend/https
 	mkcert -install 
 	mkcert -cert-file pxt-steami-backend/https/fastify.cert -key-file pxt-steami-backend/https/fastify.key 'makecode.local' localhost 127.0.0.1 ::1
 endef
