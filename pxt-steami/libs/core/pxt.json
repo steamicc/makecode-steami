@@ -49,8 +49,6 @@
         "pause.ts",
         "forever.ts",
         "usb.cpp",
-        "board.svg",
-        "board.json",
         "config.ts"
     ],
 

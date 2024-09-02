@@ -125,23 +125,9 @@
         "continueBlock": true,
         "functionsOptions": {
             "useNewFunctions": true,
-            "extraFunctionEditorTypes": [
-                {
-                    "typeName": "game.LedSprite",
-                    "label": "LedSprite",
-                    "icon": "send",
-                    "defaultName": "sprite"
-                },
-                {
-                    "typeName": "Image",
-                    "label": "Image",
-                    "icon": "image outline",
-                    "defaultName": "image"
-                }
-            ]
+            "extraFunctionEditorTypes": []
         },
         "onStartColor": "#1E90FF",
-        "onStartNamespace": "basic",
         "onStartWeight": 54
     },
 
@@ -164,6 +150,64 @@
                 "localHostUrl": "http://localhost:3000/microbit-robot/?parentOrigin=$PARENT_ORIGIN$",
                 "aspectRatio": 1.22,
                 "permanent": true
+            }
+        },
+        "boardDefinition": {
+            "id": "steami",
+            "visual": "steami",
+            "gpioPinBlocks": [
+                ["P0"],
+                ["P1"],
+                ["P2"],
+                ["P3"],
+                ["P4", "P5", "P6", "P7"],
+                ["P8", "P9", "P10", "P11", "P12"],
+                ["P16"]
+            ],
+            "leds": { "led1": "led1", "led2": "led2" },
+            "gpioPinMap": {
+                "P0": "P0",
+                "P1": "P1",
+                "P2": "P2",
+                "P3": "P3",
+                "P4": "P4",
+                "P5": "P5",
+                "P6": "P6",
+                "P7": "P7",
+                "P8": "P8",
+                "P9": "P9",
+                "P10": "P10",
+                "P11": "P11",
+                "P12": "P12",
+                "P13": "P13",
+                "P14": "P14",
+                "P15": "P15",
+                "P16": "P16",
+                "P19": "P19",
+                "P20": "P20"
+            },
+            "i2cPins": {
+                "SDA": "P2",
+                "SCL": "P3"
+            },
+            "analogInPins": ["A0", "A4", "A5"],
+            "groundPins": ["GND_0", "GND_1", "GND_2"],
+            "threeVoltPins": ["PWR_0", "PWR_2"],
+            "attachPowerOnRight": true,
+            "onboardComponents": [
+                "accelerometer",
+                "buttonpair",
+                "speaker",
+                "thermometer",
+                "rgbsensor",
+                "lightsensor",
+                "microphone"
+            ],
+            "useCrocClips": true,
+            "marginWhenBreadboarding": [0, 0, 80, 0],
+            "bootloaderBaudSwitchInfo": {
+                "vid": "0x239A",
+                "pid": "0x8018"
             }
         }
     },
