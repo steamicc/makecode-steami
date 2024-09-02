@@ -3367,9 +3367,6 @@ namespace pxsim.visuals {
              style="stroke-width:0.264583"
              x="103.34871"
              y="243.72841">Menu</tspan></text>
-      </g>
-      <g
-         id="BTN_menu_BTN">
         <circle
            style="display:inline;enable-background:new;fill:#333333;fill-opacity:1;stroke:#1a1a1a;stroke-width:0.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter23159-0)"
            id="circle23013-2"
@@ -3391,7 +3388,7 @@ namespace pxsim.visuals {
            transform="matrix(0.35277776,0,0,0.35277776,-4.0314061,40.361571)" />
         <circle
            style="fill:none;fill-opacity:1;stroke:url(#linearGradient1703);stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter9372-7)"
-           id="circle23163-1"
+           id="BTN_menu_BTN"
            cx="96.849243"
            cy="220.40112"
            r="5.7384014" />
@@ -3506,10 +3503,6 @@ namespace pxsim.visuals {
                style="stroke-width:0.264583"
                x="-23.61199"
                y="287.42441">B</tspan></text>
-        </g>
-        <g
-           id="BTN_b_BTN"
-           transform="translate(0)">
           <circle
              style="fill:#333333;fill-opacity:1;stroke:#1a1a1a;stroke-width:0.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter23159)"
              id="circle23013"
@@ -3531,7 +3524,7 @@ namespace pxsim.visuals {
              transform="matrix(0.17942028,0.21784798,-0.21784798,0.17942028,210.22538,65.093899)" />
           <circle
              style="fill:none;fill-opacity:1;stroke:url(#linearGradient23165);stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter9372)"
-             id="circle23163"
+             id="BTN_b_BTN"
              cx="96.849243"
              cy="220.40112"
              r="5.7384014"
@@ -3643,10 +3636,6 @@ namespace pxsim.visuals {
                style="stroke-width:0.264583"
                x="-30.677876"
                y="285.52975">A</tspan></text>
-        </g>
-        <g
-           id="BTN_a_BTN"
-           transform="translate(18.170174,-3.012105)">
           <circle
              style="fill:#333333;fill-opacity:1;stroke:#1a1a1a;stroke-width:0.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter23159-6)"
              id="circle23013-9"
@@ -3668,7 +3657,7 @@ namespace pxsim.visuals {
              transform="matrix(0.17942028,0.21784798,-0.21784798,0.17942028,210.22538,65.093899)" />
           <circle
              style="fill:none;fill-opacity:1;stroke:url(#linearGradient70);stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter9372-1)"
-             id="circle23163-12"
+             id="BTN_a_BTN"
              cx="96.849243"
              cy="220.40112"
              r="5.7384014"
