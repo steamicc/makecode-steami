@@ -429,10 +429,10 @@ namespace pxsim.visuals {
                 this.buttons[1],
                 buttons[1].pressed ? theme.buttonDown : theme.buttonUps[1],
             );
+            this.updateNeoPixels();
             this.updatePins();
             this.updateTilt();
             // this.updateRedLED(); //no use for now
-            this.updateNeoPixels();
             // this.updateSwitch(); // no use for now
             // this.updateSound();
             // this.updateLightLevel();
@@ -1177,6 +1177,8 @@ namespace pxsim.visuals {
 
             this.pinControls = {};
 
+            this.buildJoystick();
+
             // BTN A+B
             // const outerBtn = (left: number, top: number, label: string) => {
             //     const button = this.mkBtn(left, top, label);
@@ -1195,6 +1197,82 @@ namespace pxsim.visuals {
             // abtext.textContent = 'A+B';
             // (<any>this.buttonsOuter[2]).style.visibility = 'hidden';
             // (<any>this.buttons[2]).style.visibility = 'hidden';
+        }
+
+        private buildJoystick() {
+            const joystickBase = this.element.getElementById(
+                'joystick_base',
+            ) as SVGGElement;
+            const joystickStick = this.element.getElementById(
+                'joystick_stick',
+            ) as SVGGElement;
+            const joystickCircle = this.element.getElementById(
+                'joystick_circle',
+            ) as SVGGElement;
+
+            joystickBase.style.cursor = 'pointer';
+            joystickStick.style.cursor = 'pointer';
+
+            let startX: number = 0;
+            let startY: number = 0;
+            let isDragging = false;
+
+            const calculateDirection = (dx: number, dy: number): string => {
+                if (Math.abs(dx) > Math.abs(dy)) {
+                    return dx > 0 ? 'right' : 'left';
+                } else {
+                    return dy > 0 ? 'down' : 'up';
+                }
+            };
+
+            joystickStick.addEventListener('mousedown', (e: MouseEvent) => {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                joystickCircle.style.fill = 'orange';
+            });
+
+            document.addEventListener('mousemove', (e: MouseEvent) => {
+                if (!isDragging) return;
+
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                const direction = calculateDirection(dx, dy);
+
+                switch (direction) {
+                    case 'up':
+                        joystickStick.setAttribute(
+                            'transform',
+                            'translate(-10, 10)',
+                        );
+                        break;
+                    case 'down':
+                        joystickStick.setAttribute(
+                            'transform',
+                            'translate(10, -10)',
+                        );
+                        break;
+                    case 'left':
+                        joystickStick.setAttribute(
+                            'transform',
+                            'translate(10, 10)',
+                        );
+                        break;
+                    case 'right':
+                        joystickStick.setAttribute(
+                            'transform',
+                            'translate(-10, -10)',
+                        );
+                        break;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                joystickStick.setAttribute('transform', 'translate(0, 0)');
+                joystickCircle.style.fill = 'black';
+            });
         }
 
         private mkBtn(

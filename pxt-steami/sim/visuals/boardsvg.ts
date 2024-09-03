@@ -3836,12 +3836,11 @@ namespace pxsim.visuals {
            transform="matrix(0.35277777,0,0,0.35277777,-4.0314184,40.361582)" />
         <circle
            style="display:inline;fill:none;fill-opacity:1;stroke:url(#linearGradient19434);stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter9372-2);enable-background:new"
-           id="circle23163-5"
            cx="96.849243"
            cy="220.40112"
            r="5.7384014" />
         <path
-           id="circle23167-8"
+           id="joystick_circle"
            d="m 282.9269,526.03992 c 7.88098,1.68545 16.40643,-3.56301 18.41357,-11.37529 2.40818,-7.87087 -2.40449,-17.01212 -10.27502,-19.44269 -7.7626,-2.84898 -17.15863,1.55555 -19.98762,9.31618 -3.15747,7.58339 0.70491,17.13835 8.2792,20.34359 1.13436,0.53464 2.34319,0.90453 3.56987,1.15821 z"
            style="display:inline;fill:#000000;fill-opacity:1;stroke:url(#linearGradient19432);stroke-width:0.15;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter23261-7);enable-background:new"
            transform="matrix(0.35277777,0,0,0.35277777,-4.0314184,40.361582)" />

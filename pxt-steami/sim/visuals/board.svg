@@ -27,10 +27,10 @@
      inkscape:document-units="mm"
      inkscape:zoom="0.6783964"
      inkscape:cx="416.4232"
-     inkscape:cy="597.73313"
+     inkscape:cy="597.73312"
      inkscape:window-width="1860"
      inkscape:window-height="1011"
-     inkscape:window-x="1980"
+     inkscape:window-x="60"
      inkscape:window-y="32"
      inkscape:window-maximized="1"
      inkscape:current-layer="steami" />
@@ -3366,9 +3366,6 @@
              style="stroke-width:0.264583"
              x="103.34871"
              y="243.72841">Menu</tspan></text>
-      </g>
-      <g
-         id="BTN_menu_BTN">
         <circle
            style="display:inline;enable-background:new;fill:#333333;fill-opacity:1;stroke:#1a1a1a;stroke-width:0.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter23159-0)"
            id="circle23013-2"
@@ -3390,7 +3387,7 @@
            transform="matrix(0.35277776,0,0,0.35277776,-4.0314061,40.361571)" />
         <circle
            style="fill:none;fill-opacity:1;stroke:url(#linearGradient1703);stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter9372-7)"
-           id="circle23163-1"
+           id="BTN_menu_BTN"
            cx="96.849243"
            cy="220.40112"
            r="5.7384014" />
@@ -3505,10 +3502,6 @@
                style="stroke-width:0.264583"
                x="-23.61199"
                y="287.42441">B</tspan></text>
-        </g>
-        <g
-           id="BTN_b_BTN"
-           transform="translate(0)">
           <circle
              style="fill:#333333;fill-opacity:1;stroke:#1a1a1a;stroke-width:0.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter23159)"
              id="circle23013"
@@ -3530,7 +3523,7 @@
              transform="matrix(0.17942028,0.21784798,-0.21784798,0.17942028,210.22538,65.093899)" />
           <circle
              style="fill:none;fill-opacity:1;stroke:url(#linearGradient23165);stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter9372)"
-             id="circle23163"
+             id="BTN_b_BTN"
              cx="96.849243"
              cy="220.40112"
              r="5.7384014"
@@ -3642,10 +3635,6 @@
                style="stroke-width:0.264583"
                x="-30.677876"
                y="285.52975">A</tspan></text>
-        </g>
-        <g
-           id="BTN_a_BTN"
-           transform="translate(18.170174,-3.012105)">
           <circle
              style="fill:#333333;fill-opacity:1;stroke:#1a1a1a;stroke-width:0.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter23159-6)"
              id="circle23013-9"
@@ -3667,7 +3656,7 @@
              transform="matrix(0.17942028,0.21784798,-0.21784798,0.17942028,210.22538,65.093899)" />
           <circle
              style="fill:none;fill-opacity:1;stroke:url(#linearGradient70);stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter9372-1)"
-             id="circle23163-12"
+             id="BTN_a_BTN"
              cx="96.849243"
              cy="220.40112"
              r="5.7384014"
@@ -3827,16 +3816,9 @@
              y="228.20558">Left</tspan></text>
       </g>
       <g
-         id="joystick_stick"
+         id="g1"
          style="display:inline;enable-background:new"
          transform="translate(8.0940736e-6)">
-        <circle
-           r="5.7384014"
-           cy="220.40112"
-           cx="96.849243"
-           id="path23011-0"
-           style="display:none;enable-background:new;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.132292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           transform="translate(0)" />
         <circle
            style="display:inline;fill:#333333;fill-opacity:1;stroke:#1a1a1a;stroke-width:0.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter23159-4);enable-background:new"
            id="circle23013-4"
@@ -3846,12 +3828,12 @@
            transform="matrix(0.35277777,0,0,0.35277777,-4.0314184,40.361582)" />
         <circle
            style="display:inline;fill:none;fill-opacity:1;stroke:url(#linearGradient19434);stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter9372-2);enable-background:new"
-           id="circle23163-5"
+           id="osef1"
            cx="96.849243"
            cy="220.40112"
            r="5.7384014" />
         <path
-           id="circle23167-8"
+           id="joystick_stick"
            d="m 282.9269,526.03992 c 7.88098,1.68545 16.40643,-3.56301 18.41357,-11.37529 2.40818,-7.87087 -2.40449,-17.01212 -10.27502,-19.44269 -7.7626,-2.84898 -17.15863,1.55555 -19.98762,9.31618 -3.15747,7.58339 0.70491,17.13835 8.2792,20.34359 1.13436,0.53464 2.34319,0.90453 3.56987,1.15821 z"
            style="display:inline;fill:#000000;fill-opacity:1;stroke:url(#linearGradient19432);stroke-width:0.15;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter23261-7);enable-background:new"
            transform="matrix(0.35277777,0,0,0.35277777,-4.0314184,40.361582)" />
