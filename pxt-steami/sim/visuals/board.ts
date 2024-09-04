@@ -298,6 +298,7 @@ namespace pxsim.visuals {
 
         private buttons: SVGElement[];
         private buttonsOuter: SVGElement[];
+        private leds: SVGElement[];
         private buttonABText: SVGTextElement;
         private pins: SVGElement[];
         private pinControls: { [index: number]: AnalogPinControl };
@@ -1090,57 +1091,105 @@ namespace pxsim.visuals {
             this.g = <SVGGElement>svg.elt('g');
             this.element.appendChild(this.g);
 
-            // filters
-            let glow = svg.child(this.defs, 'filter', {
-                id: 'filterglow',
-                x: '-5%',
-                y: '-5%',
-                width: '120%',
-                height: '120%',
-            });
-            svg.child(glow, 'feGaussianBlur', {
-                stdDeviation: '5',
-                result: 'glow',
-            });
-            let merge = svg.child(glow, 'feMerge', {});
-            for (let i = 0; i < 3; ++i)
-                svg.child(merge, 'feMergeNode', { in: 'glow' });
+            this.pinControls = {};
+            this.buildPins();
+            this.buildLed();
+            this.buildBtn();
+            this.buildJoystick();
 
-            let neopixelglow = svg.child(this.defs, 'filter', {
-                id: 'neopixelglow',
-                x: '-300%',
-                y: '-300%',
-                width: '600%',
-                height: '600%',
-            });
-            svg.child(neopixelglow, 'feGaussianBlur', {
-                stdDeviation: '4.3',
-                result: 'coloredBlur',
-            });
-            let neopixelmerge = svg.child(neopixelglow, 'feMerge', {});
-            svg.child(neopixelmerge, 'feMergeNode', { in: 'coloredBlur' });
-            svg.child(neopixelmerge, 'feMergeNode', { in: 'coloredBlur' });
-            svg.child(neopixelmerge, 'feMergeNode', { in: 'SourceGraphic' });
+            // BTN A+B
+            // const outerBtn = (left: number, top: number, label: string) => {
+            //     const button = this.mkBtn(left, top, label);
+            //     this.buttonsOuter.push(button.outer);
+            //     this.buttons.push(button.inner);
 
-            const neopixelState = (board() as any as LightBoard).neopixelState;
-            if (neopixelState) {
-                console.log('pixelLenght :' + neopixelState.length);
-                for (let i = 1; i < neopixelState.length + 1; i++) {
-                    let p_outer = svg.title(
-                        this.element.getElementById(
-                            `LED${i}_base`,
-                        ) as SVGPathElement,
-                        'NeoPixel ' + i,
-                    );
-                    let p_inner = svg.title(
-                        this.element.getElementById(
-                            `LED${i}_led`,
-                        ) as SVGPathElement,
-                        'NeoPixel ' + i,
-                    );
+            //     return button;
+            // };
+
+            // let ab = outerBtn(165, MB_HEIGHT - 15, 'A+B');
+            // let abtext = svg.child(ab.outer, 'text', {
+            //     x: 163,
+            //     y: MB_HEIGHT - 18,
+            //     class: 'sim-text',
+            // }) as SVGTextElement;
+            // abtext.textContent = 'A+B';
+            // (<any>this.buttonsOuter[2]).style.visibility = 'hidden';
+            // (<any>this.buttons[2]).style.visibility = 'hidden';
+        }
+
+        private buildLed() {
+            const ledids = ['1', '2', '3', '4', '5', '6'];
+
+            this.leds = ledids.map(n => {
+                let led = this.element.getElementById('LED' + n) as SVGElement;
+                let label = 'LED' + n;
+                accessibility.setAria(led, 'LED', label);
+                return led;
+            });
+
+            // à supprimer
+            this.leds.forEach(n => {
+                const randomColor = `#${Math.floor(Math.random() * 0xffffff)
+                    .toString(16)
+                    .padStart(6, '0')}`;
+                const randomIntensity = Math.floor(Math.random() * 5) + 1;
+                this.makeLedGlow(n, randomColor, randomIntensity);
+                console.log(
+                    'Led : ' +
+                        n.id +
+                        ' | color : ' +
+                        randomColor +
+                        ' | intensity : ' +
+                        randomIntensity,
+                );
+            });
+        }
+
+        private makeLedGlow(led: SVGElement, color: string, intensity: number) {
+            const filterId = `glow-${color.replace('#', '')}-${intensity}`;
+            let glowFilter = this.element.getElementById(filterId);
+
+            if (!glowFilter) {
+                glowFilter = svg.child(this.defs, 'filter', {
+                    id: filterId,
+                    x: '-50%',
+                    y: '-50%',
+                    width: '200%',
+                    height: '200%',
+                });
+
+                svg.child(glowFilter, 'feGaussianBlur', {
+                    stdDeviation: (intensity / 2).toString(),
+                    result: 'blur',
+                });
+
+                svg.child(glowFilter, 'feFlood', {
+                    'flood-color': color,
+                    'flood-opacity': '1',
+                    result: 'color',
+                });
+
+                svg.child(glowFilter, 'feComposite', {
+                    in: 'color',
+                    in2: 'blur',
+                    operator: 'in',
+                    result: 'coloredBlur',
+                });
+
+                let merge = svg.child(glowFilter, 'feMerge', {});
+                for (let i = 0; i < Math.max(2, intensity); i++) {
+                    svg.child(merge, 'feMergeNode', { in: 'coloredBlur' });
                 }
+                svg.child(merge, 'feMergeNode', { in: 'SourceGraphic' });
             }
 
+            const elements = led.querySelectorAll('*');
+            Array.from(elements).forEach(element => {
+                element.setAttribute('filter', `url(#${filterId})`);
+            });
+        }
+
+        private buildBtn() {
             const btnids = ['BTN_a', 'BTN_b', 'BTN_menu'];
             this.buttonsOuter = btnids.map(n => {
                 let btn = this.element.getElementById(
@@ -1164,7 +1213,9 @@ namespace pxsim.visuals {
                 n => this.element.getElementById(n + '_BTN') as SVGElement,
             );
             this.buttons.forEach(b => pxsim.U.addClass(b, 'sim-button'));
+        }
 
+        private buildPins() {
             this.pins = pinNames.map((pin, i) => {
                 const n = pin.name;
                 let p = this.element.getElementById(n) as SVGElement;
@@ -1174,31 +1225,7 @@ namespace pxsim.visuals {
                 }
                 return p;
             });
-
-            this.pinControls = {};
-
-            this.buildJoystick();
-
-            // BTN A+B
-            // const outerBtn = (left: number, top: number, label: string) => {
-            //     const button = this.mkBtn(left, top, label);
-            //     this.buttonsOuter.push(button.outer);
-            //     this.buttons.push(button.inner);
-
-            //     return button;
-            // };
-
-            // let ab = outerBtn(165, MB_HEIGHT - 15, 'A+B');
-            // let abtext = svg.child(ab.outer, 'text', {
-            //     x: 163,
-            //     y: MB_HEIGHT - 18,
-            //     class: 'sim-text',
-            // }) as SVGTextElement;
-            // abtext.textContent = 'A+B';
-            // (<any>this.buttonsOuter[2]).style.visibility = 'hidden';
-            // (<any>this.buttons[2]).style.visibility = 'hidden';
         }
-
         private buildJoystick() {
             const joystickBase = this.element.getElementById(
                 'joystick_base',
