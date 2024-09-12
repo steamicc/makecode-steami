@@ -26,15 +26,15 @@ namespace pxsim.visuals {
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.6783964"
-     inkscape:cx="416.4232"
-     inkscape:cy="597.73313"
+     inkscape:zoom="2.0282951"
+     inkscape:cx="205.34487"
+     inkscape:cy="309.37313"
      inkscape:window-width="1860"
      inkscape:window-height="1011"
-     inkscape:window-x="1980"
+     inkscape:window-x="60"
      inkscape:window-y="32"
      inkscape:window-maximized="1"
-     inkscape:current-layer="steami" />
+     inkscape:current-layer="screen_showcase" />
   <style
      id="style1">
    svg.sim { margin-bottom:1em; } 
@@ -3146,12 +3146,12 @@ namespace pxsim.visuals {
          id="screen_base">
         <path
            id="path18026"
-           style="fill:#bdbdb9;fill-opacity:1;stroke:#adada3;stroke-width:2.93291;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           style="display:inline;fill:#bdbdb9;fill-opacity:1;stroke:#adada3;stroke-width:2.93291;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            d="m 1577.1621,32.410156 a 316.17052,316.38713 0 0 0 -315.8574,316.386724 316.17052,316.38713 0 0 0 144.6797,265.80273 v 112.75586 h 342.9824 V 614.59961 a 316.17052,316.38713 0 0 0 144.6797,-265.80273 316.17052,316.38713 0 0 0 -316.1719,-316.386724 316.17052,316.38713 0 0 0 -0.3125,0 z"
            transform="matrix(0.26458333,0,0,0.26458333,6.6092859e-6,-7.0879528e-7)" />
         <ellipse
-           style="fill:#030000;fill-opacity:1;stroke:#939393;stroke-width:0.881;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           id="path18591"
+           style="display:inline;fill:#030000;fill-opacity:1;stroke:#939393;stroke-width:0.881;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="screen_show"
            cx="417.37372"
            cy="92.285927"
            rx="77.698364"
@@ -3168,6 +3168,15 @@ namespace pxsim.visuals {
            d="m 455.58397,65.313911 a 30.000001,30.000001 0 0 0 -29.61835,25.23205 h 10.19524 a 20,20 0 0 1 19.34403,-15.23163 20,20 0 0 1 0.0791,0 20,20 0 0 1 19.42309,15.23163 h 10.19577 a 30.000001,30.000001 0 0 0 -29.61886,-25.23205 z"
            style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:0.775999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            id="path18596-9" />
+        <rect
+           style="fill:#000000;stroke-width:0.265538;fill-opacity:0"
+           id="screen_output"
+           width="100.8751"
+           height="95.900352"
+           x="58.593052"
+           y="67.627831"
+           ry="0"
+           transform="matrix(1.104616,0,0,1.104616,297.53497,-37.078593)" />
       </g>
     </g>
     <g
@@ -3817,16 +3826,9 @@ namespace pxsim.visuals {
              y="228.20558">Left</tspan></text>
       </g>
       <g
-         id="joystick_stick"
+         id="g1"
          style="display:inline;enable-background:new"
          transform="translate(8.0940736e-6)">
-        <circle
-           r="5.7384014"
-           cy="220.40112"
-           cx="96.849243"
-           id="path23011-0"
-           style="display:none;enable-background:new;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.132292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           transform="translate(0)" />
         <circle
            style="display:inline;fill:#333333;fill-opacity:1;stroke:#1a1a1a;stroke-width:0.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter23159-4);enable-background:new"
            id="circle23013-4"
@@ -3836,11 +3838,12 @@ namespace pxsim.visuals {
            transform="matrix(0.35277777,0,0,0.35277777,-4.0314184,40.361582)" />
         <circle
            style="display:inline;fill:none;fill-opacity:1;stroke:url(#linearGradient19434);stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter9372-2);enable-background:new"
+           id="osef1"
            cx="96.849243"
            cy="220.40112"
            r="5.7384014" />
         <path
-           id="joystick_circle"
+           id="joystick_stick"
            d="m 282.9269,526.03992 c 7.88098,1.68545 16.40643,-3.56301 18.41357,-11.37529 2.40818,-7.87087 -2.40449,-17.01212 -10.27502,-19.44269 -7.7626,-2.84898 -17.15863,1.55555 -19.98762,9.31618 -3.15747,7.58339 0.70491,17.13835 8.2792,20.34359 1.13436,0.53464 2.34319,0.90453 3.56987,1.15821 z"
            style="display:inline;fill:#000000;fill-opacity:1;stroke:url(#linearGradient19432);stroke-width:0.15;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter23261-7);enable-background:new"
            transform="matrix(0.35277777,0,0,0.35277777,-4.0314184,40.361582)" />

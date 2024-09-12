@@ -6,6 +6,8 @@ namespace pxsim.visuals {
             height: 100%;
             display: block;
         }
+        .sim-pin:hover{cursor:pointer;}
+
         svg.sim.grayscale {
             -moz-filter: grayscale(1);
             -webkit-filter: grayscale(1);
@@ -214,21 +216,57 @@ namespace pxsim.visuals {
         id?: number;
         tooltip?: string;
     }[] = [
-        { name: 'PIN_A0', touch: 0, text: null, tooltip: 'A0 - Speaker' },
-        { name: 'PIN_A1', touch: 1, text: null, tooltip: '~A1' },
-        { name: 'PIN_A2', touch: 1, text: null, tooltip: '~A2' },
-        { name: 'PIN_A3', touch: 1, text: null, tooltip: '~A3' },
-        { name: 'PIN_A4', touch: 1, text: null, tooltip: 'A4 - SCL' },
-        { name: 'PIN_A5', touch: 1, text: null, tooltip: 'A5 - SDA' },
-        { name: 'PIN_A6', touch: 1, text: null, tooltip: 'A6 - RX' },
-        { name: 'PIN_A7', touch: 1, text: null, tooltip: 'A7 - TX' },
-        { name: 'GND_0', touch: 0, text: null, tooltip: 'Ground' },
-        { name: 'GND_1', touch: 0, text: null, tooltip: 'Ground' },
-        { name: 'GND_2', touch: 0, text: null, tooltip: 'Ground' },
-        { name: 'VBATT', touch: 0, text: null, tooltip: 'Battery power' },
-        { name: 'PWR_0', touch: 0, text: null, tooltip: '+3.3V' },
-        { name: 'PWR_1', touch: 0, text: null, tooltip: '+3.3V' },
-        { name: 'PWR_2', touch: 0, text: null, tooltip: '+3.3V' },
+        // pinBlock up left
+        { name: 'TP16', touch: 0, text: null, tooltip: 'A0 - Speaker' },
+        { name: 'TP14', touch: 1, text: null, tooltip: '~A1' },
+        { name: 'TP12', touch: 1, text: null, tooltip: '~A2' },
+        { name: 'TP11', touch: 1, text: null, tooltip: '~A3' },
+        // pinBlock up right
+        { name: 'TP13', touch: 1, text: null, tooltip: 'A4 - SCL' },
+        { name: 'TP10', touch: 1, text: null, tooltip: 'A5 - SDA' },
+        { name: 'TP17', touch: 1, text: null, tooltip: 'A6 - RX' },
+        { name: 'TP15', touch: 1, text: null, tooltip: 'A7 - TX' },
+        //pinBlock bottom
+        // big pins
+        { name: 'pin2', touch: 0, text: null, tooltip: 'Ground' },
+        { name: 'pin3V', touch: 0, text: null, tooltip: 'Ground' },
+        { name: 'pinGND', touch: 0, text: null, tooltip: 'Ground' },
+        { name: 'pin1', touch: 0, text: null, tooltip: 'Ground' },
+        { name: 'pin0', touch: 0, text: null, tooltip: 'Battery power' },
+        // small pins midle right
+        { name: '3V3', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'SCL3', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'SDA3', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'GND', touch: 0, text: null, tooltip: '+3.3V' },
+        // small pins midle left
+        { name: 'SP1_CLK2', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'SP1_MISO', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'SP1_MOSI', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'P16', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: '3V3_1', touch: 0, text: null, tooltip: '+3.3V' },
+        // small pins right
+        { name: 'pin_small_1', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'pin_small_2', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'pin_small_3', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'pin_small_4', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'pin_small_5', touch: 0, text: null, tooltip: '+3.3V' },
+        // small pins left
+        { name: 'pin_small_6', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'pin_small_7', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'pin_small_8', touch: 0, text: null, tooltip: '+3.3V' },
+        { name: 'pin_small_9', touch: 0, text: null, tooltip: '+3.3V' },
+        // small pin far right and left
+        { name: 'pin_farRight', touch: 0, text: null, tooltip: 'Ground' },
+        { name: 'pin_farLeft', touch: 0, text: null, tooltip: 'Ground' },
+        // pin block middle arm
+        // Right
+        { name: 'J6_1', touch: 0, text: null, tooltip: 'Ground' },
+        { name: 'J6_2', touch: 0, text: null, tooltip: 'Ground' },
+        { name: 'J6_3', touch: 0, text: null, tooltip: 'Ground' },
+        // left
+        { name: 'J5_1', touch: 0, text: null, tooltip: 'Ground' },
+        { name: 'J5_2', touch: 0, text: null, tooltip: 'Ground' },
+        { name: 'J5_3', touch: 0, text: null, tooltip: 'Ground' },
     ];
 
     const MB_WIDTH = 220.06459;
@@ -298,6 +336,8 @@ namespace pxsim.visuals {
 
         private buttons: SVGElement[];
         private buttonsOuter: SVGElement[];
+        private screen: SVGElement;
+        private screen_showcase: SVGElement;
         private leds: SVGElement[];
         private buttonABText: SVGTextElement;
         private pins: SVGElement[];
@@ -513,7 +553,7 @@ namespace pxsim.visuals {
         //     // if (!this.redLED)
         //     //     this.redLED = this.element.getElementById(
         //     //         'SERIAL_LED',
-        //     //     ) as SVGRectElement;
+        //     //     ) as SVGRectEle   ment;
         //     // let fillColor = ledOn ? '#FF0000' : '#000000';
         //     // svg.fill(this.redLED, fillColor);
         // }
@@ -1096,6 +1136,7 @@ namespace pxsim.visuals {
             this.buildLed();
             this.buildBtn();
             this.buildJoystick();
+            this.buildLcdScreen();
 
             // BTN A+B
             // const outerBtn = (left: number, top: number, label: string) => {
@@ -1222,10 +1263,13 @@ namespace pxsim.visuals {
                 if (p) {
                     pxsim.U.addClass(p, 'sim-pin');
                     if (pin.tooltip) svg.hydrate(p, { title: pin.tooltip });
+                } else {
+                    console.log(n);
                 }
                 return p;
             });
         }
+
         private buildJoystick() {
             const joystickBase = this.element.getElementById(
                 'joystick_base',
@@ -1300,6 +1344,87 @@ namespace pxsim.visuals {
                 joystickStick.setAttribute('transform', 'translate(0, 0)');
                 joystickCircle.style.fill = 'black';
             });
+        }
+
+        private buildLcdScreen() {
+            this.screen = this.element.getElementById('screen') as SVGGElement;
+            const screen_showcase = this.element.getElementById(
+                'screen_showcase',
+            ) as SVGGElement;
+            screen_showcase.style.display = 'none';
+
+            const matrix = [];
+            const rows = 25;
+            const cols = 25;
+
+            const leftEye = {
+                rowStart: 5,
+                rowEnd: 10,
+                colStart: 3,
+                colEnd: 8,
+            };
+            const rightEye = {
+                rowStart: 5,
+                rowEnd: 10,
+                colStart: 15,
+                colEnd: 20,
+            };
+
+            for (let i = 0; i < rows; i++) {
+                const row = [];
+                for (let j = 0; j < cols; j++) {
+                    if (
+                        (i >= leftEye.rowStart &&
+                            i <= leftEye.rowEnd &&
+                            j >= leftEye.colStart &&
+                            j <= leftEye.colEnd) ||
+                        (i >= rightEye.rowStart &&
+                            i <= rightEye.rowEnd &&
+                            j >= rightEye.colStart &&
+                            j <= rightEye.colEnd)
+                    ) {
+                        row.push('yellow');
+                    } else {
+                        row.push('black');
+                    }
+                }
+                matrix.push(row);
+            }
+
+            this.screenShow(matrix);
+        }
+
+        private screenShow(matScreen: string[][]) {
+            const screenWidth = 105;
+            const screenHeight = 105;
+
+            const numRows = matScreen.length;
+            const numCols = matScreen[0].length;
+
+            const pixelWidth = screenWidth / numCols;
+            const pixelHeight = screenHeight / numRows;
+
+            const svgNS = 'http://www.w3.org/2000/svg';
+            const pixelGroup = document.createElementNS(svgNS, 'g');
+
+            pixelGroup.setAttribute('transform', 'translate(365,40)');
+
+            for (let row = 0; row < numRows; row++) {
+                for (let col = 0; col < numCols; col++) {
+                    const color = matScreen[row][col];
+                    const rect = document.createElementNS(svgNS, 'rect');
+
+                    rect.setAttribute('x', (col * pixelWidth).toString());
+                    rect.setAttribute('y', (row * pixelHeight).toString());
+                    rect.setAttribute('width', pixelWidth.toString());
+                    rect.setAttribute('height', pixelHeight.toString());
+                    rect.setAttribute('fill', color);
+
+                    pixelGroup.appendChild(rect);
+                }
+            }
+
+            this.screen.appendChild(pixelGroup);
         }
 
         private mkBtn(
