@@ -3,7 +3,7 @@ namespace pxsim {
         RGB = 1,
         RGBW = 2,
         RGB_RGB = 3,
-        DotStar = 4
+        DotStar = 4,
     }
 
     export class CommonNeoPixelState {
@@ -15,7 +15,10 @@ namespace pxsim {
         }
 
         public get stride() {
-            return this.mode == NeoPixelMode.RGBW || this.mode == NeoPixelMode.DotStar ? 4 : 3;
+            return this.mode == NeoPixelMode.RGBW ||
+                this.mode == NeoPixelMode.DotStar
+                ? 4
+                : 3;
         }
 
         public pixelColor(pixel: number): number[] {
@@ -23,13 +26,30 @@ namespace pxsim {
             // RBG
             switch (this.mode) {
                 case NeoPixelMode.RGBW:
-                    return [this.buffer[offset + 1], this.buffer[offset], this.buffer[offset + 2], this.buffer[offset + 3]];
+                    return [
+                        this.buffer[offset + 1],
+                        this.buffer[offset],
+                        this.buffer[offset + 2],
+                        this.buffer[offset + 3],
+                    ];
                 case NeoPixelMode.RGB_RGB:
-                    return [this.buffer[offset], this.buffer[offset + 1], this.buffer[offset + 2]];
+                    return [
+                        this.buffer[offset],
+                        this.buffer[offset + 1],
+                        this.buffer[offset + 2],
+                    ];
                 case NeoPixelMode.DotStar:
-                    return [this.buffer[offset + 3], this.buffer[offset + 2], this.buffer[offset + 1]];
+                    return [
+                        this.buffer[offset + 3],
+                        this.buffer[offset + 2],
+                        this.buffer[offset + 1],
+                    ];
                 default:
-                    return [this.buffer[offset + 1], this.buffer[offset + 0], this.buffer[offset + 2]];
+                    return [
+                        this.buffer[offset + 1],
+                        this.buffer[offset + 0],
+                        this.buffer[offset + 2],
+                    ];
             }
         }
     }
@@ -62,7 +82,12 @@ namespace pxsim {
 
 namespace pxsim.light {
     // Currently only modifies the builtin pixels
-    export function sendBuffer(pin: { id: number }, clk: { id: number }, mode: number, b: RefBuffer) {
+    export function sendBuffer(
+        pin: { id: number },
+        clk: { id: number },
+        mode: number,
+        b: RefBuffer
+    ) {
         const state = neopixelState(pin.id);
         if (!state) return;
         state.mode = mode & 0xff;
@@ -73,7 +98,7 @@ namespace pxsim.light {
 }
 
 namespace pxsim.visuals {
-    const PIXEL_SPACING = PIN_DIST * 2.5;  // 3
+    const PIXEL_SPACING = PIN_DIST * 2.5; // 3
     const PIXEL_RADIUS = PIN_DIST;
     const CANVAS_WIDTH = 1.2 * PIN_DIST;
     const CANVAS_HEIGHT = 12 * PIN_DIST;
@@ -125,8 +150,12 @@ namespace pxsim.visuals {
         let h = NP_PART_HEIGHT;
         let img = <SVGImageElement>svg.elt("image");
         svg.hydrate(img, {
-            class: "sim-neopixel-strip", x: l, y: t, width: w, height: h,
-            href: svg.toDataUri(NEOPIXEL_PART_IMG)
+            class: "sim-neopixel-strip",
+            x: l,
+            y: t,
+            width: w,
+            height: h,
+            href: svg.toDataUri(NEOPIXEL_PART_IMG),
         });
         return { el: img, x: l, y: t, w: w, h: h };
     }
@@ -140,10 +169,22 @@ namespace pxsim.visuals {
             let [cx, cy] = xy;
             let y = cy - r;
             if (width <= 1)
-                svg.hydrate(el, { x: "-50%", y: y, width: "100%", height: r * 2, class: "sim-neopixel" });
+                svg.hydrate(el, {
+                    x: "-50%",
+                    y: y,
+                    width: "100%",
+                    height: r * 2,
+                    class: "sim-neopixel",
+                });
             else {
                 let x = cx - r;
-                svg.hydrate(el, { x: x, y: y, width: r * 2, height: r * 2, class: "sim-neopixel" });
+                svg.hydrate(el, {
+                    x: x,
+                    y: y,
+                    width: r * 2,
+                    height: r * 2,
+                    class: "sim-neopixel",
+                });
             }
             this.el = el;
             this.cy = cy;
@@ -169,44 +210,56 @@ namespace pxsim.visuals {
             this.pixels = [];
             let el = <SVGSVGElement>svg.elt("svg");
             svg.hydrate(el, {
-                "class": `sim-neopixel-canvas`,
-                "x": "0px",
-                "y": "0px",
-                "width": `${CANVAS_WIDTH}px`,
-                "height": `${CANVAS_HEIGHT}px`,
+                class: `sim-neopixel-canvas`,
+                x: "0px",
+                y: "0px",
+                width: `${CANVAS_WIDTH}px`,
+                height: `${CANVAS_HEIGHT}px`,
             });
             this.canvas = el;
-            this.background = <SVGRectElement>svg.child(el, "rect", { class: "sim-neopixel-background hidden" });
-            this.updateViewBox(-CANVAS_WIDTH / 2, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            this.background = <SVGRectElement>svg.child(el, "rect", {
+                class: "sim-neopixel-background hidden",
+            });
+            this.updateViewBox(
+                -CANVAS_WIDTH / 2,
+                0,
+                CANVAS_WIDTH,
+                CANVAS_HEIGHT
+            );
         }
 
         private updateViewBox(x: number, y: number, w: number, h: number) {
             this.viewBox = [x, y, w, h];
-            svg.hydrate(this.canvas, { "viewBox": `${x} ${y} ${w} ${h}` });
-            svg.hydrate(this.background, { "x": x, "y": y, "width": w, "height": h });
+            svg.hydrate(this.canvas, { viewBox: `${x} ${y} ${w} ${h}` });
+            svg.hydrate(this.background, { x: x, y: y, width: w, height: h });
         }
 
         public update(colors: number[][]) {
-            if (!colors || colors.length <= 0)
-                return;
+            if (!colors || colors.length <= 0) return;
 
             if (this.pixels.length == 0 && this.cols > 1) {
                 // first time, so redo width of canvas
                 let rows = Math.ceil(colors.length / this.cols);
                 let rt = CANVAS_HEIGHT / rows;
                 let width = this.cols * rt;
-                this.canvas.setAttributeNS(null, "width", `${width}px`)
+                this.canvas.setAttributeNS(null, "width", `${width}px`);
                 this.updateViewBox(0, 0, width, CANVAS_HEIGHT);
             }
 
             for (let i = 0; i < colors.length; i++) {
                 let pixel = this.pixels[i];
                 if (!pixel) {
-                    let cxy: Coord = [0, CANVAS_VIEW_PADDING + i * PIXEL_SPACING];
+                    let cxy: Coord = [
+                        0,
+                        CANVAS_VIEW_PADDING + i * PIXEL_SPACING,
+                    ];
                     if (this.cols > 1) {
                         const row = Math.floor(i / this.cols);
                         const col = i - row * this.cols;
-                        cxy  = [(col + 1) * PIXEL_SPACING,  (row + 1) * PIXEL_SPACING]
+                        cxy = [
+                            (col + 1) * PIXEL_SPACING,
+                            (row + 1) * PIXEL_SPACING,
+                        ];
                     }
                     pixel = this.pixels[i] = new NeoPixel(cxy, this.cols);
                     svg.hydrate(pixel.el, { title: `offset: ${i}` });
@@ -219,7 +272,10 @@ namespace pxsim.visuals {
             pxsim.U.removeClass(this.background, "hidden");
 
             // resize
-            let [first, last] = [this.pixels[0], this.pixels[this.pixels.length - 1]]
+            let [first, last] = [
+                this.pixels[0],
+                this.pixels[this.pixels.length - 1],
+            ];
             let yDiff = last.cy - first.cy;
             let newH = yDiff + CANVAS_VIEW_PADDING * 2;
             let [oldX, oldY, oldW, oldH] = this.viewBox;
@@ -232,8 +288,7 @@ namespace pxsim.visuals {
                     newH = PIXEL_SPACING * (rows + 1);
                     newW = PIXEL_SPACING * (this.cols + 1);
                     this.updateViewBox(0, oldY, newW, newH);
-                } else
-                    this.updateViewBox(-newW / 2, oldY, newW, newH);
+                } else this.updateViewBox(-newW / 2, oldY, newW, newH);
             }
         }
 
@@ -241,9 +296,11 @@ namespace pxsim.visuals {
             let [x, y] = xy;
             svg.hydrate(this.canvas, { x: x, y: y });
         }
-    };
+    }
 
-    export class NeoPixelView implements IBoardPart<CommonNeoPixelStateConstructor> {
+    export class NeoPixelView
+        implements IBoardPart<CommonNeoPixelStateConstructor>
+    {
         public style: string = `
             .sim-neopixel-canvas {
             }
@@ -271,16 +328,22 @@ namespace pxsim.visuals {
         private lastLocation: Coord;
         private pin: Pin;
 
-        constructor(public parsePinString: (name: string) => Pin) {
+        constructor(public parsePinString: (name: string) => Pin) {}
 
-        }
-
-        public init(bus: EventBus, state: CommonNeoPixelStateConstructor, svgEl: SVGSVGElement, otherParams: Map<string>): void {
+        public init(
+            bus: EventBus,
+            state: CommonNeoPixelStateConstructor,
+            svgEl: SVGSVGElement,
+            otherParams: Map<string>
+        ): void {
             this.stripGroup = <SVGGElement>svg.elt("g");
             this.element = this.stripGroup;
-            this.pin = this.parsePinString(otherParams["dataPin"] || otherParams["pin"])
-                || this.parsePinString("pins.NEOPIXEL")
-                || this.parsePinString("pins.MOSI");
+            this.pin =
+                this.parsePinString(
+                    otherParams["dataPin"] || otherParams["pin"]
+                ) ||
+                this.parsePinString("pins.NEOPIXEL") ||
+                this.parsePinString("pins.MOSI");
             this.lastLocation = [0, 0];
             this.state = state(this.pin);
             let part = mkNeoPixelPart();
@@ -293,9 +356,11 @@ namespace pxsim.visuals {
             let canvas = new NeoPixelCanvas(this.pin.id, this.state.width);
             if (this.overElement) {
                 this.overElement.removeChild(this.canvas.canvas);
-                this.overElement.appendChild(canvas.canvas)
+                this.overElement.appendChild(canvas.canvas);
             } else {
-                let canvasG = svg.elt("g", { class: "sim-neopixel-canvas-parent" });
+                let canvasG = svg.elt("g", {
+                    class: "sim-neopixel-canvas-parent",
+                });
                 canvasG.appendChild(canvas.canvas);
                 this.overElement = canvasG;
             }
@@ -311,7 +376,10 @@ namespace pxsim.visuals {
         }
         private updateStripLoc() {
             let [x, y] = this.lastLocation;
-            U.assert(typeof x === "number" && typeof y === "number", "invalid x,y for NeoPixel strip");
+            U.assert(
+                typeof x === "number" && typeof y === "number",
+                "invalid x,y for NeoPixel strip"
+            );
             this.canvas.setLoc([x + CANVAS_LEFT, y + CANVAS_TOP]);
             svg.hydrate(this.part.el, { transform: `translate(${x} ${y})` }); //TODO: update part's l,h, etc.
         }
@@ -323,8 +391,8 @@ namespace pxsim.visuals {
             for (let i = 0; i < this.state.length; i++) {
                 colors.push(this.state.pixelColor(i));
             }
-           this.canvas.update(colors);
+            this.canvas.update(colors);
         }
-        public updateTheme(): void { }
+        public updateTheme(): void {}
     }
 }

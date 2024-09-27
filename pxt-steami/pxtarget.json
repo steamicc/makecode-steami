@@ -5,7 +5,7 @@
     "title": "MakeCode for STeaMi",
     "description": "A Blocks / JavaScript code editor for the STeaMi:bit powered by Microsoft MakeCode.",
     "corepkg": "core",
-    "bundleddirs": ["libs/core"],
+    "bundleddirs": ["libs/core", "libs/leds"],
     "cloud": {
         "workspace": false,
         "packages": true,
@@ -164,7 +164,6 @@
                 ["P8", "P9", "P10", "P11", "P12"],
                 ["P16"]
             ],
-            "leds": { "led1": "led1", "led2": "led2" },
             "gpioPinMap": {
                 "P0": "P0",
                 "P1": "P1",
@@ -191,8 +190,8 @@
                 "SCL": "P3"
             },
             "analogInPins": ["A0", "A4", "A5"],
-            "groundPins": ["GND_0", "GND_1", "GND_2"],
-            "threeVoltPins": ["PWR_0", "PWR_2"],
+            "groundPins": ["GND", "GND_P22", "GND_P1", "GND_P27", "GND_P26"],
+            "threeVoltPins": ["3V3", "3V3_P30", "3V3_P23"],
             "attachPowerOnRight": true,
             "onboardComponents": [
                 "accelerometer",

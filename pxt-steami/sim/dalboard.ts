@@ -19,11 +19,15 @@ namespace pxsim {
         export let D5 = -1;
         export let D6 = -1;
         export let D7 = -1;
-        export let D8 = -1;
+        //LEDS
+        export let D8 = -1; //DEFAULT NEOPIXEL
+        export let LED2 = 1;
+        export let LED3 = -1;
+        export let LED = -1;
+
         export let D13 = -1;
         export let IR_IN = -1;
         export let IR_OUT = -1;
-        export let LED = -1;
         export let TX = -1;
         export let RX = -1;
 
@@ -42,18 +46,16 @@ namespace pxsim {
         extends CoreBoard
         implements
             AccelerometerBoard,
-            CommonBoard,
-            LightBoard,
             LightSensorBoard,
             MusicBoard,
             SlideSwitchBoard,
             TemperatureBoard,
             InfraredBoard,
             CapTouchBoard,
-            StorageBoard
+            StorageBoard,
+            LedBoard
     {
         // state & update logic for component services
-        _neopixelState: pxt.Map<CommonNeoPixelState>;
         buttonState: CommonButtonState;
         slideSwitchState: SlideSwitchState;
         lightSensorState: AnalogSensorState;
@@ -67,6 +69,8 @@ namespace pxsim {
         irState: InfraredState;
         storageState: StorageState;
 
+        ledState: LedState;
+
         invertAccelerometerYAxis = true;
 
         viewHost: visuals.BoardHost;
@@ -77,12 +81,14 @@ namespace pxsim {
 
             CPlayPinName.init();
 
-            this._neopixelState = {};
             this.bus.setNotify(DAL.DEVICE_ID_NOTIFY, DAL.DEVICE_ID_NOTIFY_ONE);
 
             //components
             this.storageState = new StorageState();
-            this.builtinParts['neopixel'] = this.neopixelState(CPlayPinName.D8);
+
+            //LEDs
+            this.builtinParts['leds'] = this.ledState = new LedState([]);
+
             this.builtinParts['buttonpair'] = this.buttonState =
                 new CommonButtonState();
 
@@ -205,21 +211,6 @@ namespace pxsim {
 
         screenshotAsync(width?: number): Promise<ImageData> {
             return this.viewHost.screenshotAsync(width);
-        }
-
-        tryGetNeopixelState(pinId: number): CommonNeoPixelState {
-            return this._neopixelState[pinId];
-        }
-
-        neopixelState(pinId: number): CommonNeoPixelState {
-            let state = this._neopixelState[pinId];
-            if (!state)
-                state = this._neopixelState[pinId] = new CommonNeoPixelState();
-            return state;
-        }
-
-        defaultNeopixelPin() {
-            return this.edgeConnectorState.getPin(CPlayPinName.D8);
         }
 
         getDefaultPitchPin() {

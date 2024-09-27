@@ -2734,9 +2734,9 @@ namespace pxsim.visuals {
            transform="rotate(-17.069222)" />
       </g>
       <g
-         id="LED5">
+         id="LED3">
         <g
-           id="LED5_base">
+           id="LED3_base">
           <rect
              ry="0"
              rx="0"
@@ -2873,9 +2873,9 @@ namespace pxsim.visuals {
        id="LED_bottom"
        transform="translate(-6.879167,5.8208336)">
       <g
-         id="LED3">
+         id="LED5">
         <g
-           id="LED3_base">
+           id="LED5_base">
           <rect
              ry="0"
              rx="0"

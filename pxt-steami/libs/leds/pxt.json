@@ -1,0 +1,9 @@
+{
+    "name": "leds",
+    "description": "leds library",
+    "files": ["leds.cpp", "enums.d.ts", "shims.d.ts"],
+    "public": true,
+    "dependencies": {
+        "core": "file:../core"
+    }
+}

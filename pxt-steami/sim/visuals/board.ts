@@ -470,7 +470,9 @@ namespace pxsim.visuals {
                 this.buttons[1],
                 buttons[1].pressed ? theme.buttonDown : theme.buttonUps[1],
             );
-            this.updateNeoPixels();
+
+            // this.updateNeoPixels();
+            this.UpdateLeds();
             this.updatePins();
             this.updateTilt();
             // this.updateRedLED(); //no use for now
@@ -479,7 +481,7 @@ namespace pxsim.visuals {
             // this.updateLightLevel();
             // this.updateSoundLevel();
             // this.updateButtonAB();
-            // this.updateGestures();
+            this.updateGestures();
             // this.updateTemperature();
             //this.updateInfrared();
             // if (!runtime || runtime.dead)
@@ -532,6 +534,29 @@ namespace pxsim.visuals {
             }
         }
 
+        private UpdateLeds() {
+            const leds = this.board.ledState.getAllStates();
+            leds.forEach((state, i) => {
+                if (state.on) {
+                    this.makeLedGlow(
+                        this.element.getElementById(
+                            'LED' + state.pin,
+                        ) as SVGElement,
+                        state.color,
+                        5,
+                    );
+                } else {
+                    this.makeLedGlow(
+                        this.element.getElementById(
+                            'LED' + state.pin,
+                        ) as SVGElement,
+                        '#ffffff',
+                        0,
+                    );
+                }
+            });
+        }
+
         // private updateInfrared() {
         //     const state = this.board;
         //     if (!state) return;
@@ -558,49 +583,51 @@ namespace pxsim.visuals {
         //     // svg.fill(this.redLED, fillColor);
         // }
 
-        private updateNeoPixels() {
-            const state = this.board;
-            if (!state) return;
-            const neopixelState = state.tryGetNeopixelState(
-                state.defaultNeopixelPin().id,
-            );
-            if (!neopixelState) return;
-            const n = Math.min(10, neopixelState.length);
-            for (let i = 0; i < n; i++) {
-                let rgb = neopixelState.pixelColor(i);
-                let p_inner = this.element.getElementById(
-                    `LED${i}`,
-                ) as SVGPathElement;
-                if (!p_inner) continue;
+        // private updateNeoPixels() {
+        //     const state = this.board;
+        //     if (!state) return;
+        //     const neopixelState = state.tryGetNeopixelState(
+        //         state.defaultNeopixelPin().id,
+        //     );
+        //     if (!neopixelState) return;
+        //     const n = Math.min(10, neopixelState.length);
+        //     console.log('n', n);
+        //     for (let i = 0; i < n; i++) {
+        //         console.log('im here');
+        //         let rgb = neopixelState.pixelColor(i);
+        //         let p_inner = this.element.getElementById(
+        //             `LED${i}`,
+        //         ) as SVGPathElement;
+        //         if (!p_inner) continue;
 
-                if (
-                    !rgb ||
-                    (rgb.length == 3 &&
-                        rgb[0] == 0 &&
-                        rgb[1] == 0 &&
-                        rgb[2] == 0)
-                ) {
-                    // Clear the pixel
-                    svg.fill(p_inner, `rgb(200,200,200)`);
-                    svg.filter(p_inner, null);
-                    p_inner.style.stroke = `none`;
-                    continue;
-                }
+        //         if (
+        //             !rgb ||
+        //             (rgb.length == 3 &&
+        //                 rgb[0] == 0 &&
+        //                 rgb[1] == 0 &&
+        //                 rgb[2] == 0)
+        //         ) {
+        //             // Clear the pixel
+        //             svg.fill(p_inner, `rgb(200,200,200)`);
+        //             svg.filter(p_inner, null);
+        //             p_inner.style.stroke = `none`;
+        //             continue;
+        //         }
 
-                let hsl = visuals.rgbToHsl([rgb[0], rgb[1], rgb[2]]);
-                let [h, s, l] = hsl;
-                let lx = Math.max(l * 1.3, 85);
-                // at least 10% luminosity
-                l = (l * 90) / 100 + 10;
-                p_inner.style.stroke = `hsl(${h}, ${s}%, ${Math.min(
-                    l * 3,
-                    75,
-                )}%)`;
-                p_inner.style.strokeWidth = '1.5';
-                svg.fill(p_inner, `hsl(${h}, ${s}%, ${lx}%)`);
-                svg.filter(p_inner, `url(#neopixelglow)`);
-            }
-        }
+        //         let hsl = visuals.rgbToHsl([rgb[0], rgb[1], rgb[2]]);
+        //         let [h, s, l] = hsl;
+        //         let lx = Math.max(l * 1.3, 85);
+        //         // at least 10% luminosity
+        //         l = (l * 90) / 100 + 10;
+        //         p_inner.style.stroke = `hsl(${h}, ${s}%, ${Math.min(
+        //             l * 3,
+        //             75,
+        //         )}%)`;
+        //         p_inner.style.strokeWidth = '1.5';
+        //         svg.fill(p_inner, `hsl(${h}, ${s}%, ${lx}%)`);
+        //         svg.filter(p_inner, `url(#neopixelglow)`);
+        //     }
+        // }
 
         // no use for now
         // private updateSwitch() {
@@ -1024,69 +1051,69 @@ namespace pxsim.visuals {
         //     }
         // }
 
-        // private updateGestures() {
-        //     let state = this.board;
-        //     if (state.accelerometerState.useShake && !this.shakeButtonGroup) {
-        //         const btnr = 2;
-        //         const width = 22;
-        //         const height = 10;
+        private updateGestures() {
+            let state = this.board;
+            if (state.accelerometerState.useShake && !this.shakeButtonGroup) {
+                const btnr = 2;
+                const width = 22;
+                const height = 10;
 
-        //         let btng = svg.child(this.g, 'g', {
-        //             class: 'sim-button-group',
-        //         });
-        //         this.shakeButtonGroup = btng;
-        //         this.shakeText = svg.child(this.g, 'text', {
-        //             x: 81,
-        //             y: 32,
-        //             class: 'sim-text small',
-        //         }) as SVGTextElement;
-        //         this.shakeText.textContent = 'SHAKE';
+                let btng = svg.child(this.g, 'g', {
+                    class: 'sim-button-group',
+                });
+                this.shakeButtonGroup = btng;
+                this.shakeText = svg.child(this.g, 'text', {
+                    x: 81,
+                    y: 32,
+                    class: 'sim-text small',
+                }) as SVGTextElement;
+                this.shakeText.textContent = 'SHAKE';
 
-        //         svg.child(btng, 'rect', {
-        //             class: 'sim-button-outer',
-        //             x: 79,
-        //             y: 25,
-        //             rx: btnr,
-        //             ry: btnr,
-        //             width,
-        //             height,
-        //         });
-        //         svg.fill(btng, this.props.theme.gestureButtonOff);
-        //         pointerEvents.down.forEach(evid =>
-        //             this.shakeButtonGroup.addEventListener(evid, ev => {
-        //                 let state = this.board;
-        //                 svg.fill(btng, this.props.theme.gestureButtonOn);
-        //                 pxsim.U.addClass(this.shakeText, 'inverted');
-        //             }),
-        //         );
-        //         this.shakeButtonGroup.addEventListener(
-        //             pointerEvents.leave,
-        //             ev => {
-        //                 let state = this.board;
-        //                 svg.fill(btng, this.props.theme.gestureButtonOff);
-        //                 pxsim.U.removeClass(this.shakeText, 'inverted');
-        //             },
-        //         );
-        //         this.shakeButtonGroup.addEventListener(pointerEvents.up, ev => {
-        //             let state = this.board;
-        //             svg.fill(btng, this.props.theme.gestureButtonOff);
-        //             this.board.bus.queue(DAL.DEVICE_ID_GESTURE, 11); // GESTURE_SHAKE
-        //             pxsim.U.removeClass(this.shakeText, 'inverted');
-        //         });
-        //         accessibility.makeFocusable(this.shakeButtonGroup);
-        //         accessibility.enableKeyboardInteraction(
-        //             this.shakeButtonGroup,
-        //             () => {
-        //                 this.board.bus.queue(DAL.DEVICE_ID_GESTURE, 11);
-        //             },
-        //         );
-        //         accessibility.setAria(
-        //             this.shakeButtonGroup,
-        //             'button',
-        //             'Shake the board',
-        //         );
-        //     }
-        // }
+                svg.child(btng, 'rect', {
+                    class: 'sim-button-outer',
+                    x: 79,
+                    y: 25,
+                    rx: btnr,
+                    ry: btnr,
+                    width,
+                    height,
+                });
+                svg.fill(btng, this.props.theme.gestureButtonOff);
+                pointerEvents.down.forEach(evid =>
+                    this.shakeButtonGroup.addEventListener(evid, ev => {
+                        let state = this.board;
+                        svg.fill(btng, this.props.theme.gestureButtonOn);
+                        pxsim.U.addClass(this.shakeText, 'inverted');
+                    }),
+                );
+                this.shakeButtonGroup.addEventListener(
+                    pointerEvents.leave,
+                    ev => {
+                        let state = this.board;
+                        svg.fill(btng, this.props.theme.gestureButtonOff);
+                        pxsim.U.removeClass(this.shakeText, 'inverted');
+                    },
+                );
+                this.shakeButtonGroup.addEventListener(pointerEvents.up, ev => {
+                    let state = this.board;
+                    svg.fill(btng, this.props.theme.gestureButtonOff);
+                    this.board.bus.queue(DAL.DEVICE_ID_GESTURE, 11); // GESTURE_SHAKE
+                    pxsim.U.removeClass(this.shakeText, 'inverted');
+                });
+                accessibility.makeFocusable(this.shakeButtonGroup);
+                accessibility.enableKeyboardInteraction(
+                    this.shakeButtonGroup,
+                    () => {
+                        this.board.bus.queue(DAL.DEVICE_ID_GESTURE, 11);
+                    },
+                );
+                accessibility.setAria(
+                    this.shakeButtonGroup,
+                    'button',
+                    'Shake the board',
+                );
+            }
+        }
 
         private updateTilt() {
             if (this.props.disableTilt) return;
@@ -1132,8 +1159,9 @@ namespace pxsim.visuals {
             this.element.appendChild(this.g);
 
             this.pinControls = {};
+            // this.buildNeoPixels();
             this.buildPins();
-            this.buildLed();
+            // this.buildLed();
             this.buildBtn();
             this.buildJoystick();
             this.buildLcdScreen();
@@ -1158,33 +1186,51 @@ namespace pxsim.visuals {
             // (<any>this.buttons[2]).style.visibility = 'hidden';
         }
 
-        private buildLed() {
-            const ledids = ['1', '2', '3', '4', '5', '6'];
+        // private buildNeoPixels() {
+        //     let glow = svg.child(this.defs, 'filter', {
+        //         id: 'filterglow',
+        //         x: '-5%',
+        //         y: '-5%',
+        //         width: '120%',
+        //         height: '120%',
+        //     });
+        //     svg.child(glow, 'feGaussianBlur', {
+        //         stdDeviation: '5',
+        //         result: 'glow',
+        //     });
+        //     let merge = svg.child(glow, 'feMerge', {});
+        //     for (let i = 0; i < 3; ++i)
+        //         svg.child(merge, 'feMergeNode', { in: 'glow' });
 
-            this.leds = ledids.map(n => {
-                let led = this.element.getElementById('LED' + n) as SVGElement;
-                let label = 'LED' + n;
-                accessibility.setAria(led, 'LED', label);
-                return led;
-            });
+        //     let neopixelglow = svg.child(this.defs, 'filter', {
+        //         id: 'neopixelglow',
+        //         x: '-300%',
+        //         y: '-300%',
+        //         width: '600%',
+        //         height: '600%',
+        //     });
+        //     svg.child(neopixelglow, 'feGaussianBlur', {
+        //         stdDeviation: '4.3',
+        //         result: 'coloredBlur',
+        //     });
+        //     let neopixelmerge = svg.child(neopixelglow, 'feMerge', {});
+        //     svg.child(neopixelmerge, 'feMergeNode', { in: 'coloredBlur' });
+        //     svg.child(neopixelmerge, 'feMergeNode', { in: 'coloredBlur' });
+        //     svg.child(neopixelmerge, 'feMergeNode', { in: 'SourceGraphic' });
 
-            // à supprimer
-            this.leds.forEach(n => {
-                const randomColor = `#${Math.floor(Math.random() * 0xffffff)
-                    .toString(16)
-                    .padStart(6, '0')}`;
-                const randomIntensity = Math.floor(Math.random() * 5) + 1;
-                this.makeLedGlow(n, randomColor, randomIntensity);
-                console.log(
-                    'Led : ' +
-                        n.id +
-                        ' | color : ' +
-                        randomColor +
-                        ' | intensity : ' +
-                        randomIntensity,
-                );
-            });
-        }
+        //     const neopixelState = (board() as any as LightBoard).neopixelState;
+        //     if (neopixelState) {
+        //         for (let i = 1; i <= neopixelState.length; i++) {
+        //             // let p_outer = svg.title(this.element.getElementById(`LED${i}_OUTER`) as SVGPathElement, "NeoPixel " + i);
+        //             let p_inner = svg.title(
+        //                 this.element.getElementById(
+        //                     `LED${i}`,
+        //                 ) as SVGPathElement,
+        //                 'NeoPixel ' + i,
+        //             );
+        //         }
+        //     }
+        // }
 
         private makeLedGlow(led: SVGElement, color: string, intensity: number) {
             const filterId = `glow-${color.replace('#', '')}-${intensity}`;
@@ -1300,7 +1346,7 @@ namespace pxsim.visuals {
                 isDragging = true;
                 startX = e.clientX;
                 startY = e.clientY;
-                joystickCircle.style.fill = 'orange';
+                joystickStick.style.fill = 'orange';
             });
 
             document.addEventListener('mousemove', (e: MouseEvent) => {
@@ -1342,7 +1388,7 @@ namespace pxsim.visuals {
                 if (!isDragging) return;
                 isDragging = false;
                 joystickStick.setAttribute('transform', 'translate(0, 0)');
-                joystickCircle.style.fill = 'black';
+                joystickStick.style.fill = 'black';
             });
         }
 

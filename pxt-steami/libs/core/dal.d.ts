@@ -698,8 +698,6 @@ declare const enum DAL {
     CREATE_ONLY = 0,
     CREATE_AND_FIRE = 1,
     DEVICE_EVENT_DEFAULT_LAUNCH_MODE = 1,
-    // /libraries/codal-core/inc/types/ManagedBuffer.h
-    Zero = 1,
     // /libraries/codal-core/inc/types/RefCounted.h
     REF_TAG_STRING = 1,
     REF_TAG_BUFFER = 2,

@@ -9,14 +9,14 @@ const enum NeoPixelMode {
     //% block="RGB (RGB format)"
     RGB_RGB = 3,
     //% block="APA102"
-    APA102 = 4
+    APA102 = 4,
 }
 
 const enum LightMove {
     //% block="rotate"
     Rotate,
     //% block="shift"
-    Shift
+    Shift,
 }
 
 /**
@@ -30,7 +30,7 @@ const enum PhotonMode {
     //% block="eraser"
     Eraser,
     //% block="off"
-    Off
+    Off,
 }
 
 const enum LightAnimation {
@@ -51,7 +51,7 @@ const enum LightAnimation {
     TheaterChase,
     //% blockImage=1
     //% block="color wipe"
-    ColorWipe
+    ColorWipe,
 }
 
 /**
@@ -111,8 +111,7 @@ namespace light {
          */
         get buf(): Buffer {
             if (this._parent) return this._parent.buf;
-            if (!this._buf)
-                this.reallocateBuffer();
+            if (!this._buf) this.reallocateBuffer();
             return this._buf;
         }
 
@@ -121,7 +120,11 @@ namespace light {
             if (!this._brightnessBuf) {
                 const b = this.buf; // force allocate buffer
                 this._brightnessBuf = control.createBuffer(this._length);
-                this._brightnessBuf.fill(this._brightness, 0, this._brightnessBuf.length);
+                this._brightnessBuf.fill(
+                    this._brightness,
+                    0,
+                    this._brightnessBuf.length
+                );
             }
             return this._brightnessBuf;
         }
@@ -150,7 +153,7 @@ namespace light {
             const end = this._start + this._length;
             const stride = this.stride();
             for (let i = this._start; i < end; ++i) {
-                this.setBufferRGB(i * stride, red, green, blue)
+                this.setBufferRGB(i * stride, red, green, blue);
             }
             this.autoShow();
         }
@@ -202,8 +205,10 @@ namespace light {
             const now = control.millis();
             if (high > 0) {
                 this._barGraphHigh = high;
-            }
-            else if (value > this._barGraphHigh || now - this._barGraphHighLast > 10000) {
+            } else if (
+                value > this._barGraphHigh ||
+                now - this._barGraphHighLast > 10000
+            ) {
                 this._barGraphHigh = value;
                 this._barGraphHighLast = now;
             }
@@ -220,14 +225,13 @@ namespace light {
                 for (let i = 0; i < n; ++i) {
                     if (i + 1 <= v) {
                         if (i < nhalf) {
-                            const b = (i * 255 / nhalf) >> 0;
+                            const b = ((i * 255) / nhalf) >> 0;
                             this.setPixelColor(i, light.rgb(0, b, 255 - b));
                         } else {
-                            const b = ((i - nhalf) * 255 / nhalf) >> 0;
+                            const b = (((i - nhalf) * 255) / nhalf) >> 0;
                             this.setPixelColor(i, light.rgb(b, 255 - b, 0));
                         }
-                    }
-                    else {
+                    } else {
                         this.setPixelColor(i, 0);
                     }
                 }
@@ -250,16 +254,14 @@ namespace light {
             pixeloffset = pixeloffset | 0;
             c = c | 0;
 
-            if (pixeloffset < 0
-                || pixeloffset >= this._length)
-                return;
+            if (pixeloffset < 0 || pixeloffset >= this._length) return;
 
             const stride = this.stride();
             pixeloffset = (pixeloffset + this._start) * stride;
             const red = color.unpackR(c);
             const green = color.unpackG(c);
             const blue = color.unpackB(c);
-            this.setBufferRGB(pixeloffset, red, green, blue)
+            this.setBufferRGB(pixeloffset, red, green, blue);
             this.autoShow();
         }
 
@@ -273,15 +275,16 @@ namespace light {
         //% group="More" advanced=true
         pixelColor(pixeloffset: number): number {
             pixeloffset = pixeloffset | 0;
-            if (pixeloffset < 0
-                || pixeloffset >= this._length) {
+            if (pixeloffset < 0 || pixeloffset >= this._length) {
                 return 0;
             }
 
             const stride = this.stride();
             const offset = (pixeloffset + this._start) * stride;
             const b = this.buf;
-            let red = 0, green = 0, blue = 0;
+            let red = 0,
+                green = 0,
+                blue = 0;
             switch (this._mode) {
                 case NeoPixelMode.RGB_RGB:
                     red = this.buf[offset + 0];
@@ -317,9 +320,7 @@ namespace light {
             if (this._mode != NeoPixelMode.RGBW) return;
 
             pixeloffset = pixeloffset | 0;
-            if (pixeloffset < 0
-                || pixeloffset >= this._length)
-                return;
+            if (pixeloffset < 0 || pixeloffset >= this._length) return;
 
             pixeloffset = (pixeloffset + this._start) * 4;
             white = white & 0xff;
@@ -341,16 +342,26 @@ namespace light {
                 const b = this.buf;
 
                 // fast path: no processing
-                if (this._brightness == 0xff && !this._brightnessBuf && !this._photonPenColor) {
+                if (
+                    this._brightness == 0xff &&
+                    !this._brightnessBuf &&
+                    !this._photonPenColor
+                ) {
                     // no need to process buffer
-                    light.sendBuffer(this._dataPin, this._clkPin, this._mode, b);
+                    light.sendBuffer(
+                        this._dataPin,
+                        this._clkPin,
+                        this._mode,
+                        b
+                    );
                     return;
                 }
 
                 // bb may be undefined if the brightness
                 // is uniform over the strip and has not been allocated
                 const _bb = this._brightnessBuf;
-                if (!this._sendBuf) this._sendBuf = control.createBuffer(b.length);
+                if (!this._sendBuf)
+                    this._sendBuf = control.createBuffer(b.length);
                 const sb = this._sendBuf;
                 const stride = this.stride();
                 const strideOffset = this._mode == NeoPixelMode.APA102 ? 1 : 0;
@@ -360,11 +371,19 @@ namespace light {
                     for (let j = 0; j < strideOffset; ++j)
                         sb[offset + j] = 0xff;
                     for (let j = strideOffset; j < stride; ++j)
-                        sb[offset + j] = (b[offset + j] * (_bb ? _bb[i] : this._brightness)) >> 8;
+                        sb[offset + j] =
+                            (b[offset + j] *
+                                (_bb ? _bb[i] : this._brightness)) >>
+                            8;
                 }
                 // apply photon
                 this.drawPhoton(sb, stride);
-                //console.log(`${!!this._dataPin} ${!!this._clkPin} ${this.mode} hex${sb.toHex()}`)
+                // console.log(
+                //     `${!!this._dataPin} ${!!this._clkPin} ${
+                //         this.mode
+                //     } hex${sb.toHex()}`
+                // );
+                // console.log("light.sendBuffer not implemented");
                 light.sendBuffer(this._dataPin, this._clkPin, this._mode, sb);
             }
         }
@@ -378,12 +397,10 @@ namespace light {
                 let c = Math.max(128, this._brightness);
                 let dc = (c - 32) / tailn;
                 for (let bi = 0; bi < tailn && c > 0; ++bi) {
-                    if (this._mode == NeoPixelMode.RGBW)
-                        sb[pi + 3] = c;
+                    if (this._mode == NeoPixelMode.RGBW) sb[pi + 3] = c;
                     else if (this._mode == NeoPixelMode.APA102)
                         sb[pi + 1] = sb[pi + 2] = sb[pi + 3] = c;
-                    else
-                        sb[pi] = sb[pi + 1] = sb[pi + 2] = c;
+                    else sb[pi] = sb[pi + 1] = sb[pi + 2] = c;
 
                     c -= dc;
                     pi += (-this._photonDir * stride) % sb.length;
@@ -430,22 +447,25 @@ namespace light {
             if (b != this._brightness || this._brightnessBuf) {
                 this._brightness = b;
                 // if this is a top level strip clear any existing brightness buffer
-                if (!this._parent)
-                    this._brightnessBuf = undefined;
+                if (!this._parent) this._brightnessBuf = undefined;
                 // if this is a NOT top-level strip or if brightness buff has been allocated,
                 else if (this._parent || this._brightnessBuf)
-                    this.brightnessBuf.fill(this._brightness, this._start, this._length);
+                    this.brightnessBuf.fill(
+                        this._brightness,
+                        this._start,
+                        this._length
+                    );
                 this.autoShow();
             }
         }
 
         /**
          * Sets an individual pixel brightness
-         * @param index 
-         * @param brightness 
+         * @param index
+         * @param brightness
          */
         setPixelBrightness(index: number, brightness: number): void {
-            const i = (index | 0);
+            const i = index | 0;
             if (i < 0 || i > this._length) return;
 
             const b = Math.max(0, Math.min(0xff, brightness | 0));
@@ -488,7 +508,11 @@ namespace light {
             strip._clkPin = this._clkPin;
             strip._brightness = this._brightness;
             strip._start = this._start + Math.clamp(0, this._length - 1, start);
-            strip._length = Math.clamp(0, this._length - (strip._start - this._start), length);
+            strip._length = Math.clamp(
+                0,
+                this._length - (strip._start - this._start),
+                length
+            );
             return strip;
         }
 
@@ -506,16 +530,26 @@ namespace light {
 
             const stride = this.stride();
             if (kind === LightMove.Shift) {
-                this.buf.shift(-offset * stride, this._start * stride, this._length * stride)
-            }
-            else {
-                this.buf.rotate(-offset * stride, this._start * stride, this._length * stride)
+                this.buf.shift(
+                    -offset * stride,
+                    this._start * stride,
+                    this._length * stride
+                );
+            } else {
+                this.buf.rotate(
+                    -offset * stride,
+                    this._start * stride,
+                    this._length * stride
+                );
             }
             this.autoShow();
         }
 
         private stride(): number {
-            return this._mode === NeoPixelMode.RGBW || this._mode == NeoPixelMode.APA102 ? 4 : 3;
+            return this._mode === NeoPixelMode.RGBW ||
+                this._mode == NeoPixelMode.APA102
+                ? 4
+                : 3;
         }
 
         initPhoton() {
@@ -642,8 +676,8 @@ namespace light {
 
         /**
          * Starts a brightness transition on the strip (and cancels any other running transition)
-         * @param transition 
-         * @param duration 
+         * @param transition
+         * @param duration
          */
         startBrightnessTransition(
             startBrightness: number,
@@ -653,13 +687,15 @@ namespace light {
             yoyo?: boolean,
             transition?: BrightnessTransition
         ) {
-            const player = this._transitionPlayer = new BrightnessTransitionPlayer(
-                transition || new EasingBrightnessTransition(undefined),
-                startBrightness,
-                endBrightness,
-                duration,
-                repeat,
-                yoyo);
+            const player = (this._transitionPlayer =
+                new BrightnessTransitionPlayer(
+                    transition || new EasingBrightnessTransition(undefined),
+                    startBrightness,
+                    endBrightness,
+                    duration,
+                    repeat,
+                    yoyo
+                ));
             control.runInBackground(() => {
                 while (player == this._transitionPlayer) {
                     const buf = this.buffered();
@@ -713,9 +749,7 @@ namespace light {
                 this.setBuffered(buf);
                 this.show();
                 pause(1);
-                return duration > 0
-                    ? now <= duration
-                    : keepRendering;
+                return duration > 0 ? now <= duration : keepRendering;
             };
             this.queueAnimation(render);
         }
@@ -737,7 +771,8 @@ namespace light {
             let renderer = this._lastAnimationRenderer;
             if (!renderer || this._lastAnimation != animation) {
                 this._lastAnimation = animation;
-                renderer = this._lastAnimationRenderer = animation.createRenderer(this);
+                renderer = this._lastAnimationRenderer =
+                    animation.createRenderer(this);
             }
             if (renderer) {
                 const buf = this.buffered();
@@ -763,12 +798,12 @@ namespace light {
 
                 while (i < leds.length) {
                     const currChar = leds.charAt(i++);
-                    const isSpace = currChar == ' ' || currChar == '\n' || currChar == '\r';
-                    if (!isSpace)
-                        tempColor += currChar;
+                    const isSpace =
+                        currChar == " " || currChar == "\n" || currChar == "\r";
+                    if (!isSpace) tempColor += currChar;
 
                     if ((isSpace || i == leds.length) && tempColor) {
-                        this.setPixelColor(pi++, color.parseColor(tempColor))
+                        this.setPixelColor(pi++, color.parseColor(tempColor));
                         tempColor = "";
                         if (pi == n) {
                             this.show();
@@ -841,8 +876,7 @@ namespace light {
         //% weight=1 blockGap=8
         //% group="Configuration" advanced=true
         setMode(mode: NeoPixelMode): void {
-            if (this._parent)
-                this._parent.setMode(mode);
+            if (this._parent) this._parent.setMode(mode);
             else if (this._mode != mode) {
                 this._mode = mode;
                 this.reallocateBuffer();
@@ -851,7 +885,7 @@ namespace light {
 
         /**
          * Sets the number of LEDs on a strip
-         * @param numleds 
+         * @param numleds
          */
         //% blockId=light_set_length block="set %strip length to %length pixels"
         //% weight=1 blockGap=8
@@ -862,7 +896,10 @@ namespace light {
             // lazy update
             if (n != this._length) {
                 if (this._parent)
-                    this._length = Math.min(n, this._parent.length() - this._start);
+                    this._length = Math.min(
+                        n,
+                        this._parent.length() - this._start
+                    );
                 else {
                     this._length = n;
                     this.reallocateBuffer();
@@ -877,7 +914,12 @@ namespace light {
             }
         }
 
-        private setBufferRGB(offset: number, red: number, green: number, blue: number): void {
+        private setBufferRGB(
+            offset: number,
+            red: number,
+            green: number,
+            blue: number
+        ): void {
             const b = this.buf;
             // https://cdn-shop.adafruit.com/datasheets/APA102.pdf
             switch (this._mode) {
@@ -1162,15 +1204,18 @@ namespace light {
         numleds: number = 10,
         mode?: NeoPixelMode
     ): NeoPixelStrip {
-        if (!mode)
-            mode = NeoPixelMode.RGB;
+        if (!mode) mode = NeoPixelMode.RGB;
 
         const strip = new NeoPixelStrip();
         strip._mode = mode;
         strip._length = Math.max(0, numleds | 0);
         strip._dataPin = pin;
-        if (strip._dataPin) // board with no-board LEDs won't have a default pin
-            strip._dataPin.digitalWrite(false);
+        if (strip._dataPin)
+            // board with no-board LEDs won't have a default pin
+            console.log(
+                "strip._dataPin.digitalWrite(false) -> not implemented"
+            );
+        strip._dataPin.digitalWrite(false);
         return strip;
     }
 
@@ -1190,7 +1235,7 @@ namespace light {
 
     /**
      * Get the RGB value of a known color
-    */
+     */
     //% blockId=neopixel_colors block="%color"
     //% help="light/colors"
     //% shim=TD_ID
@@ -1210,7 +1255,11 @@ namespace light {
     //% hue.min=0 hue.max=255 sat.min=0 sat.max=255 val.min=0 val.max=255
     //% help="light/hsv"
     //% group="Color" weight=17
-    export function hsv(hue: number, sat: number = 255, val: number = 255): number {
+    export function hsv(
+        hue: number,
+        sat: number = 255,
+        val: number = 255
+    ): number {
         return color.hsv(hue, sat, val);
     }
 
@@ -1233,7 +1282,7 @@ namespace light {
      */
     //% fixedInstances
     export class NeoPixelAnimation {
-        constructor() { }
+        constructor() {}
 
         /**
          * Creates an animator instance
@@ -1256,7 +1305,14 @@ namespace light {
             let hueOffset = 0;
             return () => {
                 for (let i = 0; i < n; i++) {
-                    strip.setPixelColor(i, color.hsv(((i * 256) / (n - 1) + hueOffset) % 0xff, 0xff, 0xff));
+                    strip.setPixelColor(
+                        i,
+                        color.hsv(
+                            ((i * 256) / (n - 1) + hueOffset) % 0xff,
+                            0xff,
+                            0xff
+                        )
+                    );
                 }
                 hueOffset += Math.ceil(128 / n);
                 if (hueOffset >= 0xff) {
@@ -1265,12 +1321,13 @@ namespace light {
                 } else {
                     return true;
                 }
-            }
+            };
         }
     }
 
     //% fixedInstance block="rainbow" whenUsed jres blockIdentity="light._animationPicker"
-    export const rainbowAnimation: NeoPixelAnimation = new RainbowCycleAnimation(50);
+    export const rainbowAnimation: NeoPixelAnimation =
+        new RainbowCycleAnimation(50);
 
     export class RunningLightsAnimation extends NeoPixelAnimation {
         public red: number;
@@ -1295,8 +1352,15 @@ namespace light {
                 if (iteration < l * 2) {
                     step++;
                     for (let i = 0; i < l; i++) {
-                        const level = (Math.isin(i + step) * 127) + 128;
-                        strip.setPixelColor(i, color.rgb(level * this.red / 255, level * this.green / 255, level * this.blue / 255));
+                        const level = Math.isin(i + step) * 127 + 128;
+                        strip.setPixelColor(
+                            i,
+                            color.rgb(
+                                (level * this.red) / 255,
+                                (level * this.green) / 255,
+                                (level * this.blue) / 255
+                            )
+                        );
                     }
                     iteration++;
                     return true;
@@ -1305,12 +1369,13 @@ namespace light {
                     iteration = 0;
                     return false;
                 }
-            }
+            };
         }
     }
 
     //% fixedInstance block="running lights" jres blockIdentity="light._animationPicker"
-    export const runningLightsAnimation: NeoPixelAnimation = new RunningLightsAnimation(0xff, 0, 0, 50);
+    export const runningLightsAnimation: NeoPixelAnimation =
+        new RunningLightsAnimation(0xff, 0, 0, 50);
 
     class CometAnimation extends NeoPixelAnimation {
         public red: number;
@@ -1337,8 +1402,11 @@ namespace light {
             }
             return () => {
                 for (let i = 0; i < l; i++) {
-                    offsets[i] = (offsets[i] + (step * 2)) % 255
-                    strip.setPixelColor(i, color.rgb(255 - offsets[i], this.green, this.blue));
+                    offsets[i] = (offsets[i] + step * 2) % 255;
+                    strip.setPixelColor(
+                        i,
+                        color.rgb(255 - offsets[i], this.green, this.blue)
+                    );
                 }
                 step++;
                 if (step * 2 > 0xff) {
@@ -1346,12 +1414,17 @@ namespace light {
                     return false;
                 }
                 return true;
-            }
+            };
         }
     }
 
     //% fixedInstance block="comet" jres blockIdentity="light._animationPicker"
-    export const cometAnimation: NeoPixelAnimation = new CometAnimation(0xff, 0, 0xff, 50);
+    export const cometAnimation: NeoPixelAnimation = new CometAnimation(
+        0xff,
+        0,
+        0xff,
+        50
+    );
 
     export class SparkleAnimation extends NeoPixelAnimation {
         public rgb: number;
@@ -1369,13 +1442,11 @@ namespace light {
             let pixel = -1;
             let pixelColor = 0;
             return () => {
-                if (count == 0)
-                    strip.clear();
+                if (count == 0) strip.clear();
                 if (pixel < 0) {
                     pixel = Math.randomRange(0, l - 1);
                     pixelColor = strip.pixelColor(pixel);
                     strip.setPixelColor(pixel, this.rgb);
-
                 } else {
                     strip.setPixelColor(pixel, pixelColor);
                     pixel = -1;
@@ -1387,12 +1458,17 @@ namespace light {
                 } else {
                     return true;
                 }
-            }
+            };
         }
     }
 
     //% fixedInstance block="sparkle" jres blockIdentity="light._animationPicker"
-    export const sparkleAnimation: NeoPixelAnimation = new SparkleAnimation(0xff, 0xff, 0xff, 50);
+    export const sparkleAnimation: NeoPixelAnimation = new SparkleAnimation(
+        0xff,
+        0xff,
+        0xff,
+        50
+    );
 
     class ColorWipeAnimation extends NeoPixelAnimation {
         public rgb: number;
@@ -1419,16 +1495,18 @@ namespace light {
                 } else {
                     reveal = !reveal;
                     i = 0;
-                    if (reveal)
-                        return false;
+                    if (reveal) return false;
                 }
                 return true;
-            }
+            };
         }
     }
 
     //% fixedInstance block="color wipe" jres blockIdentity="light._animationPicker"
-    export const colorWipeAnimation: NeoPixelAnimation = new ColorWipeAnimation(0x0000ff, 50);
+    export const colorWipeAnimation: NeoPixelAnimation = new ColorWipeAnimation(
+        0x0000ff,
+        50
+    );
 
     class TheatreChaseAnimation extends NeoPixelAnimation {
         public rgb: number;
@@ -1446,14 +1524,14 @@ namespace light {
             let q = 0;
             let on = false;
             return () => {
-                if (j < 10) { // 10 cycles of chasing
+                if (j < 10) {
+                    // 10 cycles of chasing
                     if (q < 3) {
                         if (on) {
                             for (let i = 0; i < l; i = i + 3) {
                                 strip.setPixelColor(i + q, this.rgb); // every third pixel on
                             }
-                        }
-                        else {
+                        } else {
                             for (let i = 0; i < l; i = i + 3) {
                                 strip.setPixelColor(i + q, 0); // every third pixel off
                             }
@@ -1469,12 +1547,13 @@ namespace light {
                     return false;
                 }
                 return true;
-            }
+            };
         }
     }
 
     //% fixedInstance block="theater chase" jres blockIdentity="light._animationPicker"
-    export const theaterChaseAnimation: NeoPixelAnimation = new TheatreChaseAnimation(0xff, 0, 0, 50);
+    export const theaterChaseAnimation: NeoPixelAnimation =
+        new TheatreChaseAnimation(0xff, 0, 0, 50);
 
     /**
      * An animation that can be shown on a light strip
@@ -1485,14 +1564,16 @@ namespace light {
     //% animation.fieldOptions.columns=3
     //% weight=0
     //% group="More"
-    export function _animationPicker(animation: NeoPixelAnimation): NeoPixelAnimation {
+    export function _animationPicker(
+        animation: NeoPixelAnimation
+    ): NeoPixelAnimation {
         return animation;
     }
 
     /**
-  * Get the light length picker
-  * @param pixels number of LEDs
-  */
+     * Get the light length picker
+     * @param pixels number of LEDs
+     */
     //% blockId=lightLengthPicker block="%pixels"
     //% blockHidden=true shim=TD_ID
     //% colorSecondary="#FFFFFF"

@@ -56,16 +56,10 @@
                 "part": true
             },
             {
-                "pinIndices": [
-                    0,
-                    1
-                ]
+                "pinIndices": [0, 1]
             },
             {
-                "pinIndices": [
-                    2,
-                    3
-                ]
+                "pinIndices": [2, 3]
             }
         ]
     },
@@ -126,15 +120,10 @@
         "assembly": [
             {
                 "part": true,
-                "pinIndices": [
-                    2
-                ]
+                "pinIndices": [2]
             },
             {
-                "pinIndices": [
-                    0,
-                    1
-                ]
+                "pinIndices": [0, 1]
             }
         ]
     },
@@ -196,15 +185,10 @@
         "assembly": [
             {
                 "part": true,
-                "pinIndices": [
-                    2
-                ]
+                "pinIndices": [2]
             },
             {
-                "pinIndices": [
-                    0,
-                    1
-                ]
+                "pinIndices": [0, 1]
             }
         ]
     },
@@ -329,22 +313,10 @@
                 "part": true
             },
             {
-                "pinIndices": [
-                    0,
-                    1,
-                    2,
-                    3,
-                    4
-                ]
+                "pinIndices": [0, 1, 2, 3, 4]
             },
             {
-                "pinIndices": [
-                    5,
-                    6,
-                    7,
-                    8,
-                    9
-                ]
+                "pinIndices": [5, 6, 7, 8, 9]
             }
         ]
     },
@@ -384,14 +356,10 @@
         "assembly": [
             {
                 "part": true,
-                "pinIndices": [
-                    0
-                ]
+                "pinIndices": [0]
             },
             {
-                "pinIndices": [
-                    1
-                ]
+                "pinIndices": [1]
             }
         ]
     },
@@ -431,14 +399,10 @@
         "assembly": [
             {
                 "part": true,
-                "pinIndices": [
-                    0
-                ]
+                "pinIndices": [0]
             },
             {
-                "pinIndices": [
-                    1
-                ]
+                "pinIndices": [1]
             }
         ]
     }
