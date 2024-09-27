@@ -5,7 +5,14 @@
     "title": "MakeCode for STeaMi",
     "description": "A Blocks / JavaScript code editor for the STeaMi:bit powered by Microsoft MakeCode.",
     "corepkg": "core",
-    "bundleddirs": ["libs/core", "libs/leds"],
+    "bundleddirs": [
+        "libs/core",
+        "libs/leds",
+        "libs/buttons",
+        "libs/accelerometer",
+        "libs/lightsensor",
+        "libs/thermometer"
+    ],
     "cloud": {
         "workspace": false,
         "packages": true,

@@ -47,26 +47,20 @@ namespace pxsim {
         implements
             AccelerometerBoard,
             LightSensorBoard,
-            MusicBoard,
-            SlideSwitchBoard,
             TemperatureBoard,
-            InfraredBoard,
             CapTouchBoard,
             StorageBoard,
             LedBoard
     {
         // state & update logic for component services
         buttonState: CommonButtonState;
-        slideSwitchState: SlideSwitchState;
         lightSensorState: AnalogSensorState;
         thermometerState: AnalogSensorState;
         thermometerUnitState: number;
         edgeConnectorState: EdgeConnectorState;
         capacitiveSensorState: CapacitiveSensorState;
         accelerometerState: AccelerometerState;
-        audioState: AudioState;
         touchButtonState: TouchButtonState;
-        irState: InfraredState;
         storageState: StorageState;
 
         ledState: LedState;
@@ -92,9 +86,6 @@ namespace pxsim {
             this.builtinParts['buttonpair'] = this.buttonState =
                 new CommonButtonState();
 
-            this.builtinParts['switch'] = this.slideSwitchState =
-                new SlideSwitchState();
-            this.builtinParts['audio'] = this.audioState = new AudioState();
             this.builtinParts['lightsensor'] = this.lightSensorState =
                 new AnalogSensorState(DAL.DEVICE_ID_LIGHT_SENSOR, 0, 255);
             this.builtinParts['thermometer'] = this.thermometerState =
@@ -167,10 +158,6 @@ namespace pxsim {
                     // TODO
                     break;
                 }
-                case 'irpacket':
-                    let irpacket = <SimulatorInfraredPacketMessage>msg;
-                    this.irState.receive(irpacket.packet);
-                    break;
             }
         }
 

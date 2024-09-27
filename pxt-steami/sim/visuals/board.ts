@@ -471,22 +471,15 @@ namespace pxsim.visuals {
                 buttons[1].pressed ? theme.buttonDown : theme.buttonUps[1],
             );
 
-            // this.updateNeoPixels();
             this.UpdateLeds();
             this.updatePins();
             this.updateTilt();
-            // this.updateRedLED(); //no use for now
-            // this.updateSwitch(); // no use for now
-            // this.updateSound();
-            // this.updateLightLevel();
-            // this.updateSoundLevel();
-            // this.updateButtonAB();
+            this.updateLightLevel();
             this.updateGestures();
-            // this.updateTemperature();
-            //this.updateInfrared();
-            // if (!runtime || runtime.dead)
-            //     pxsim.U.addClass(this.element, 'grayscale');
-            // else pxsim.U.removeClass(this.element, 'grayscale');
+            this.updateTemperature();
+            if (!runtime || runtime.dead)
+                pxsim.U.addClass(this.element, 'grayscale');
+            else pxsim.U.removeClass(this.element, 'grayscale');
         }
 
         private lastFlashTime: number = 0;
@@ -508,18 +501,18 @@ namespace pxsim.visuals {
             }
         }
 
-        // private lastIrReceiverFlash: number = 0;
-        // public flashIrReceiver() {
-        //     if (!this.irReceiver)
-        //         this.irReceiver = this.element.getElementById(
-        //             'path2054',
-        //         ) as SVGElement;
-        //     let now = Date.now();
-        //     if (now - this.lastIrReceiverFlash > 200) {
-        //         this.lastIrReceiverFlash = now;
-        //         svg.animate(this.irReceiver, 'sim-flash-stroke');
-        //     }
-        // }
+        private lastIrReceiverFlash: number = 0;
+        public flashIrReceiver() {
+            if (!this.irReceiver)
+                this.irReceiver = this.element.getElementById(
+                    'path2054',
+                ) as SVGElement;
+            let now = Date.now();
+            if (now - this.lastIrReceiverFlash > 200) {
+                this.lastIrReceiverFlash = now;
+                svg.animate(this.irReceiver, 'sim-flash-stroke');
+            }
+        }
 
         private lastIrTransmitterFlash: number = 0;
         public flashIrTransmitter() {
@@ -556,160 +549,6 @@ namespace pxsim.visuals {
                 }
             });
         }
-
-        // private updateInfrared() {
-        //     const state = this.board;
-        //     if (!state) return;
-
-        //     if (state.irState.packetReceived) {
-        //         state.irState.packetReceived = false;
-        //         this.flashIrReceiver();
-        //     }
-        // }
-
-        // no use for now
-        // private updateRedLED() {
-        //     let state = this.board;
-        //     if (!state) return;
-        //     const ledPin = state.edgeConnectorState.getPin(
-        //         pxsim.CPlayPinName.D13,
-        //     );
-        //     // let ledOn = ledPin.value > 0;
-        //     // if (!this.redLED)
-        //     //     this.redLED = this.element.getElementById(
-        //     //         'SERIAL_LED',
-        //     //     ) as SVGRectEle   ment;
-        //     // let fillColor = ledOn ? '#FF0000' : '#000000';
-        //     // svg.fill(this.redLED, fillColor);
-        // }
-
-        // private updateNeoPixels() {
-        //     const state = this.board;
-        //     if (!state) return;
-        //     const neopixelState = state.tryGetNeopixelState(
-        //         state.defaultNeopixelPin().id,
-        //     );
-        //     if (!neopixelState) return;
-        //     const n = Math.min(10, neopixelState.length);
-        //     console.log('n', n);
-        //     for (let i = 0; i < n; i++) {
-        //         console.log('im here');
-        //         let rgb = neopixelState.pixelColor(i);
-        //         let p_inner = this.element.getElementById(
-        //             `LED${i}`,
-        //         ) as SVGPathElement;
-        //         if (!p_inner) continue;
-
-        //         if (
-        //             !rgb ||
-        //             (rgb.length == 3 &&
-        //                 rgb[0] == 0 &&
-        //                 rgb[1] == 0 &&
-        //                 rgb[2] == 0)
-        //         ) {
-        //             // Clear the pixel
-        //             svg.fill(p_inner, `rgb(200,200,200)`);
-        //             svg.filter(p_inner, null);
-        //             p_inner.style.stroke = `none`;
-        //             continue;
-        //         }
-
-        //         let hsl = visuals.rgbToHsl([rgb[0], rgb[1], rgb[2]]);
-        //         let [h, s, l] = hsl;
-        //         let lx = Math.max(l * 1.3, 85);
-        //         // at least 10% luminosity
-        //         l = (l * 90) / 100 + 10;
-        //         p_inner.style.stroke = `hsl(${h}, ${s}%, ${Math.min(
-        //             l * 3,
-        //             75,
-        //         )}%)`;
-        //         p_inner.style.strokeWidth = '1.5';
-        //         svg.fill(p_inner, `hsl(${h}, ${s}%, ${lx}%)`);
-        //         svg.filter(p_inner, `url(#neopixelglow)`);
-        //     }
-        // }
-
-        // no use for now
-        // private updateSwitch() {
-        //     let state = this.board;
-        //     if (!state || !state.slideSwitchState) return;
-        //     let slideSwitchState = state.slideSwitchState;
-        //     if (!this.slideSwitch) {
-        //         this.slideSwitch = this.element.getElementById(
-        //             `SLIDE`,
-        //         ) as SVGGElement;
-        //         pxsim.U.addClass(this.slideSwitch, 'sim-slide-switch');
-        //         this.slideSwitch.addEventListener(pointerEvents.up, ev =>
-        //             this.slideSwitchHandler(),
-        //         );
-
-        //         accessibility.enableKeyboardInteraction(
-        //             this.slideSwitch,
-        //             null,
-        //             () => this.slideSwitchHandler(),
-        //         );
-        //         accessibility.makeFocusable(this.slideSwitch);
-        //         this.renderSwitchAria();
-
-        //         this.element
-        //             .getElementById(`SLIDE_HOUSING`)
-        //             .addEventListener(pointerEvents.up, ev =>
-        //                 this.slideSwitchHandler(),
-        //             );
-        //         this.element
-        //             .getElementById(`SLIDE_INNER`)
-        //             .addEventListener(pointerEvents.up, ev =>
-        //                 this.slideSwitchHandler(),
-        //             );
-        //     }
-        // }
-
-        // private slideSwitchHandler() {
-        //     let state = this.board;
-        //     let slideSwitchState = state.slideSwitchState;
-
-        //     slideSwitchState.setState(!slideSwitchState.isLeft());
-        //     let switchSlide = this.element.getElementById(
-        //         `SLIDE_INNER`,
-        //     ) as SVGGElement;
-        //     pxsim.U.addClass(switchSlide, 'sim-slide-switch-inner');
-        //     if (slideSwitchState.isLeft()) {
-        //         pxsim.U.addClass(switchSlide, 'on');
-        //         switchSlide.setAttribute('transform', 'translate(-5,0)');
-        //     } else {
-        //         pxsim.U.removeClass(switchSlide, 'on');
-        //         switchSlide.removeAttribute('transform');
-        //     }
-
-        //     this.renderSwitchAria();
-        // }
-
-        // private renderSwitchAria() {
-        //     let status = this.board.slideSwitchState.isLeft() ? 'On' : 'Off';
-        //     accessibility.setAria(
-        //         this.slideSwitch,
-        //         'button',
-        //         'On/Off Switch. Current state : ' + status,
-        //     );
-        //     this.slideSwitch.setAttribute(
-        //         'aria-pressed',
-        //         this.board.slideSwitchState.isLeft().toString(),
-        //     );
-        // }
-
-        // private updateSound() {
-        //     let state = this.board;
-        //     if (!state || !state.audioState) return;
-        //     let audioState = state.audioState;
-
-        //     // FIXME
-        //     // let soundBoard = this.element.getElementById('g4656') as SVGGElement;
-        //     // if (audioState.isPlaying()) {
-        //     //     svg.addClass(soundBoard, "sim-sound-stroke");
-        //     // } else {
-        //     //     svg.removeClass(soundBoard, "sim-sound-stroke");
-        //     // }
-        // }
 
         private updatePins() {
             let state = this.board;
@@ -749,307 +588,236 @@ namespace pxsim.visuals {
             }
         }
 
-        // private updateLightLevel() {
-        //     let state = this.board;
-        //     if (!state || !state.lightSensorState.sensorUsed) return;
+        private updateLightLevel() {
+            let state = this.board;
+            if (!state || !state.lightSensorState.sensorUsed) return;
 
-        //     if (!this.lightLevelButton) {
-        //         let gid = 'gradient-light-level';
-        //         this.lightLevelGradient = svg.linearGradient(this.defs, gid);
-        //         let cy = 15;
-        //         let r = 10;
-        //         this.lightLevelButton = svg.child(this.g, 'circle', {
-        //             cx: `12px`,
-        //             cy: `${cy}px`,
-        //             r: `${r}px`,
-        //             class: 'sim-light-level-button no-drag',
-        //             fill: `url(#${gid})`,
-        //         }) as SVGCircleElement;
-        //         let pt = this.element.createSVGPoint();
-        //         svg.buttonEvents(
-        //             this.lightLevelButton,
-        //             // move
-        //             ev => {
-        //                 let pos = svg.cursorPoint(pt, this.element, ev);
-        //                 let rs = r / 2;
-        //                 let level = Math.max(
-        //                     0,
-        //                     Math.min(
-        //                         255,
-        //                         Math.floor(
-        //                             ((pos.y - (cy - rs)) / (2 * rs)) * 255,
-        //                         ),
-        //                     ),
-        //                 );
-        //                 if (level != this.board.lightSensorState.getLevel()) {
-        //                     this.board.lightSensorState.setLevel(level);
-        //                     this.applyLightLevel();
-        //                 }
-        //             },
-        //             // start
-        //             ev => {},
-        //             // stop
-        //             ev => {},
-        //             // keydown
-        //             ev => {
-        //                 let charCode =
-        //                     typeof ev.which == 'number' ? ev.which : ev.keyCode;
-        //                 if (charCode === 40 || charCode === 37) {
-        //                     // Down/Left arrow
-        //                     if (this.board.lightSensorState.getLevel() === 0) {
-        //                         this.board.lightSensorState.setLevel(255);
-        //                     } else {
-        //                         this.board.lightSensorState.setLevel(
-        //                             this.board.lightSensorState.getLevel() - 1,
-        //                         );
-        //                     }
-        //                     this.applyLightLevel();
-        //                 } else if (charCode === 38 || charCode === 39) {
-        //                     // Up/Right arrow
-        //                     if (
-        //                         this.board.lightSensorState.getLevel() === 255
-        //                     ) {
-        //                         this.board.lightSensorState.setLevel(0);
-        //                     } else {
-        //                         this.board.lightSensorState.setLevel(
-        //                             this.board.lightSensorState.getLevel() + 1,
-        //                         );
-        //                     }
-        //                     this.applyLightLevel();
-        //                 }
-        //             },
-        //         );
-        //         this.lightLevelText = svg.child(this.g, 'text', {
-        //             x: 23,
-        //             y: cy + r - 15,
-        //             text: '',
-        //             class: 'sim-text',
-        //         }) as SVGTextElement;
-        //         this.updateTheme();
+            if (!this.lightLevelButton) {
+                let gid = 'gradient-light-level';
+                this.lightLevelGradient = svg.linearGradient(this.defs, gid);
+                let cy = 15;
+                let r = 10;
+                this.lightLevelButton = svg.child(this.g, 'circle', {
+                    cx: `12px`,
+                    cy: `${cy}px`,
+                    r: `${r}px`,
+                    class: 'sim-light-level-button no-drag',
+                    fill: `url(#${gid})`,
+                }) as SVGCircleElement;
+                let pt = this.element.createSVGPoint();
+                svg.buttonEvents(
+                    this.lightLevelButton,
+                    // move
+                    ev => {
+                        let pos = svg.cursorPoint(pt, this.element, ev);
+                        let rs = r / 2;
+                        let level = Math.max(
+                            0,
+                            Math.min(
+                                255,
+                                Math.floor(
+                                    ((pos.y - (cy - rs)) / (2 * rs)) * 255,
+                                ),
+                            ),
+                        );
+                        if (level != this.board.lightSensorState.getLevel()) {
+                            this.board.lightSensorState.setLevel(level);
+                            this.applyLightLevel();
+                        }
+                    },
+                    // start
+                    ev => {},
+                    // stop
+                    ev => {},
+                    // keydown
+                    ev => {
+                        let charCode =
+                            typeof ev.which == 'number' ? ev.which : ev.keyCode;
+                        if (charCode === 40 || charCode === 37) {
+                            // Down/Left arrow
+                            if (this.board.lightSensorState.getLevel() === 0) {
+                                this.board.lightSensorState.setLevel(255);
+                            } else {
+                                this.board.lightSensorState.setLevel(
+                                    this.board.lightSensorState.getLevel() - 1,
+                                );
+                            }
+                            this.applyLightLevel();
+                        } else if (charCode === 38 || charCode === 39) {
+                            // Up/Right arrow
+                            if (
+                                this.board.lightSensorState.getLevel() === 255
+                            ) {
+                                this.board.lightSensorState.setLevel(0);
+                            } else {
+                                this.board.lightSensorState.setLevel(
+                                    this.board.lightSensorState.getLevel() + 1,
+                                );
+                            }
+                            this.applyLightLevel();
+                        }
+                    },
+                );
+                this.lightLevelText = svg.child(this.g, 'text', {
+                    x: 23,
+                    y: cy + r - 15,
+                    text: '',
+                    class: 'sim-text',
+                }) as SVGTextElement;
+                this.updateTheme();
 
-        //         accessibility.makeFocusable(this.lightLevelButton);
-        //         accessibility.setAria(
-        //             this.lightLevelButton,
-        //             'slider',
-        //             'Light level',
-        //         );
-        //         this.lightLevelButton.setAttribute('aria-valuemin', '0');
-        //         this.lightLevelButton.setAttribute('aria-valuemax', '255');
-        //         this.lightLevelButton.setAttribute(
-        //             'aria-orientation',
-        //             'vertical',
-        //         );
-        //         this.lightLevelButton.setAttribute('aria-valuenow', '128');
-        //     }
+                accessibility.makeFocusable(this.lightLevelButton);
+                accessibility.setAria(
+                    this.lightLevelButton,
+                    'slider',
+                    'Light level',
+                );
+                this.lightLevelButton.setAttribute('aria-valuemin', '0');
+                this.lightLevelButton.setAttribute('aria-valuemax', '255');
+                this.lightLevelButton.setAttribute(
+                    'aria-orientation',
+                    'vertical',
+                );
+                this.lightLevelButton.setAttribute('aria-valuenow', '128');
+            }
 
-        //     svg.setGradientValue(
-        //         this.lightLevelGradient,
-        //         Math.min(
-        //             100,
-        //             Math.max(
-        //                 0,
-        //                 Math.floor(
-        //                     (state.lightSensorState.getLevel() * 100) / 255,
-        //                 ),
-        //             ),
-        //         ) + '%',
-        //     );
-        //     this.lightLevelText.textContent = state.lightSensorState
-        //         .getLevel()
-        //         .toString();
-        // }
+            svg.setGradientValue(
+                this.lightLevelGradient,
+                Math.min(
+                    100,
+                    Math.max(
+                        0,
+                        Math.floor(
+                            (state.lightSensorState.getLevel() * 100) / 255,
+                        ),
+                    ),
+                ) + '%',
+            );
+            this.lightLevelText.textContent = state.lightSensorState
+                .getLevel()
+                .toString();
+        }
 
-        // private applyLightLevel() {
-        //     let lv = this.board.lightSensorState.getLevel();
-        //     svg.setGradientValue(
-        //         this.lightLevelGradient,
-        //         Math.min(100, Math.max(0, Math.floor((lv * 100) / 255))) + '%',
-        //     );
-        //     this.lightLevelText.textContent = lv.toString();
-        //     this.lightLevelButton.setAttribute('aria-valuenow', lv.toString());
-        //     accessibility.setLiveContent(lv.toString());
-        // }
+        private applyLightLevel() {
+            let lv = this.board.lightSensorState.getLevel();
+            svg.setGradientValue(
+                this.lightLevelGradient,
+                Math.min(100, Math.max(0, Math.floor((lv * 100) / 255))) + '%',
+            );
+            this.lightLevelText.textContent = lv.toString();
+            this.lightLevelButton.setAttribute('aria-valuenow', lv.toString());
+            accessibility.setLiveContent(lv.toString());
+        }
 
-        // private updateSoundLevel() {
-        //     let state = this.board;
+        private updateTemperature() {
+            let state = this.board;
+            if (
+                !state ||
+                !state.thermometerState ||
+                !state.thermometerState.sensorUsed
+            )
+                return;
 
-        //     if (!this.soundLevelButton) {
-        //         let gid = 'gradient-sound-level';
-        //         this.soundLevelGradient = svg.linearGradient(this.defs, gid);
-        //         let cy = 165;
-        //         let r = 10;
-        //         this.soundLevelButton = svg.child(this.g, 'circle', {
-        //             cx: `12px`,
-        //             cy: `${cy}px`,
-        //             r: `${r}px`,
-        //             class: 'sim-sound-level-button no-drag',
-        //             fill: `url(#${gid})`,
-        //         }) as SVGCircleElement;
+            // Celsius
+            let tmin = -5;
+            let tmax = 50;
+            if (!this.thermometer) {
+                let gid = 'gradient-thermometer';
+                this.thermometerGradient = svg.linearGradient(this.defs, gid);
+                this.thermometer = <SVGRectElement>svg.child(this.g, 'rect', {
+                    class: 'sim-thermometer no-drag',
+                    x: 170,
+                    y: 3,
+                    width: 7,
+                    height: 32,
+                    rx: 2,
+                    ry: 2,
+                    fill: `url(#${gid})`,
+                });
+                this.thermometerText = svg.child(this.g, 'text', {
+                    class: 'sim-text',
+                    x: 148,
+                    y: 10,
+                }) as SVGTextElement;
+                this.updateTheme();
 
-        //         let pt = this.element.createSVGPoint();
-        //         svg.buttonEvents(
-        //             this.soundLevelButton,
-        //             // move
-        //             ev => {
-        //                 let pos = svg.cursorPoint(pt, this.element, ev);
-        //                 let rs = r / 2;
-        //                 let level = Math.max(
-        //                     0,
-        //                     Math.min(
-        //                         255,
-        //                         Math.floor(
-        //                             ((pos.y - (cy - rs)) / (2 * rs)) * 255,
-        //                         ),
-        //                     ),
-        //                 );
-        //             },
-        //             // start
-        //             ev => {},
-        //             // stop
-        //             ev => {},
-        //         );
-        //         this.soundLevelText = svg.child(this.g, 'text', {
-        //             x: 23,
-        //             y: cy + r - 3,
-        //             text: '',
-        //             class: 'sim-text',
-        //         }) as SVGTextElement;
-        //         this.updateTheme();
+                let pt = this.element.createSVGPoint();
+                svg.buttonEvents(
+                    this.thermometer,
+                    // move
+                    ev => {
+                        let cur = svg.cursorPoint(pt, this.element, ev);
+                        let t = Math.max(0, Math.min(1, (35 - cur.y) / 30));
+                        state.thermometerState.setLevel(
+                            Math.floor(tmin + t * (tmax - tmin)),
+                        );
+                        this.updateTemperature();
+                    },
+                    // start
+                    ev => {},
+                    // stop
+                    ev => {},
+                    // keydown
+                    ev => {
+                        let charCode =
+                            typeof ev.which == 'number' ? ev.which : ev.keyCode;
+                        if (charCode === 40 || charCode === 37) {
+                            // Down/Left arrow
+                            if (state.thermometerState.getLevel() === -5) {
+                                state.thermometerState.setLevel(50);
+                            } else {
+                                state.thermometerState.setLevel(
+                                    state.thermometerState.getLevel() - 1,
+                                );
+                            }
+                            this.updateTemperature();
+                        } else if (charCode === 38 || charCode === 39) {
+                            // Up/Right arrow
+                            if (state.thermometerState.getLevel() === 50) {
+                                state.thermometerState.setLevel(-5);
+                            } else {
+                                state.thermometerState.setLevel(
+                                    state.thermometerState.getLevel() + 1,
+                                );
+                            }
+                            this.updateTemperature();
+                        }
+                    },
+                );
 
-        //         accessibility.makeFocusable(this.soundLevelButton);
-        //         accessibility.setAria(
-        //             this.soundLevelButton,
-        //             'slider',
-        //             'Noise level',
-        //         );
-        //         this.soundLevelButton.setAttribute('aria-valuemin', '0');
-        //         this.soundLevelButton.setAttribute('aria-valuemax', '255');
-        //         this.soundLevelButton.setAttribute(
-        //             'aria-orientation',
-        //             'vertical',
-        //         );
-        //         this.soundLevelButton.setAttribute('aria-valuenow', '128');
-        //     }
-        // }
+                accessibility.makeFocusable(this.thermometer);
+                accessibility.setAria(
+                    this.thermometer,
+                    'slider',
+                    'Thermometer',
+                );
+                this.thermometer.setAttribute('aria-valuemin', tmin.toString());
+                this.thermometer.setAttribute('aria-valuemax', tmax.toString());
+                this.thermometer.setAttribute('aria-orientation', 'vertical');
+            }
 
-        // private updateTemperature() {
-        //     let state = this.board;
-        //     if (
-        //         !state ||
-        //         !state.thermometerState ||
-        //         !state.thermometerState.sensorUsed
-        //     )
-        //         return;
+            let t = Math.max(
+                tmin,
+                Math.min(tmax, state.thermometerState.getLevel()),
+            );
+            let per = Math.floor(
+                ((state.thermometerState.getLevel() - tmin) / (tmax - tmin)) *
+                    100,
+            );
+            svg.setGradientValue(this.thermometerGradient, 100 - per + '%');
 
-        //     // Celsius
-        //     let tmin = -5;
-        //     let tmax = 50;
-        //     if (!this.thermometer) {
-        //         let gid = 'gradient-thermometer';
-        //         this.thermometerGradient = svg.linearGradient(this.defs, gid);
-        //         this.thermometer = <SVGRectElement>svg.child(this.g, 'rect', {
-        //             class: 'sim-thermometer no-drag',
-        //             x: 170,
-        //             y: 3,
-        //             width: 7,
-        //             height: 32,
-        //             rx: 2,
-        //             ry: 2,
-        //             fill: `url(#${gid})`,
-        //         });
-        //         this.thermometerText = svg.child(this.g, 'text', {
-        //             class: 'sim-text',
-        //             x: 148,
-        //             y: 10,
-        //         }) as SVGTextElement;
-        //         this.updateTheme();
-
-        //         let pt = this.element.createSVGPoint();
-        //         svg.buttonEvents(
-        //             this.thermometer,
-        //             // move
-        //             ev => {
-        //                 let cur = svg.cursorPoint(pt, this.element, ev);
-        //                 let t = Math.max(0, Math.min(1, (35 - cur.y) / 30));
-        //                 state.thermometerState.setLevel(
-        //                     Math.floor(tmin + t * (tmax - tmin)),
-        //                 );
-        //                 this.updateTemperature();
-        //             },
-        //             // start
-        //             ev => {},
-        //             // stop
-        //             ev => {},
-        //             // keydown
-        //             ev => {
-        //                 let charCode =
-        //                     typeof ev.which == 'number' ? ev.which : ev.keyCode;
-        //                 if (charCode === 40 || charCode === 37) {
-        //                     // Down/Left arrow
-        //                     if (state.thermometerState.getLevel() === -5) {
-        //                         state.thermometerState.setLevel(50);
-        //                     } else {
-        //                         state.thermometerState.setLevel(
-        //                             state.thermometerState.getLevel() - 1,
-        //                         );
-        //                     }
-        //                     this.updateTemperature();
-        //                 } else if (charCode === 38 || charCode === 39) {
-        //                     // Up/Right arrow
-        //                     if (state.thermometerState.getLevel() === 50) {
-        //                         state.thermometerState.setLevel(-5);
-        //                     } else {
-        //                         state.thermometerState.setLevel(
-        //                             state.thermometerState.getLevel() + 1,
-        //                         );
-        //                     }
-        //                     this.updateTemperature();
-        //                 }
-        //             },
-        //         );
-
-        //         accessibility.makeFocusable(this.thermometer);
-        //         accessibility.setAria(
-        //             this.thermometer,
-        //             'slider',
-        //             'Thermometer',
-        //         );
-        //         this.thermometer.setAttribute('aria-valuemin', tmin.toString());
-        //         this.thermometer.setAttribute('aria-valuemax', tmax.toString());
-        //         this.thermometer.setAttribute('aria-orientation', 'vertical');
-        //     }
-
-        //     let t = Math.max(
-        //         tmin,
-        //         Math.min(tmax, state.thermometerState.getLevel()),
-        //     );
-        //     let per = Math.floor(
-        //         ((state.thermometerState.getLevel() - tmin) / (tmax - tmin)) *
-        //             100,
-        //     );
-        //     svg.setGradientValue(this.thermometerGradient, 100 - per + '%');
-
-        //     let unit = '°C';
-        //     if (
-        //         state.thermometerUnitState == pxsim.TemperatureUnit.Fahrenheit
-        //     ) {
-        //         unit = '°F';
-        //         t = ((t * 18) / 10 + 32) >> 0;
-        //     }
-        //     this.thermometerText.textContent = t + unit;
-        //     this.thermometer.setAttribute('aria-valuenow', t.toString());
-        //     this.thermometer.setAttribute('aria-valuetext', t + unit);
-        //     accessibility.setLiveContent(t + unit);
-        // }
-
-        // private updateButtonAB() {
-        //     let state = this.board;
-        //     if (state.buttonState.usesButtonAB) {
-        //         (<any>this.buttonsOuter[2]).style.visibility = 'visible';
-        //         (<any>this.buttons[2]).style.visibility = 'visible';
-        //         this.updateTheme();
-        //     }
-        // }
+            let unit = '°C';
+            if (
+                state.thermometerUnitState == pxsim.TemperatureUnit.Fahrenheit
+            ) {
+                unit = '°F';
+                t = ((t * 18) / 10 + 32) >> 0;
+            }
+            this.thermometerText.textContent = t + unit;
+            this.thermometer.setAttribute('aria-valuenow', t.toString());
+            this.thermometer.setAttribute('aria-valuetext', t + unit);
+            accessibility.setLiveContent(t + unit);
+        }
 
         private updateGestures() {
             let state = this.board;
@@ -1159,78 +927,11 @@ namespace pxsim.visuals {
             this.element.appendChild(this.g);
 
             this.pinControls = {};
-            // this.buildNeoPixels();
             this.buildPins();
-            // this.buildLed();
             this.buildBtn();
             this.buildJoystick();
             this.buildLcdScreen();
-
-            // BTN A+B
-            // const outerBtn = (left: number, top: number, label: string) => {
-            //     const button = this.mkBtn(left, top, label);
-            //     this.buttonsOuter.push(button.outer);
-            //     this.buttons.push(button.inner);
-
-            //     return button;
-            // };
-
-            // let ab = outerBtn(165, MB_HEIGHT - 15, 'A+B');
-            // let abtext = svg.child(ab.outer, 'text', {
-            //     x: 163,
-            //     y: MB_HEIGHT - 18,
-            //     class: 'sim-text',
-            // }) as SVGTextElement;
-            // abtext.textContent = 'A+B';
-            // (<any>this.buttonsOuter[2]).style.visibility = 'hidden';
-            // (<any>this.buttons[2]).style.visibility = 'hidden';
         }
-
-        // private buildNeoPixels() {
-        //     let glow = svg.child(this.defs, 'filter', {
-        //         id: 'filterglow',
-        //         x: '-5%',
-        //         y: '-5%',
-        //         width: '120%',
-        //         height: '120%',
-        //     });
-        //     svg.child(glow, 'feGaussianBlur', {
-        //         stdDeviation: '5',
-        //         result: 'glow',
-        //     });
-        //     let merge = svg.child(glow, 'feMerge', {});
-        //     for (let i = 0; i < 3; ++i)
-        //         svg.child(merge, 'feMergeNode', { in: 'glow' });
-
-        //     let neopixelglow = svg.child(this.defs, 'filter', {
-        //         id: 'neopixelglow',
-        //         x: '-300%',
-        //         y: '-300%',
-        //         width: '600%',
-        //         height: '600%',
-        //     });
-        //     svg.child(neopixelglow, 'feGaussianBlur', {
-        //         stdDeviation: '4.3',
-        //         result: 'coloredBlur',
-        //     });
-        //     let neopixelmerge = svg.child(neopixelglow, 'feMerge', {});
-        //     svg.child(neopixelmerge, 'feMergeNode', { in: 'coloredBlur' });
-        //     svg.child(neopixelmerge, 'feMergeNode', { in: 'coloredBlur' });
-        //     svg.child(neopixelmerge, 'feMergeNode', { in: 'SourceGraphic' });
-
-        //     const neopixelState = (board() as any as LightBoard).neopixelState;
-        //     if (neopixelState) {
-        //         for (let i = 1; i <= neopixelState.length; i++) {
-        //             // let p_outer = svg.title(this.element.getElementById(`LED${i}_OUTER`) as SVGPathElement, "NeoPixel " + i);
-        //             let p_inner = svg.title(
-        //                 this.element.getElementById(
-        //                     `LED${i}`,
-        //                 ) as SVGPathElement,
-        //                 'NeoPixel ' + i,
-        //             );
-        //         }
-        //     }
-        // }
 
         private makeLedGlow(led: SVGElement, color: string, intensity: number) {
             const filterId = `glow-${color.replace('#', '')}-${intensity}`;
