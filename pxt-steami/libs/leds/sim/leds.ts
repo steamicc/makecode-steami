@@ -1,5 +1,5 @@
 namespace pxsim.leds {
-    enum MyEnum {
+    enum AllLeds {
         LED_CHG = 1,
         LED_STATUS = 2,
         LED_BLE = 3,
@@ -8,7 +8,38 @@ namespace pxsim.leds {
         LED_RGB = 6,
     }
 
-    export function setLed(led: MyEnum, on: boolean): void {
+    enum AllColors {
+        RED = 0,
+        GREEN = 1,
+        BLUE = 2,
+        YELLOW = 3,
+        MAGENTA = 4,
+        CYAN = 5,
+        WHITE = 6,
+    }
+
+    function getHexColor(color: AllColors): string {
+        switch (color) {
+            case AllColors.RED:
+                return '#ff0000';
+            case AllColors.GREEN:
+                return '#00ff00';
+            case AllColors.BLUE:
+                return '#0000ff';
+            case AllColors.YELLOW:
+                return '#ffff00';
+            case AllColors.MAGENTA:
+                return '#ff00ff';
+            case AllColors.CYAN:
+                return '#00ffff';
+            case AllColors.WHITE:
+                return '#ffffff';
+            default:
+                return '#000000';
+        }
+    }
+
+    export function setLed(led: AllLeds, on: boolean): void {
         let ledState = pxsim.ledState();
         ledState.setState(led, on, '#d13321', 7);
         runtime.queueDisplayUpdate();
@@ -22,16 +53,10 @@ namespace pxsim.leds {
         runtime.queueDisplayUpdate();
     }
 
-    export function setLedRGB(color: string): void {
+    export function setLedRGB(color: AllColors): void {
         let ledState = pxsim.ledState();
-        ledState.setState(MyEnum.LED_RGB, true, color, 7);
-        const state = ledState.getState(MyEnum.LED_RGB);
-        console.log({
-            pin: state.pin,
-            on: state.on,
-            color: state.color,
-            intensity: state.intensity,
-        });
+        ledState.setState(AllLeds.LED_RGB, true, getHexColor(color), 7);
+        const state = ledState.getState(AllLeds.LED_RGB);
         runtime.queueDisplayUpdate();
     }
 }

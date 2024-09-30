@@ -1,4 +1,4 @@
-enum class MyEnum {
+enum class AllLeds {
     //% block="LED_CHG"
     LED_CHG = 1,
     //% block="LED_STATUS"
@@ -13,6 +13,23 @@ enum class MyEnum {
     LED_RGB = 6,
 };
 
+enum class AllColors {
+    //% block="Red" color=#ff0000
+    Red,
+    //% block="Green" color=#00ff00
+    Green,
+    //% block="Blue" color=#0000ff
+    Blue,
+    //% block="Yellow" color=#ffff00
+    Yellow,
+    //% block="Magenta" color=#ff00ff
+    Magenta,
+    //% block="Cyan" color=#00ffff
+    Cyan,
+    //% block="White" color=#ffffff
+    White,
+};
+
 //% block="leds" weight=100 color=#4287f5 icon=""
 namespace leds {
 /**
@@ -25,7 +42,7 @@ namespace leds {
 //% help=leds/leds_setLed
 //% blockId="leds_setLed" blockGap=8
 //% on.shadow="toggleOnOff" on.defl=true
-void setLed(MyEnum led, bool on) {
+void setLed(AllLeds led, bool on) {
     // to do
 }
 
@@ -48,7 +65,7 @@ void setAllLeds(bool on) {
 //% block="set led RGB to %color" weight=80
 //% help=leds/leds_setLedRGB
 //% blockId="leds_setLedRGB" blockGap=8
-void setLedRGB(string color) {
+void setLedRGB(AllColors color) {
     // to do
 }
 } // namespace leds

@@ -15,7 +15,7 @@ declare namespace leds {
     //% help=leds/leds_setLed
     //% blockId="leds_setLed" blockGap=8
     //% on.shadow="toggleOnOff" on.defl=1 shim=leds::setLed
-    function setLed(led: MyEnum, on?: boolean): void;
+    function setLed(led: AllLeds, on?: boolean): void;
 
     /**
      * @brief Set all LEDs on or off
@@ -34,7 +34,7 @@ declare namespace leds {
     //% block="set led RGB to %color" weight=80
     //% help=leds/leds_setLedRGB
     //% blockId="leds_setLedRGB" blockGap=8 shim=leds::setLedRGB
-    function setLedRGB(color: string): void;
+    function setLedRGB(color: AllColors): void;
 }
 
 // Auto-generated. Do not edit. Really.
