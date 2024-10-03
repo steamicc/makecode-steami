@@ -19,7 +19,8 @@ DevicePin *getPin(int id) {
     if (idx >= DEV_NUM_PINS)
         target_panic(PANIC_NO_SUCH_PIN);
 
-    pinArray[idx] = new DevicePin(DEVICE_ID_IO_P0 + idx, pinName, IS_ANALOG_PIN(id) ? PIN_CAPABILITY_AD : PIN_CAPABILITY_DIGITAL);
+    pinArray[idx] = new DevicePin(DEVICE_ID_IO_P0 + idx, pinName,
+                                  IS_ANALOG_PIN(id) ? PIN_CAPABILITY_AD : PIN_CAPABILITY_DIGITAL);
     return pinArray[idx];
 }
 

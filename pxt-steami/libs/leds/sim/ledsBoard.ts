@@ -27,6 +27,8 @@ namespace pxsim {
             const state = this.states.find(s => s.pin === pin);
             if (state) {
                 state.on = on;
+                state.color = color;
+                state.intensity = intensity;
             } else {
                 this.states.push({ pin, on, color, intensity });
             }
