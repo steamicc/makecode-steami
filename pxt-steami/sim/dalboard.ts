@@ -41,7 +41,11 @@ namespace pxsim {
         }
     }
 
-    export class DalBoard extends CoreBoard {
+    export class DalBoard extends CoreBoard implements LedBoard {
+        ledState: LedState;
+        buttonState: CommonButtonState;
+        edgeConnectorState: EdgeConnectorState;
+
         viewHost: visuals.BoardHost;
         view: SVGSVGElement;
 
@@ -51,6 +55,9 @@ namespace pxsim {
             SteamiPinName.init();
 
             this.bus.setNotify(DAL.DEVICE_ID_NOTIFY, DAL.DEVICE_ID_NOTIFY_ONE);
+
+            //LEDs
+            this.builtinParts['leds'] = this.ledState = new LedState([]);
         }
 
         receiveMessage(msg: SimulatorMessage) {
@@ -115,7 +122,7 @@ namespace pxsim {
         let b = new DalBoard();
         runtime.board = b;
         runtime.postError = e => {
-            // TODO implement this in the simulator to display the error
+            // TODO
             runtime.updateDisplay();
         };
     }
