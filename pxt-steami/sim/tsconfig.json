@@ -5,19 +5,11 @@
         "noImplicitReturns": true,
         "declaration": true,
         "outFile": "../built/sim.js",
-        "rootDir": ".",
+        "rootDir": "..",
         "newLine": "LF",
         "moduleResolution": "node",
         "sourceMap": false,
-        "lib": [
-            "dom",
-            "dom.iterable",
-            "scripthost",
-            "es2017"
-        ]
+        "lib": ["dom", "dom.iterable", "scripthost", "es2017"]
     },
-    "include": [
-        "**/*",
-        "../libs/*/sim/*"
-    ]
+    "include": ["**/*", "state/*.ts", "visuals/*.ts", "../libs/*/sim/*"]
 }
