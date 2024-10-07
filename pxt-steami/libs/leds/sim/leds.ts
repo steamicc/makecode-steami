@@ -39,20 +39,6 @@ namespace pxsim.leds {
         }
     }
 
-    export function setLed(led: AllLeds, on: boolean): void {
-        let ledState = pxsim.ledState();
-        ledState.setState(led, on, '#d13321', 7);
-        runtime.queueDisplayUpdate();
-    }
-
-    export function setAllLeds(on: boolean): void {
-        let ledState = pxsim.ledState();
-        ledState.getAllStates().forEach(led => {
-            ledState.setState(led.pin, on, '#d13321', 7);
-        });
-        runtime.queueDisplayUpdate();
-    }
-
     export function setLedRGB(color: AllColors): void {
         let ledState = pxsim.ledState();
         ledState.setState(AllLeds.LED_RGB, true, getHexColor(color), 7);

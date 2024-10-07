@@ -36,32 +36,6 @@ enum class AllColors {
 //% block="leds" weight=100 color=#4287f5 icon=""
 namespace leds {
 /**
- * @brief Set LED on or off
- * @param led Led to set
- * @param on Turn on or off
- * @param color Turn on or off
- */
-//% block="set led %led|to %on" weight=100
-//% help=leds/leds_setLed
-//% blockId="leds_setLed" blockGap=8
-//% on.shadow="toggleOnOff" on.defl=true
-void setLed(AllLeds led, bool on) {
-    // to do
-};
-
-/**
- * @brief Set all LEDs on or off
- * @param on Turn on or off
- */
-//% block="set all leds to %on" weight=90
-//% help=leds/leds_setAllLeds
-//% blockId="leds_setAllLeds" blockGap=8
-//% on.shadow="toggleOnOff" on.defl=true
-void setAllLeds(bool on) {
-    // to do
-};
-
-/**
  * @brief Set LED RGB to color
  * @param color Color to set
  */
