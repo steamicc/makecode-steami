@@ -1,6 +1,5 @@
 // Auto-generated. Do not edit.
 declare namespace control {
-
     /**
      * Gets the number of milliseconds elapsed since power on.
      */
@@ -27,7 +26,12 @@ declare namespace control {
     //% weight=20 blockGap=8 blockId="control_on_event" block="on event|from
     //% src=control_event_source_id|with value %value=control_event_value_id" % help=control/on-event %
     //% blockExternalInputs=1 flags.defl=0 shim=control::onEvent
-    function onEvent(src: int32, value: int32, handler: () => void, flags?: int32): void;
+    function onEvent(
+        src: int32,
+        value: int32,
+        handler: () => void,
+        flags?: int32,
+    ): void;
 
     /**
      * Blocks the calling thread until the specified event is raised.
@@ -90,7 +94,6 @@ declare namespace control {
     function dmesgPtr(str: string, ptr: Object): void;
 }
 declare namespace control {
-
     /**
      * Force GC and dump basic information about heap.
      */
@@ -122,7 +125,6 @@ declare namespace control {
     function profilingEnabled(): boolean;
 }
 declare namespace pins {
-
     /**
      * Get a pin by configuration id (DAL.CFG_PIN...)
      */
@@ -146,9 +148,7 @@ declare namespace pins {
     function pulseDuration(): int32;
 }
 
-
-
-    //% indexerGet=BufferMethods::getByte indexerSet=BufferMethods::setByte
+//% indexerGet=BufferMethods::getByte indexerSet=BufferMethods::setByte
 declare interface Buffer {
     /**
      * Reads an unsigned byte at a particular location
@@ -241,7 +241,6 @@ declare interface Buffer {
     hash(bits: int32): uint32;
 }
 declare namespace control {
-
     /**
      * Create a new zero-initialized buffer.
      * @param size number of bytes in the buffer
@@ -257,7 +256,6 @@ declare namespace control {
     function createBufferFromUTF8(str: string): Buffer;
 }
 declare namespace loops {
-
     /**
      * Repeats the code forever in the background. On each iteration, allows other codes to run.
      * @param body code to execute
@@ -276,12 +274,31 @@ declare namespace loops {
     function pause(ms: int32): void;
 }
 declare namespace control {
-
     /**
      * Determines if the USB has been enumerated.
      */
     //% shim=control::isUSBInitialized
     function isUSBInitialized(): boolean;
+}
+
+//% block="leds" weight=100 color=#4287f5 icon=""
+declare namespace leds {
+    /**
+     * @brief Set LED RGB off
+     */
+    //% block="set led RGB off" weight=80 group="LED RGB"
+    //% help=leds/leds_setLedRGBOff
+    //% blockId="leds_setLedRGBOff" blockGap=8 shim=leds::setLedRGBOff
+    function setLedRGBOff(): void;
+
+    /**
+     * @brief Set LED RGB to color
+     * @param color Color to set
+     */
+    //% block="set led RGB to %color" weight=80 group="LED RGB"
+    //% help=leds/leds_setLedRGB
+    //% blockId="leds_setLedRGB" blockGap=8 shim=leds::setLedRGB
+    function setLedRGB(color: AllColors): void;
 }
 
 // Auto-generated. Do not edit. Really.
