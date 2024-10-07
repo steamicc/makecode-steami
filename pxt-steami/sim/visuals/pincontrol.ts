@@ -8,7 +8,7 @@ namespace pxsim.visuals {
         private pin: Pin;
 
         constructor(
-            private parent: CircuitPlaygroundBoardSvg,
+            private parent: SteamiBoardSvg,
             private defs: SVGDefsElement,
             private id: number,
             name: string,
@@ -32,8 +32,8 @@ namespace pxsim.visuals {
             }
 
             // Init the gradient controls
-            // const gid = `gradient-${CPlayPinName[id]}-level`;
-            // this.innerCircle = parent.element.getElementById("PIN_CONNECTOR_" + CPlayPinName[id]) as SVGCircleElement;
+            // const gid = `gradient-${SteamiPinName[id]}-level`;
+            // this.innerCircle = parent.element.getElementById("PIN_CONNECTOR_" + SteamiPinName[id]) as SVGCircleElement;
             // this.gradient = svg.linearGradient(this.defs, gid);
             // this.innerCircle.setAttribute("fill", `url(#${gid})`);
             // this.innerCircle.setAttribute("class", "sim-light-level-button")

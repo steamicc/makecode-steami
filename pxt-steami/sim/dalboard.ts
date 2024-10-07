@@ -4,7 +4,7 @@
 /// <reference path="../libs/core/dal.d.ts"/>
 
 namespace pxsim {
-    export module CPlayPinName {
+    export module SteamiPinName {
         export let A0 = -1;
         export let A1 = -1;
         export let A2 = -1;
@@ -19,8 +19,7 @@ namespace pxsim {
         export let D5 = -1;
         export let D6 = -1;
         export let D7 = -1;
-        //LEDS
-        export let D8 = -1; //DEFAULT NEOPIXEL
+        export let D8 = -1;
         export let LED2 = 1;
         export let LED3 = -1;
         export let LED = -1;
@@ -32,7 +31,7 @@ namespace pxsim {
         export let RX = -1;
 
         export function init() {
-            let v = CPlayPinName as any;
+            let v = SteamiPinName as any;
             for (let k of Object.keys(v)) {
                 let key = getConfigKey('PIN_' + k);
                 if (key != null) {
@@ -73,7 +72,7 @@ namespace pxsim {
         constructor() {
             super();
 
-            CPlayPinName.init();
+            SteamiPinName.init();
 
             this.bus.setNotify(DAL.DEVICE_ID_NOTIFY, DAL.DEVICE_ID_NOTIFY_ONE);
 
@@ -107,24 +106,24 @@ namespace pxsim {
             this.builtinParts['edgeconnector'] = this.edgeConnectorState =
                 new EdgeConnectorState({
                     pins: [
-                        pxsim.CPlayPinName.A0,
-                        pxsim.CPlayPinName.A1,
-                        pxsim.CPlayPinName.A2,
-                        pxsim.CPlayPinName.A3,
-                        pxsim.CPlayPinName.A4,
-                        pxsim.CPlayPinName.A5,
-                        pxsim.CPlayPinName.A6,
-                        pxsim.CPlayPinName.A7,
-                        pxsim.CPlayPinName.A8,
-                        pxsim.CPlayPinName.A9,
-                        pxsim.CPlayPinName.D4,
-                        pxsim.CPlayPinName.D5,
-                        pxsim.CPlayPinName.D6,
-                        pxsim.CPlayPinName.D7,
-                        pxsim.CPlayPinName.D8,
-                        pxsim.CPlayPinName.D13,
-                        pxsim.CPlayPinName.IR_IN,
-                        pxsim.CPlayPinName.IR_OUT,
+                        pxsim.SteamiPinName.A0,
+                        pxsim.SteamiPinName.A1,
+                        pxsim.SteamiPinName.A2,
+                        pxsim.SteamiPinName.A3,
+                        pxsim.SteamiPinName.A4,
+                        pxsim.SteamiPinName.A5,
+                        pxsim.SteamiPinName.A6,
+                        pxsim.SteamiPinName.A7,
+                        pxsim.SteamiPinName.A8,
+                        pxsim.SteamiPinName.A9,
+                        pxsim.SteamiPinName.D4,
+                        pxsim.SteamiPinName.D5,
+                        pxsim.SteamiPinName.D6,
+                        pxsim.SteamiPinName.D7,
+                        pxsim.SteamiPinName.D8,
+                        pxsim.SteamiPinName.D13,
+                        pxsim.SteamiPinName.IR_IN,
+                        pxsim.SteamiPinName.IR_OUT,
                     ],
                 });
             this.builtinParts['microservo'] = this.edgeConnectorState;
@@ -134,13 +133,13 @@ namespace pxsim {
             this.builtinPartVisuals['microservo'] = (xy: visuals.Coord) =>
                 visuals.mkMicroServoPart(xy);
             this.touchButtonState = new TouchButtonState([
-                pxsim.CPlayPinName.A1,
-                pxsim.CPlayPinName.A2,
-                pxsim.CPlayPinName.A3,
-                pxsim.CPlayPinName.A4,
-                pxsim.CPlayPinName.A5,
-                pxsim.CPlayPinName.A6,
-                pxsim.CPlayPinName.A7,
+                pxsim.SteamiPinName.A1,
+                pxsim.SteamiPinName.A2,
+                pxsim.SteamiPinName.A3,
+                pxsim.SteamiPinName.A4,
+                pxsim.SteamiPinName.A5,
+                pxsim.SteamiPinName.A6,
+                pxsim.SteamiPinName.A7,
             ]);
         }
 
@@ -201,7 +200,7 @@ namespace pxsim {
         }
 
         getDefaultPitchPin() {
-            return this.edgeConnectorState.getPin(CPlayPinName.D6);
+            return this.edgeConnectorState.getPin(SteamiPinName.D6);
         }
     }
 

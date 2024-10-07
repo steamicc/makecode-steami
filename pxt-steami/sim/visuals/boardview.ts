@@ -1,6 +1,6 @@
 namespace pxsim.visuals {
     mkBoardView = (opts: BoardViewOptions): BoardView => {
-        return new visuals.CircuitPlaygroundBoardSvg({
+        return new visuals.SteamiBoardSvg({
             runtime: runtime,
             theme: visuals.randomTheme(),
             disableTilt: false,
