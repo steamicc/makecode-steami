@@ -590,6 +590,7 @@ namespace pxsim.visuals {
 
             joystickBase.style.cursor = 'pointer';
             joystickStick.style.cursor = 'pointer';
+            joystickCircle.style.cursor = 'pointer';
 
             let startX: number = 0;
             let startY: number = 0;
@@ -607,7 +608,7 @@ namespace pxsim.visuals {
                 isDragging = true;
                 startX = e.clientX;
                 startY = e.clientY;
-                joystickStick.style.fill = 'orange';
+                joystickCircle.style.fill = 'orange';
             });
 
             document.addEventListener('mousemove', (e: MouseEvent) => {
@@ -649,7 +650,7 @@ namespace pxsim.visuals {
                 if (!isDragging) return;
                 isDragging = false;
                 joystickStick.setAttribute('transform', 'translate(0, 0)');
-                joystickStick.style.fill = 'black';
+                joystickCircle.style.fill = 'black';
             });
         }
 
