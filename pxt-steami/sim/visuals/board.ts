@@ -400,7 +400,7 @@ namespace pxsim.visuals {
         }
 
         public highlightPin(pinNm: string): void {
-            //TODO: for instructions
+            //TODO: for instructions highlighting the pins on the board when they are used in the code
         }
 
         public getPinDist(): number {
