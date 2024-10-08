@@ -115,7 +115,7 @@ namespace pxsim {
         let b = new DalBoard();
         runtime.board = b;
         runtime.postError = e => {
-            // TODO
+            // TODO implement this in the simulator to display the error
             runtime.updateDisplay();
         };
     }
