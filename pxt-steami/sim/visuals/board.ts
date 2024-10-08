@@ -269,8 +269,8 @@ namespace pxsim.visuals {
         { name: 'J5_3', touch: 0, text: null, tooltip: 'Ground' },
     ];
 
-    const MB_WIDTH = 220.06459;
-    const MB_HEIGHT = 316.30045;
+    const STEAMI_WIDTH = 220.06459;
+    const STEAMI_HEIGHT = 316.30045;
 
     export interface IBoardTheme {
         accent?: string;
@@ -390,8 +390,8 @@ namespace pxsim.visuals {
                 el: this.element,
                 y: 0,
                 x: 0,
-                w: MB_WIDTH,
-                h: MB_HEIGHT,
+                w: STEAMI_WIDTH,
+                h: STEAMI_HEIGHT,
             };
         }
 
@@ -490,7 +490,7 @@ namespace pxsim.visuals {
                     {
                         class: 'sim-systemled',
                         cx: 75,
-                        cy: MB_HEIGHT - 171,
+                        cy: STEAMI_HEIGHT - 171,
                         r: 2,
                     },
                 );
@@ -912,12 +912,12 @@ namespace pxsim.visuals {
                 .querySelector('svg') as SVGSVGElement;
             svg.hydrate(this.element, {
                 version: '1.0',
-                viewBox: `0 0 ${MB_WIDTH} ${MB_HEIGHT}`,
+                viewBox: `0 0 ${STEAMI_WIDTH} ${STEAMI_HEIGHT}`,
                 class: 'sim',
                 x: '0px',
                 y: '0px',
-                width: MB_WIDTH + 'px',
-                height: MB_HEIGHT + 'px',
+                width: STEAMI_WIDTH + 'px',
+                height: STEAMI_HEIGHT + 'px',
             });
             this.style = <SVGStyleElement>svg.child(this.element, 'style', {});
             this.style.textContent = STEAMI_STYLE;
