@@ -195,11 +195,7 @@
             "attachPowerOnRight": true,
             "onboardComponents": [],
             "useCrocClips": true,
-            "marginWhenBreadboarding": [0, 0, 80, 0],
-            "bootloaderBaudSwitchInfo": {
-                "vid": "0x239A",
-                "pid": "0x8018"
-            }
+            "marginWhenBreadboarding": [0, 0, 80, 0]
         }
     },
 
