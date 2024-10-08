@@ -528,26 +528,27 @@ namespace pxsim.visuals {
         }
 
         private UpdateLeds() {
-            const leds = this.board.ledState.getAllStates();
-            leds.forEach((state, i) => {
-                if (state.on) {
-                    this.makeLedGlow(
-                        this.element.getElementById(
-                            'LED' + state.pin,
-                        ) as SVGElement,
-                        state.color,
-                        5,
-                    );
-                } else {
-                    this.makeLedGlow(
-                        this.element.getElementById(
-                            'LED' + state.pin,
-                        ) as SVGElement,
-                        '#ffffff',
-                        0,
-                    );
-                }
-            });
+            // Not implemented yet
+            // const leds = this.board.ledState.getAllStates();
+            // leds.forEach((state, i) => {
+            //     if (state.on) {
+            //         this.makeLedGlow(
+            //             this.element.getElementById(
+            //                 'LED' + state.pin,
+            //             ) as SVGElement,
+            //             state.color,
+            //             5,
+            //         );
+            //     } else {
+            //         this.makeLedGlow(
+            //             this.element.getElementById(
+            //                 'LED' + state.pin,
+            //             ) as SVGElement,
+            //             '#ffffff',
+            //             0,
+            //         );
+            //     }
+            // });
         }
 
         private updatePins() {
