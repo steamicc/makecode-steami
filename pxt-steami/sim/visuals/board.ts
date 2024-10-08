@@ -1,5 +1,5 @@
 namespace pxsim.visuals {
-    const MB_STYLE = `
+    const STEAMI_STYLE = `
         svg.sim {
             box-sizing: border-box;
             width: 100%;
@@ -920,7 +920,7 @@ namespace pxsim.visuals {
                 height: MB_HEIGHT + 'px',
             });
             this.style = <SVGStyleElement>svg.child(this.element, 'style', {});
-            this.style.textContent = MB_STYLE;
+            this.style.textContent = STEAMI_STYLE;
 
             this.defs = <SVGDefsElement>svg.child(this.element, 'defs', {});
             this.g = <SVGGElement>svg.elt('g');
