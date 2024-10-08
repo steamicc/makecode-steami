@@ -193,15 +193,7 @@
             "groundPins": ["GND", "GND_P22", "GND_P1", "GND_P27", "GND_P26"],
             "threeVoltPins": ["3V3", "3V3_P30", "3V3_P23"],
             "attachPowerOnRight": true,
-            "onboardComponents": [
-                "accelerometer",
-                "buttonpair",
-                "speaker",
-                "thermometer",
-                "rgbsensor",
-                "lightsensor",
-                "microphone"
-            ],
+            "onboardComponents": [],
             "useCrocClips": true,
             "marginWhenBreadboarding": [0, 0, 80, 0],
             "bootloaderBaudSwitchInfo": {

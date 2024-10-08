@@ -41,31 +41,7 @@ namespace pxsim {
         }
     }
 
-    export class DalBoard
-        extends CoreBoard
-        implements
-            AccelerometerBoard,
-            LightSensorBoard,
-            TemperatureBoard,
-            CapTouchBoard,
-            StorageBoard,
-            LedBoard
-    {
-        // state & update logic for component services
-        buttonState: CommonButtonState;
-        lightSensorState: AnalogSensorState;
-        thermometerState: AnalogSensorState;
-        thermometerUnitState: number;
-        edgeConnectorState: EdgeConnectorState;
-        capacitiveSensorState: CapacitiveSensorState;
-        accelerometerState: AccelerometerState;
-        touchButtonState: TouchButtonState;
-        storageState: StorageState;
-
-        ledState: LedState;
-
-        invertAccelerometerYAxis = true;
-
+    export class DalBoard extends CoreBoard {
         viewHost: visuals.BoardHost;
         view: SVGSVGElement;
 
@@ -75,72 +51,6 @@ namespace pxsim {
             SteamiPinName.init();
 
             this.bus.setNotify(DAL.DEVICE_ID_NOTIFY, DAL.DEVICE_ID_NOTIFY_ONE);
-
-            //components
-            this.storageState = new StorageState();
-
-            //LEDs
-            this.builtinParts['leds'] = this.ledState = new LedState([]);
-
-            this.builtinParts['buttonpair'] = this.buttonState =
-                new CommonButtonState();
-
-            this.builtinParts['lightsensor'] = this.lightSensorState =
-                new AnalogSensorState(DAL.DEVICE_ID_LIGHT_SENSOR, 0, 255);
-            this.builtinParts['thermometer'] = this.thermometerState =
-                new AnalogSensorState(DAL.DEVICE_ID_THERMOMETER, -5, 50);
-            this.builtinParts['capacitivesensor'] = this.capacitiveSensorState =
-                new CapacitiveSensorState({
-                    0: 0,
-                    1: 1,
-                    2: 2,
-                    3: 3,
-                    6: 4,
-                    9: 5,
-                    10: 6,
-                    12: 7,
-                });
-
-            this.builtinParts['accelerometer'] = this.accelerometerState =
-                new AccelerometerState(runtime);
-            this.builtinParts['edgeconnector'] = this.edgeConnectorState =
-                new EdgeConnectorState({
-                    pins: [
-                        pxsim.SteamiPinName.A0,
-                        pxsim.SteamiPinName.A1,
-                        pxsim.SteamiPinName.A2,
-                        pxsim.SteamiPinName.A3,
-                        pxsim.SteamiPinName.A4,
-                        pxsim.SteamiPinName.A5,
-                        pxsim.SteamiPinName.A6,
-                        pxsim.SteamiPinName.A7,
-                        pxsim.SteamiPinName.A8,
-                        pxsim.SteamiPinName.A9,
-                        pxsim.SteamiPinName.D4,
-                        pxsim.SteamiPinName.D5,
-                        pxsim.SteamiPinName.D6,
-                        pxsim.SteamiPinName.D7,
-                        pxsim.SteamiPinName.D8,
-                        pxsim.SteamiPinName.D13,
-                        pxsim.SteamiPinName.IR_IN,
-                        pxsim.SteamiPinName.IR_OUT,
-                    ],
-                });
-            this.builtinParts['microservo'] = this.edgeConnectorState;
-
-            this.builtinVisuals['microservo'] = () =>
-                new visuals.MicroServoView();
-            this.builtinPartVisuals['microservo'] = (xy: visuals.Coord) =>
-                visuals.mkMicroServoPart(xy);
-            this.touchButtonState = new TouchButtonState([
-                pxsim.SteamiPinName.A1,
-                pxsim.SteamiPinName.A2,
-                pxsim.SteamiPinName.A3,
-                pxsim.SteamiPinName.A4,
-                pxsim.SteamiPinName.A5,
-                pxsim.SteamiPinName.A6,
-                pxsim.SteamiPinName.A7,
-            ]);
         }
 
         receiveMessage(msg: SimulatorMessage) {
@@ -197,10 +107,6 @@ namespace pxsim {
 
         screenshotAsync(width?: number): Promise<ImageData> {
             return this.viewHost.screenshotAsync(width);
-        }
-
-        getDefaultPitchPin() {
-            return this.edgeConnectorState.getPin(SteamiPinName.D6);
         }
     }
 
