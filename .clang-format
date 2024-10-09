@@ -1,6 +1,28 @@
-BasedOnStyle: LLVM
+BasedOnStyle: Google
+Standard: Auto
+
 IndentWidth: 4
+TabWidth: 4
 UseTab: Never
-ColumnLimit: 130
+ColumnLimit: 120
+
+AccessModifierOffset: -2
+AlignConsecutiveAssignments: AcrossEmptyLines
+AlignConsecutiveMacros: AcrossEmptyLines
+AlignEscapedNewlines: true
 AllowShortFunctionsOnASingleLine: Inline
-SortIncludes: false
+BinPackArguments: true
+BinPackParameters: true
+BreakBeforeBraces: Stroustrup
+DerivePointerAlignment: false
+FixNamespaceComments: true
+IndentCaseLabels: true
+IndentPPDirectives: BeforeHash
+IntegerLiteralSeparator:
+    Binary: 4
+    Decimal: 3
+    Hex: -1
+PointerAlignment: Left
+ReferenceAlignment: Left
+SortIncludes: true
+SortUsingDeclarations: true
