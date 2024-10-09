@@ -9,6 +9,7 @@
     "securityOpt": ["seccomp=unconfined"],
     "privileged": true,
     "mounts": ["type=bind,source=/dev/bus/usb,target=/dev/bus/usb"],
+    "runArgs": ["--device=/dev/bus/usb"],
 
     "remoteEnv": {
         "PXT_NODOCKER": "1",
@@ -30,7 +31,8 @@
             "installOhMyZsh": true,
             "upgradePackages": true,
             "username": "vscode"
-        }
+        },
+        "ghcr.io/devcontainers/features/github-cli:1": {}
     },
     "customizations": {
         // Configure properties specific to VS Code.
@@ -63,32 +65,51 @@
                 "[typescript]": {
                     "editor.defaultFormatter": "esbenp.prettier-vscode"
                 },
+                "[makefile]": {
+                    "editor.tabSize": 8
+                },
                 "[cpp]": {
-                    "editor.defaultFormatter": "ms-vscode.cpptools"
+                    "editor.defaultFormatter": "xaver.clang-format"
                 },
                 "editor.rulers": [130],
                 "javascript.validate.enable": false,
                 "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
                 "typescript.format.semicolons": "insert",
                 "typescript.tsdk": "node_modules/typescript/lib",
-                "eslint.validate": ["typescript", "typescriptreact"]
+                "eslint.validate": ["typescript", "typescriptreact"],
+                "C_Cpp.default.compilerPath": "/arm_toolchain/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc",
+                "C_Cpp.default.cStandard": "c23",
+                "C_Cpp.default.cppStandard": "c++23",
+                "C_Cpp.default.intelliSenseMode": "gcc-arm",
+                "C_Cpp.loggingLevel": "Information",
+                "C_Cpp.intelliSenseEngineFallback": "disabled",
+                "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+                "cmake.configureOnOpen": false
             },
             // Add the IDs of extensions you want installed when the container is created.
             "extensions": [
-                "dbaeumer.vscode-eslint",
+                "amiralizadeh9480.cpp-helper",
+                "augustocdias.tasks-shell-input",
+                "dan-c-underwood.arm",
                 "esbenp.prettier-vscode",
                 "github.vscode-pull-request-github",
+                "keroc.hex-fmt",
+                "marus25.cortex-debug",
                 "ms-python.python",
                 "ms-vscode.cpptools-extension-pack",
-                "marus25.cortex-debug",
-                "vivaxy.vscode-conventional-commits"
+                "ms-vscode.vscode-serial-monitor",
+                "rioj7.command-variable",
+                "trond-snekvik.gnu-mapfiles",
+                "vivaxy.vscode-conventional-commits",
+                "xaver.clang-format",
+                "ZixuanWang.linkerscript"
             ]
         }
     },
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     "forwardPorts": [3232, 3233],
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "make build",
+    "postCreateCommand": "make setup build",
     // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
     "remoteUser": "vscode"
 }
