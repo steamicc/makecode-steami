@@ -460,6 +460,8 @@ namespace pxsim.visuals {
             let state = this.board;
             if (!state) return;
 
+            this.UpdateLeds();
+
             if (!runtime || runtime.dead)
                 pxsim.U.addClass(this.element, 'grayscale');
             else pxsim.U.removeClass(this.element, 'grayscale');
@@ -508,6 +510,73 @@ namespace pxsim.visuals {
                 this.lastIrTransmitterFlash = now;
                 svg.animate(this.irTransmitter, 'sim-flash-stroke');
             }
+        }
+
+        private UpdateLeds() {
+            const leds = this.board.ledState.getAllStates();
+            leds.forEach((state, i) => {
+                if (state.on) {
+                    this.makeLedGlow(
+                        this.element.getElementById(
+                            'LED' + state.pin,
+                        ) as SVGElement,
+                        state.color,
+                        state.intensity,
+                    );
+                } else {
+                    this.makeLedGlow(
+                        this.element.getElementById(
+                            'LED' + state.pin,
+                        ) as SVGElement,
+                        '#ffffff',
+                        state.intensity,
+                    );
+                }
+            });
+        }
+
+        private makeLedGlow(led: SVGElement, color: string, intensity: number) {
+            const filterId = `glow-${color.replace('#', '')}-${intensity}`;
+            let glowFilter = this.element.getElementById(filterId);
+
+            if (!glowFilter) {
+                glowFilter = svg.child(this.defs, 'filter', {
+                    id: filterId,
+                    x: '-50%',
+                    y: '-50%',
+                    width: '200%',
+                    height: '200%',
+                });
+
+                svg.child(glowFilter, 'feGaussianBlur', {
+                    stdDeviation: (intensity / 2).toString(),
+                    result: 'blur',
+                });
+
+                svg.child(glowFilter, 'feFlood', {
+                    'flood-color': color,
+                    'flood-opacity': '1',
+                    result: 'color',
+                });
+
+                svg.child(glowFilter, 'feComposite', {
+                    in: 'color',
+                    in2: 'blur',
+                    operator: 'in',
+                    result: 'coloredBlur',
+                });
+
+                let merge = svg.child(glowFilter, 'feMerge', {});
+                for (let i = 0; i < Math.max(2, intensity); i++) {
+                    svg.child(merge, 'feMergeNode', { in: 'coloredBlur' });
+                }
+                svg.child(merge, 'feMergeNode', { in: 'SourceGraphic' });
+            }
+
+            const elements = led.querySelectorAll('*');
+            Array.from(elements).forEach(element => {
+                element.setAttribute('filter', `url(#${filterId})`);
+            });
         }
 
         private buildDom() {

@@ -284,4 +284,27 @@ declare namespace control {
     function isUSBInitialized(): boolean;
 }
 
+
+
+    //% block="leds" weight=100 color=#4287f5 icon=""
+declare namespace leds {
+
+    /**
+     * @brief Set LED RGB off
+     */
+    //% block="set led RGB off" weight=80 group="LED RGB"
+    //% help=leds/leds_setLedRGBOff
+    //% blockId="leds_setLedRGBOff" blockGap=8 shim=leds::setLedRGBOff
+    function setLedRGBOff(): void;
+
+    /**
+     * @brief Set LED RGB to color
+     * @param color Color to set
+     */
+    //% block="set led RGB to %color" weight=80 group="LED RGB"
+    //% help=leds/leds_setLedRGB
+    //% blockId="leds_setLedRGB" blockGap=8 shim=leds::setLedRGB
+    function setLedRGB(color: AllColors): void;
+}
+
 // Auto-generated. Do not edit. Really.
