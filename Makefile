@@ -121,7 +121,12 @@ endef
 all : setup
 
 .PHONY : setup
-setup : | _deepclean install-makecode-steami install-pxt install-pxt-common-packages install-pxt-steami install-pxt-steami-backend
+setup : | prepare _deepclean install-makecode-steami install-pxt install-pxt-common-packages install-pxt-steami install-pxt-steami-backend
+
+.PHONY : prepare
+prepare :
+	@echo "Install Git hooks"
+	git config core.hooksPath .hooks
 
 .PHONY : install-makecode-steami
 install-makecode-steami : node_modules/.package-lock.json package-lock.json
