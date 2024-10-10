@@ -821,6 +821,8 @@ namespace pxsim.visuals {
                 }
             };
 
+            // let bpState = this.board.buttonState;
+            // let stateButtons = bpState.buttons;
             let buttonsState = this.board.buttonsState;
             this.buttonsOuter.forEach((btn, index) => {
                 pointerEvents.down.forEach(evid =>
@@ -833,12 +835,14 @@ namespace pxsim.visuals {
                     }),
                 );
                 btn.addEventListener(pointerEvents.leave, ev => {
+                    buttonsState.setState(btn.id, false);
                     svg.fill(
                         this.buttons[index],
                         this.props.theme.buttonUps[index],
                     );
                 });
                 btn.addEventListener(pointerEvents.up, ev => {
+                    buttonsState.setState(btn.id, false);
                     svg.fill(
                         this.buttons[index],
                         this.props.theme.buttonUps[index],
