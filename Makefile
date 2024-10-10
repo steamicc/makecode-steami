@@ -52,20 +52,19 @@ define _clean_static
 endef
 
 define _clean_pxt_steami
-	if [ -d pxt-steami/built ]; then
-		echo "Clean pxt-steami build" 
+	echo "Clean pxt-steami build" 
 
-		if ! [ -x "$(PXT)" ]; then
-			echo "pxt not found ! \n Manual cleanning"
-			$(call _remove_directory_if_exist,pxt-steami/built)
-			$(call _remove_directory_if_exist,pxt-steami/libs/core/built)
-			$(call _remove_directory_if_exist,pxt-steami/libs/blocksprj/built)
-			exit 0
-		else
-			echo "pxt found ! \n Automatic cleanning"
+	if [ -x "$(PXT)" ]; then
+		echo "pxt found ! \n Automatic cleanning"
+		if [ -d pxt-steami/built ]; then
 			cd pxt-steami || exit
 			pxt clean
 		fi
+	else
+		echo "pxt not found ! \n Manual cleanning"
+		$(call _remove_directory_if_exist,pxt-steami/built)
+		$(call _remove_directory_if_exist,pxt-steami/libs/core/built)
+		$(call _remove_directory_if_exist,pxt-steami/libs/blocksprj/built)
 	fi
 endef
 
@@ -86,17 +85,15 @@ define _clean_pxt_steami_backend_certificates
 	$(call _remove_file_if_exist,pxt-steami-backend/https/rootCA.pem)
 endef
 
-
-#remove @$(call _clean_pxt_steami_backend_certificates) to avoid host certificates regeneration after each clean 
 define _clean
 	$(call _clean_static)
 	$(call _clean_pxt_steami)
-	$(call _clean_pxt_common_packages)
-	$(call _clean_pxt_core)
 endef
 
 define _deepclean
 	$(call _clean)
+	$(call _clean_pxt_common_packages)
+	$(call _clean_pxt_core)
 	$(call deepclean_node_package,pxt)
 	$(call deepclean_node_package,pxt-common-packages)
 	$(call deepclean_node_package,pxt-steami)
