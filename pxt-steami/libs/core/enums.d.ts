@@ -37,22 +37,6 @@
     }
 
 
-    declare const enum AllLeds {
-    //% block="LED_CHG"
-    LED_CHG = 1,
-    //% block="LED_STATUS"
-    LED_STATUS = 2,
-    //% block="LED_BLE"
-    LED_ble = 3,
-    //% block="LED_FLASH"
-    LED_FLASH = 4,
-    //% block="LED_DAPLINK"
-    LED_DAPLINK = 5,
-    //% block="LED_RGB"
-    LED_RGB = 6,
-    }
-
-
     declare const enum AllColors {
     //% block="Red" color=#ff0000
     Red = 0,

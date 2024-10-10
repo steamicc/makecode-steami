@@ -1,13 +1,4 @@
 namespace pxsim.leds {
-    enum AllLeds {
-        LED_CHG = 1,
-        LED_STATUS = 2,
-        LED_BLE = 3,
-        LED_FLASH = 4,
-        LED_DAPLINK = 5,
-        LED_RGB = 6,
-    }
-
     enum AllColors {
         RED = 0,
         GREEN = 1,
@@ -41,13 +32,13 @@ namespace pxsim.leds {
 
     export function setLedRGBOff(): void {
         let ledState = pxsim.ledState();
-        ledState.setState(AllLeds.LED_RGB, false, '#000000', 0);
+        ledState.setState(6, false, '#000000', 0);
         runtime.queueDisplayUpdate();
     }
 
     export function setLedRGB(color: AllColors): void {
         let ledState = pxsim.ledState();
-        ledState.setState(AllLeds.LED_RGB, true, getHexColor(color), 7);
+        ledState.setState(6, true, getHexColor(color), 7);
         runtime.queueDisplayUpdate();
     }
 }
