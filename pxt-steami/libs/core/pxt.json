@@ -49,7 +49,8 @@
         "loops.cpp",
         "pause.ts",
         "forever.ts",
-        "usb.cpp"
+        "usb.cpp",
+        "leds.cpp"
     ],
 
     "dependencies": {},
