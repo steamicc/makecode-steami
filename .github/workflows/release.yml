@@ -27,7 +27,7 @@ jobs:
             id-token: write # to enable use of OIDC for npm provenance
         strategy:
             matrix:
-                node-version: [16.x, 18.x, 20.x]
+                node-version: [20.x]
         steps:
             - name: Cache node modules
               id: cache-npm
