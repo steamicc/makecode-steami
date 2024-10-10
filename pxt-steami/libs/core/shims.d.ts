@@ -313,6 +313,19 @@ declare namespace leds {
 declare namespace buttons {
 
     /**
+     * Registers an event for when a button is pressed.
+     * @param button The button to monitor.
+     * @param handler The function to execute when the button is pressed.
+     */
+    //% block="on button %button pressed"
+    //% weight=80 group="Buttons"
+    //% help=buttons/on-button-pressed
+    //% blockId=buttons_on_button_pressed
+    //% button.shadow="dropdown"
+    //% handler.shadow="basic" shim=buttons::onButtonPressed
+    function onButtonPressed(button: AllButtons, body: () => void): void;
+
+    /**
      * @brief Is button selected pressed
      * @param buttons button to check
      */
