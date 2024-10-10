@@ -459,6 +459,11 @@ namespace pxsim.visuals {
         public updateState() {
             let state = this.board;
             if (!state) return;
+            this.buttonsOuter.forEach(element => {
+                if (!state.buttonsState.getState(element.id)) {
+                    state.buttonsState.setState(element.id, false);
+                }
+            });
 
             this.UpdateLeds();
 
@@ -816,14 +821,11 @@ namespace pxsim.visuals {
                 }
             };
 
-            // let bpState = this.board.buttonState;
-            // let stateButtons = bpState.buttons;
+            let buttonsState = this.board.buttonsState;
             this.buttonsOuter.forEach((btn, index) => {
-                // let button = stateButtons[index];
-
                 pointerEvents.down.forEach(evid =>
                     btn.addEventListener(evid, ev => {
-                        // button.setPressed(true);
+                        buttonsState.setState(btn.id, true);
                         svg.fill(
                             this.buttons[index],
                             this.props.theme.buttonDown,
@@ -831,14 +833,12 @@ namespace pxsim.visuals {
                     }),
                 );
                 btn.addEventListener(pointerEvents.leave, ev => {
-                    // button.setPressed(false);
                     svg.fill(
                         this.buttons[index],
                         this.props.theme.buttonUps[index],
                     );
                 });
                 btn.addEventListener(pointerEvents.up, ev => {
-                    // button.setPressed(false);
                     svg.fill(
                         this.buttons[index],
                         this.props.theme.buttonUps[index],

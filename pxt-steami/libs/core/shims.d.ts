@@ -307,4 +307,19 @@ declare namespace leds {
     function setLedRGB(color: AllColors): void;
 }
 
+
+
+    //% block="buttons" weight=100 color=#fc030b icon=""
+declare namespace buttons {
+
+    /**
+     * @brief Is button selected pressed
+     * @param buttons button to check
+     */
+    //% block="is %buttons pressed" weight=80 group="Buttons"
+    //% help=buttons/buttons_isButtonPressed
+    //% blockId="buttons_isButtonPressed" blockGap=8 shim=buttons::isButtonPressed
+    function isButtonPressed(button: AllButtons): boolean;
+}
+
 // Auto-generated. Do not edit. Really.

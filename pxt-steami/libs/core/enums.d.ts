@@ -72,4 +72,16 @@
 declare namespace leds {
 }
 
+
+    declare const enum AllButtons {
+    //% block="Button A"
+    BTN_A = 1,
+    //% block="Button B"
+    BTN_B = 2,
+    //% block="Button Menu"
+    BTN_MENU = 3,
+    }
+declare namespace buttons {
+}
+
 // Auto-generated. Do not edit. Really.

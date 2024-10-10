@@ -50,7 +50,8 @@
         "pause.ts",
         "forever.ts",
         "usb.cpp",
-        "leds.cpp"
+        "leds.cpp",
+        "buttons.cpp"
     ],
 
     "dependencies": {},

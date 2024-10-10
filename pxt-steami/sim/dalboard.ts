@@ -41,8 +41,9 @@ namespace pxsim {
         }
     }
 
-    export class DalBoard extends CoreBoard implements LedBoard {
+    export class DalBoard extends CoreBoard implements LedBoard, ButtonsBoard {
         ledState: LedState;
+        buttonsState: ButtonsState;
         buttonState: CommonButtonState;
         edgeConnectorState: EdgeConnectorState;
 
@@ -58,6 +59,11 @@ namespace pxsim {
 
             //LEDs
             this.builtinParts['leds'] = this.ledState = new LedState([]);
+
+            //Buttons
+            this.builtinParts['buttons'] = this.buttonsState = new ButtonsState(
+                [],
+            );
         }
 
         receiveMessage(msg: SimulatorMessage) {
