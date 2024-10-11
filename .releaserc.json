@@ -1,0 +1,19 @@
+{
+    "branches": [
+        "main",
+        {
+            "name": "staging",
+            "prerelease": true
+        },
+        "production"
+    ],
+    "repositoryUrl": "https://github.com/steamicc/makecode-steami.git",
+    "debug": "false",
+    "plugins": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        "@semantic-release/npm",
+        "@semantic-release/git",
+        "@semantic-release/github"
+    ]
+}
