@@ -5,13 +5,25 @@ namespace pxsim.buttons {
         BTN_MENU = 3,
     }
 
-    export function onButtonPressed(button: AllButtons, handler: () => void) {
-        // const buttonsState = pxsim.buttonState();
-        // const btnIds = ['BTN_a_base', 'BTN_b_base', 'BTN_menu_base'];
-        // const buttonPin = btnIds[button.valueOf() - 1];
-        // if (buttonsState.getState(buttonPin).on) {
-        //     handler();
-        // }
+    export function onButtonPressed(button: AllButtons, body: pxsim.RefAction) {
+        const buttonsState = pxsim.buttonState();
+        const btnIds = ['BTN_a_base', 'BTN_b_base', 'BTN_menu_base'];
+        const buttonPin = btnIds[button.valueOf() - 1];
+
+        if (typeof body !== 'function') {
+            console.error("Callback n'est pas une fonction valide !");
+            return;
+        }
+
+        function checkButtonState() {
+            const buttonState = buttonsState.getState(buttonPin);
+            if (buttonState?.on) {
+                runtime.runFiberAsync(body);
+            }
+            setTimeout(checkButtonState, 100);
+        }
+
+        checkButtonState();
     }
 
     export function isButtonPressed(button: AllButtons) {
