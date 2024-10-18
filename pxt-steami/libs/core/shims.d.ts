@@ -335,4 +335,22 @@ declare namespace buttons {
     function isButtonPressed(button: AllButtons): boolean;
 }
 
+
+
+    //% block="music" weight=100 color=#f200fa icon=""
+declare namespace music {
+
+    /**
+     * Make the buzzer ring to a tone.
+     * @param tone The tone the buzzer ring to.
+     */
+    //% block="ring tone at %tone"
+    //% weight=80 group="Tones"
+    //% help=music/ring-tone
+    //% blockId=music_ringTone
+    //% button.shadow="dropdown"
+    //% handler.shadow="basic" shim=music::ringTone
+    function ringTone(tone: AllTones): void;
+}
+
 // Auto-generated. Do not edit. Really.

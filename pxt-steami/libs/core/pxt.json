@@ -51,7 +51,8 @@
         "forever.ts",
         "usb.cpp",
         "leds.cpp",
-        "buttons.cpp"
+        "buttons.cpp",
+        "buzzer.cpp"
     ],
 
     "dependencies": {},

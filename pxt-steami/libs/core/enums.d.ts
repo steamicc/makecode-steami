@@ -84,4 +84,34 @@ declare namespace leds {
 declare namespace buttons {
 }
 
+
+    declare const enum AllTones {
+    //% block="C"
+    C = 261,
+    //% block="C♯ or D♭"
+    C_SHARP_D_FLAT = 277,
+    //% block="D"
+    D = 294,
+    //% block="D♯ or E♭"
+    D_SHARP_E_FLAT = 311,
+    //% block="E"
+    E = 330,
+    //% block="F"
+    F = 349,
+    //% block="F♯ or G♭"
+    F_SHARP_G_FLAT = 370,
+    //% block="G"
+    G = 392,
+    //% block="G♯ or A♭"
+    G_SHARP_A_FLAT = 415,
+    //% block="A"
+    A = 440,
+    //% block="A♯ or B♭"
+    A_SHARP_B_FLAT = 466,
+    //% block="B"
+    B = 494,
+    }
+declare namespace music {
+}
+
 // Auto-generated. Do not edit. Really.
