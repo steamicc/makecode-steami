@@ -27,6 +27,14 @@ namespace pxsim.music {
         WOMP_WOMP, // Descending failure sound
     }
 
+    enum AllSongs {
+        HAPPY_TUNE, // Joyeux
+        SAD_TUNE, // Triste
+        FUNKY_BEAT, // Rythmé
+        MYSTERY_TUNE, // Mystérieux
+        ALERT_TUNE, // Alerte
+    }
+
     export function makeSoundFor(freq: number, duration: number) {
         AudioContextManager.tone(freq, 1);
         runtime.queueDisplayUpdate();
@@ -126,6 +134,74 @@ namespace pxsim.music {
                 break;
             default:
                 console.error('Unknown sound type');
+        }
+    }
+
+    export function playSong(song: AllSongs) {
+        switch (song) {
+            case AllSongs.HAPPY_TUNE: // Mélodie joyeuse allongée
+                playMelody([
+                    { freq: 660, duration: 200 }, // E
+                    { freq: 880, duration: 200 }, // A
+                    { freq: 990, duration: 300 }, // B
+                    { freq: 880, duration: 200 }, // A
+                    { freq: 660, duration: 300 }, // E
+                    { freq: 990, duration: 200 }, // B
+                    { freq: 880, duration: 200 }, // A
+                    { freq: 1100, duration: 300 }, // C#
+                    { freq: 990, duration: 300 }, // B
+                ]);
+                break;
+            case AllSongs.SAD_TUNE: // Mélodie triste allongée
+                playMelody([
+                    { freq: 400, duration: 300 }, // G
+                    { freq: 350, duration: 300 }, // F
+                    { freq: 300, duration: 400 }, // D
+                    { freq: 350, duration: 300 }, // F
+                    { freq: 400, duration: 300 }, // G
+                    { freq: 300, duration: 500 }, // D
+                    { freq: 250, duration: 500 }, // C
+                ]);
+                break;
+            case AllSongs.FUNKY_BEAT: // Beat rythmé allongé
+                playMelody([
+                    { freq: 600, duration: 150 }, // G#
+                    { freq: 700, duration: 150 }, // A
+                    { freq: 800, duration: 150 }, // B
+                    { freq: 900, duration: 150 }, // C
+                    { freq: 700, duration: 150 }, // A
+                    { freq: 800, duration: 150 }, // B
+                    { freq: 1000, duration: 150 }, // D
+                    { freq: 900, duration: 150 }, // C
+                    { freq: 700, duration: 150 }, // A
+                ]);
+                break;
+            case AllSongs.MYSTERY_TUNE: // Mélodie mystérieuse allongée
+                playMelody([
+                    { freq: 500, duration: 250 }, // D
+                    { freq: 600, duration: 200 }, // G
+                    { freq: 550, duration: 200 }, // F
+                    { freq: 400, duration: 300 }, // D
+                    { freq: 500, duration: 250 }, // D
+                    { freq: 450, duration: 250 }, // F
+                    { freq: 300, duration: 400 }, // C
+                    { freq: 400, duration: 300 }, // D
+                ]);
+                break;
+            case AllSongs.ALERT_TUNE: // Alerte allongée
+                playMelody([
+                    { freq: 1200, duration: 100 }, // C#
+                    { freq: 1000, duration: 100 }, // B
+                    { freq: 800, duration: 100 }, // G
+                    { freq: 1200, duration: 100 }, // C#
+                    { freq: 1000, duration: 100 }, // B
+                    { freq: 800, duration: 100 }, // G
+                    { freq: 1000, duration: 150 }, // B
+                    { freq: 1200, duration: 150 }, // C#
+                ]);
+                break;
+            default:
+                console.error('Unknown song type');
         }
     }
 }

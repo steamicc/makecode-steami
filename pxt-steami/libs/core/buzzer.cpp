@@ -51,6 +51,19 @@ enum class AllSounds {
     WOMP_WOMP // Descending failure sound
 };
 
+enum class AllSongs {
+    //% block="happy tune"
+    HAPPY_TUNE, // Joyeux
+    //% block="sad tune"
+    SAD_TUNE, // Triste
+    //% block="funky beat"
+    FUNKY_BEAT, // Rythmé
+    //% block="mystery tune"
+    MYSTERY_TUNE, // Mystérieux
+    //% block="alert tune"
+    ALERT_TUNE, // Alerte
+};
+
 //% block="music" weight=100 color=#f200fa icon=""
 namespace music {
 void makeSoundFor(int freq, int duration) {
@@ -164,4 +177,89 @@ void ringSound(AllSounds sound) {
     }
 }
 
+/**
+ * Make the buzzer ring to a song.
+ * @param song The song the buzzer ring to.
+ */
+//% block="ring song %song"
+//% weight=80 group="Songs"
+//% help=music/ring-song
+//% blockId=music_ringSong
+//% button.shadow="dropdown"
+//% handler.shadow="basic"
+void playSong(AllSongs song) {
+    switch (song) {
+    case AllSongs::HAPPY_TUNE: // Mélodie joyeuse allongée
+        playMelody(
+            new std::pair<int, int>[9]{
+                {660, 200},  // E
+                {880, 200},  // A
+                {990, 300},  // B
+                {880, 200},  // A
+                {660, 300},  // E
+                {990, 200},  // B
+                {880, 200},  // A
+                {1100, 300}, // C#
+                {990, 300},  // B
+            },
+            9);
+        break;
+    case AllSongs::SAD_TUNE: // Mélodie triste allongée
+        playMelody(
+            new std::pair<int, int>[7]{
+                {400, 300}, // G
+                {350, 300}, // F
+                {300, 400}, // D
+                {350, 300}, // F
+                {400, 300}, // G
+                {300, 500}, // D
+                {250, 500}, // C
+            },
+            7);
+        break;
+    case AllSongs::FUNKY_BEAT: // Beat rythmé allongé
+        playMelody(
+            new std::pair<int, int>[9]{
+                {600, 150},  // G#
+                {700, 150},  // A
+                {800, 150},  // B
+                {900, 150},  // C
+                {700, 150},  // A
+                {800, 150},  // B
+                {1000, 150}, // D
+                {900, 150},  // C
+                {700, 150},  // A
+            },
+            9);
+        break;
+    case AllSongs::MYSTERY_TUNE: // Mélodie mystérieuse allongée
+        playMelody(
+            new std::pair<int, int>[8]{
+                {500, 250}, // D
+                {600, 200}, // G
+                {550, 200}, // F
+                {400, 300}, // D
+                {500, 250}, // D
+                {450, 250}, // F
+                {300, 400}, // C
+                {400, 300}, // D
+            },
+            8);
+        break;
+    case AllSongs::ALERT_TUNE: // Alerte allongée
+        playMelody(
+            new std::pair<int, int>[8]{
+                {1200, 100}, // C#
+                {1000, 100}, // B
+                {800, 100},  // G
+                {1200, 100}, // C#
+                {1000, 100}, // B
+                {800, 100},  // G
+                {1000, 150}, // B
+                {1200, 150}, // C#
+            },
+            8);
+        break;
+    }
+}
 }; // namespace music

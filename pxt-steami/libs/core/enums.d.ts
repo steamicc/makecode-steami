@@ -135,6 +135,20 @@ declare namespace buttons {
     //% block="womp-womp"
     WOMP_WOMP = 9,
     }
+
+
+    declare const enum AllSongs {
+    //% block="happy tune"
+    HAPPY_TUNE = 0,
+    //% block="sad tune"
+    SAD_TUNE = 1,
+    //% block="funky beat"
+    FUNKY_BEAT = 2,
+    //% block="mystery tune"
+    MYSTERY_TUNE = 3,
+    //% block="alert tune"
+    ALERT_TUNE = 4,
+    }
 declare namespace music {
 }
 

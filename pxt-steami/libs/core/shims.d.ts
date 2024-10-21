@@ -387,6 +387,18 @@ declare namespace music {
     //% button.shadow="dropdown"
     //% handler.shadow="basic" shim=music::ringSound
     function ringSound(sound: AllSounds): void;
+
+    /**
+     * Make the buzzer ring to a song.
+     * @param song The song the buzzer ring to.
+     */
+    //% block="ring song %song"
+    //% weight=80 group="Songs"
+    //% help=music/ring-song
+    //% blockId=music_ringSong
+    //% button.shadow="dropdown"
+    //% handler.shadow="basic" shim=music::playSong
+    function playSong(song: AllSongs): void;
 }
 
 // Auto-generated. Do not edit. Really.
