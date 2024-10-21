@@ -351,6 +351,42 @@ declare namespace music {
     //% button.shadow="dropdown"
     //% handler.shadow="basic" shim=music::ringTone
     function ringTone(tone: AllTones): void;
+
+    /**
+     * Make the buzzer stop ringing.
+     */
+    //% block="stop ring tone"
+    //% weight=80 group="Tones"
+    //% help=music/stop-ring-tone
+    //% blockId=music_stopRingTone
+    //% button.shadow="dropdown"
+    //% handler.shadow="basic" shim=music::stopRingTone
+    function stopRingTone(): void;
+
+    /**
+     * Make the buzzer ring to a tone for a duration.
+     * @param tone The tone the buzzer ring to.
+     * @param duration The duration the buzzer ring for.
+     */
+    //% block="ring tone at %tone for %duration ms"
+    //% weight=80 group="Tones"
+    //% help=music/ring-tone-for-duration
+    //% blockId=music_ringToneForDuration
+    //% button.shadow="dropdown"
+    //% handler.shadow="basic" shim=music::ringToneForDuration
+    function ringToneForDuration(tone: AllTones, duration: int32): void;
+
+    /**
+     * Make the buzzer ring to a sound.
+     * @param sound The sound the buzzer ring to.
+     */
+    //% block="ring sound %sound"
+    //% weight=80 group="Sounds"
+    //% help=music/ring-sound
+    //% blockId=music_ringSound
+    //% button.shadow="dropdown"
+    //% handler.shadow="basic" shim=music::ringSound
+    function ringSound(sound: AllSounds): void;
 }
 
 // Auto-generated. Do not edit. Really.

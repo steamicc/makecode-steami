@@ -111,6 +111,30 @@ declare namespace buttons {
     //% block="B"
     B = 494,
     }
+
+
+    declare const enum AllSounds {
+    //% block="beep"
+    BEEP = 0,
+    //% block="boop"
+    BOOP = 1,
+    //% block="bloop"
+    BLOOP = 2,
+    //% block="ding"
+    DING = 3,
+    //% block="buzz"
+    BUZZ = 4,
+    //% block="zing"
+    ZING = 5,
+    //% block="click"
+    CLICK = 6,
+    //% block="whoop"
+    WHOOP = 7,
+    //% block="ta-da"
+    TA_DA = 8,
+    //% block="womp-womp"
+    WOMP_WOMP = 9,
+    }
 declare namespace music {
 }
 
