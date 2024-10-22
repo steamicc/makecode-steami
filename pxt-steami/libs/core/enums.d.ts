@@ -151,5 +151,7 @@ declare namespace buttons {
     }
 declare namespace music {
 }
+declare namespace screen {
+}
 
 // Auto-generated. Do not edit. Really.

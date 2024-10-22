@@ -466,6 +466,7 @@ namespace pxsim.visuals {
             });
 
             this.UpdateLeds();
+            this.UpdateScreen();
 
             if (!runtime || runtime.dead)
                 pxsim.U.addClass(this.element, 'grayscale');
@@ -540,6 +541,59 @@ namespace pxsim.visuals {
             });
         }
 
+        private UpdateScreen() {
+            const screen = this.board.screenSteamiState.getState();
+            this.screenShow(screen);
+        }
+
+        private screenShow(
+            screenState: { x: number; y: number; on: boolean }[],
+        ) {
+            const screenWidth = 155;
+            const screenHeight = 155;
+
+            const screenSize = 132;
+            const DIA_SCREEN = 128;
+            const pixelWidth = screenWidth / screenSize;
+            const pixelHeight = screenHeight / screenSize;
+
+            const centerX = screenSize / 2;
+            const centerY = screenSize / 2;
+            const radius = DIA_SCREEN / 2;
+
+            const svgNS = 'http://www.w3.org/2000/svg';
+            const pixelGroup = document.createElementNS(svgNS, 'g');
+
+            pixelGroup.setAttribute('transform', 'translate(339,14)');
+
+            screenState.forEach(states => {
+                const { x, y, on } = states;
+
+                const dx = x - centerX;
+                const dy = y - centerY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance <= radius) {
+                    const color = on ? '#f2be02' : '#000000';
+
+                    const rect = document.createElementNS(svgNS, 'rect');
+                    rect.setAttribute('x', (x * pixelWidth).toString());
+                    rect.setAttribute('y', (y * pixelHeight).toString());
+                    rect.setAttribute('width', pixelWidth.toString());
+                    rect.setAttribute('height', pixelHeight.toString());
+                    rect.setAttribute('fill', color);
+                    rect.setAttribute('stroke', 'none');
+                    rect.setAttribute('stroke-width', '0');
+                    rect.setAttribute('shape-rendering', 'crispEdges');
+                    rect.setAttribute('vector-effect', 'non-scaling-stroke');
+
+                    pixelGroup.appendChild(rect);
+                }
+            });
+
+            this.screen.appendChild(pixelGroup);
+        }
+
         private makeLedGlow(led: SVGElement, color: string, intensity: number) {
             const filterId = `glow-${color.replace('#', '')}-${intensity}`;
             let glowFilter = this.element.getElementById(filterId);
@@ -608,7 +662,7 @@ namespace pxsim.visuals {
             this.buildPins();
             this.buildBtn();
             this.buildJoystick();
-            this.buildLcdScreen();
+            this.buildScreen();
         }
 
         private buildBtn() {
@@ -728,85 +782,12 @@ namespace pxsim.visuals {
             });
         }
 
-        private buildLcdScreen() {
+        private buildScreen() {
             this.screen = this.element.getElementById('screen') as SVGGElement;
             const screen_showcase = this.element.getElementById(
                 'screen_showcase',
             ) as SVGGElement;
             screen_showcase.style.display = 'none';
-
-            const matrix = [];
-            const rows = 25;
-            const cols = 25;
-
-            const leftEye = {
-                rowStart: 5,
-                rowEnd: 10,
-                colStart: 3,
-                colEnd: 8,
-            };
-            const rightEye = {
-                rowStart: 5,
-                rowEnd: 10,
-                colStart: 15,
-                colEnd: 20,
-            };
-
-            for (let i = 0; i < rows; i++) {
-                const row = [];
-                for (let j = 0; j < cols; j++) {
-                    if (
-                        (i >= leftEye.rowStart &&
-                            i <= leftEye.rowEnd &&
-                            j >= leftEye.colStart &&
-                            j <= leftEye.colEnd) ||
-                        (i >= rightEye.rowStart &&
-                            i <= rightEye.rowEnd &&
-                            j >= rightEye.colStart &&
-                            j <= rightEye.colEnd)
-                    ) {
-                        row.push('yellow');
-                    } else {
-                        row.push('black');
-                    }
-                }
-                matrix.push(row);
-            }
-
-            this.screenShow(matrix);
-        }
-
-        private screenShow(matScreen: string[][]) {
-            const screenWidth = 105;
-            const screenHeight = 105;
-
-            const numRows = matScreen.length;
-            const numCols = matScreen[0].length;
-
-            const pixelWidth = screenWidth / numCols;
-            const pixelHeight = screenHeight / numRows;
-
-            const svgNS = 'http://www.w3.org/2000/svg';
-            const pixelGroup = document.createElementNS(svgNS, 'g');
-
-            pixelGroup.setAttribute('transform', 'translate(365,40)');
-
-            for (let row = 0; row < numRows; row++) {
-                for (let col = 0; col < numCols; col++) {
-                    const color = matScreen[row][col];
-                    const rect = document.createElementNS(svgNS, 'rect');
-
-                    rect.setAttribute('x', (col * pixelWidth).toString());
-                    rect.setAttribute('y', (row * pixelHeight).toString());
-                    rect.setAttribute('width', pixelWidth.toString());
-                    rect.setAttribute('height', pixelHeight.toString());
-                    rect.setAttribute('fill', color);
-
-                    pixelGroup.appendChild(rect);
-                }
-            }
-
-            this.screen.appendChild(pixelGroup);
         }
 
         private attachEvents() {

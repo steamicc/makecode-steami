@@ -52,7 +52,8 @@
         "usb.cpp",
         "leds.cpp",
         "buttons.cpp",
-        "buzzer.cpp"
+        "buzzer.cpp",
+        "screen.cpp"
     ],
 
     "dependencies": {},

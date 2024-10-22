@@ -401,4 +401,20 @@ declare namespace music {
     function playSong(song: AllSongs): void;
 }
 
+
+
+    //% block="Screen" weight=100 color=#f57e00 icon=""
+declare namespace screen {
+
+    /**
+     * Draws a pixel on the screen at the specified coordinates with the given color.
+     * @param x the x-coordinate of the pixel, eg: 0
+     * @param y the y-coordinate of the pixel, eg: 0
+     */
+    //% block="draw pixel at x $x y $y color $color"
+    //% x.min=0
+    //% y.min=0 shim=screen::drawPixel
+    function drawPixel(x: int32, y: int32): void;
+}
+
 // Auto-generated. Do not edit. Really.
