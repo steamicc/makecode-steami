@@ -337,7 +337,7 @@ namespace pxsim.visuals {
         private buttons: SVGElement[];
         private buttonsOuter: SVGElement[];
         private screen: SVGElement;
-        private screen_showcase: SVGElement;
+        private screen_showcase: { x: number; y: number; on: boolean }[];
         private leds: SVGElement[];
         private buttonABText: SVGTextElement;
         private pins: SVGElement[];
@@ -543,7 +543,10 @@ namespace pxsim.visuals {
 
         private UpdateScreen() {
             const screen = this.board.screenSteamiState.getState();
-            this.screenShow(screen);
+            if (screen != this.screen_showcase) {
+                this.screenShow(screen);
+                this.screen_showcase = screen;
+            }
         }
 
         private screenShow(
