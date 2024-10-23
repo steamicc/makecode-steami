@@ -24,8 +24,6 @@ namespace pxsim.screen {
         let sx = x1 < x2 ? 1 : -1;
         let sy = y1 < y2 ? 1 : -1;
         let err = dx - dy;
-
-        while (true) {}
     }
 
     export function clearScreen() {

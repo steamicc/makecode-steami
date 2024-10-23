@@ -543,58 +543,20 @@ namespace pxsim.visuals {
 
         private UpdateScreen() {
             const screen = this.board.screenSteamiState.getState();
-            if (screen != this.screen_showcase) {
-                this.screenShow(screen);
-                this.screen_showcase = screen;
-            }
+            this.screenShow(screen);
         }
 
         private screenShow(
             screenState: { x: number; y: number; on: boolean }[],
         ) {
-            const screenWidth = 155;
-            const screenHeight = 155;
-
-            const screenSize = 132;
-            const DIA_SCREEN = 128;
-            const pixelWidth = screenWidth / screenSize;
-            const pixelHeight = screenHeight / screenSize;
-
-            const centerX = screenSize / 2;
-            const centerY = screenSize / 2;
-            const radius = DIA_SCREEN / 2;
-
-            const svgNS = 'http://www.w3.org/2000/svg';
-            const pixelGroup = document.createElementNS(svgNS, 'g');
-
-            pixelGroup.setAttribute('transform', 'translate(339,14)');
-
             screenState.forEach(states => {
                 const { x, y, on } = states;
-
-                const dx = x - centerX;
-                const dy = y - centerY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-
-                if (distance <= radius) {
-                    const color = on ? '#f2be02' : '#000000';
-
-                    const rect = document.createElementNS(svgNS, 'rect');
-                    rect.setAttribute('x', (x * pixelWidth).toString());
-                    rect.setAttribute('y', (y * pixelHeight).toString());
-                    rect.setAttribute('width', pixelWidth.toString());
-                    rect.setAttribute('height', pixelHeight.toString());
-                    rect.setAttribute('fill', color);
-                    rect.setAttribute('stroke', 'none');
-                    rect.setAttribute('stroke-width', '0');
-                    rect.setAttribute('shape-rendering', 'crispEdges');
-                    rect.setAttribute('vector-effect', 'non-scaling-stroke');
-
-                    pixelGroup.appendChild(rect);
+                const color = on ? '#f2be02' : '#000000';
+                const pixel = document.getElementById(`x${x}_y${y}`);
+                if (pixel) {
+                    pixel.setAttribute('fill', color);
                 }
             });
-
-            this.screen.appendChild(pixelGroup);
         }
 
         private makeLedGlow(led: SVGElement, color: string, intensity: number) {
@@ -787,10 +749,121 @@ namespace pxsim.visuals {
 
         private buildScreen() {
             this.screen = this.element.getElementById('screen') as SVGGElement;
-            const screen_showcase = this.element.getElementById(
+            const screen_face = this.element.getElementById(
                 'screen_showcase',
             ) as SVGGElement;
-            screen_showcase.style.display = 'none';
+            screen_face.style.display = 'none';
+            this.screen_showcase = this.createDefaultScreen();
+
+            const screenWidth = 155;
+            const screenHeight = 155;
+
+            const screenSize = 132;
+            const DIA_SCREEN = 128;
+            const pixelWidth = screenWidth / screenSize;
+            const pixelHeight = screenHeight / screenSize;
+
+            const centerX = screenSize / 2;
+            const centerY = screenSize / 2;
+            const radius = DIA_SCREEN / 2;
+
+            const svgNS = 'http://www.w3.org/2000/svg';
+            const pixelGroup = document.createElementNS(svgNS, 'g');
+
+            pixelGroup.setAttribute('transform', 'translate(339,14)');
+
+            this.screen_showcase.forEach(states => {
+                const { x, y, on } = states;
+
+                const dx = x - centerX;
+                const dy = y - centerY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance <= radius) {
+                    const color = on ? '#f2be02' : '#000000';
+
+                    const rect = document.createElementNS(svgNS, 'rect');
+                    rect.setAttribute('x', (x * pixelWidth).toString());
+                    rect.setAttribute('y', (y * pixelHeight).toString());
+                    rect.setAttribute('width', pixelWidth.toString());
+                    rect.setAttribute('height', pixelHeight.toString());
+                    rect.setAttribute('fill', color);
+                    rect.setAttribute('stroke', 'none');
+                    rect.setAttribute('stroke-width', '0');
+                    rect.setAttribute('shape-rendering', 'crispEdges');
+                    rect.setAttribute('vector-effect', 'non-scaling-stroke');
+
+                    // Add the unique ID for each pixel
+                    rect.setAttribute('id', `x${x}_y${y}`);
+
+                    pixelGroup.appendChild(rect);
+                }
+            });
+
+            this.screen.appendChild(pixelGroup);
+        }
+
+        private createDefaultScreen(): {
+            x: number;
+            y: number;
+            on: boolean;
+        }[] {
+            const DIA_SCREEN = 128;
+            const SCREEN_PADDING = 2;
+            const SCREEN_SIZE = DIA_SCREEN + SCREEN_PADDING * 2;
+
+            const screen: { x: number; y: number; on: boolean }[] = [];
+
+            // Paramètres des yeux
+            const leftEyeCenterX = 36;
+            const rightEyeCenterX = 96;
+            const eyeCenterY = 70;
+            const eyeRadius = 23;
+            const eyeInsideRadius = 10;
+
+            for (let y = 0; y < SCREEN_SIZE; y++) {
+                for (let x = 0; x < SCREEN_SIZE; x++) {
+                    let on = false;
+
+                    // const distToLeftEye = Math.sqrt(
+                    //     Math.pow(x - leftEyeCenterX, 2) +
+                    //         Math.pow(y - eyeCenterY, 2),
+                    // );
+                    // const distToRightEye = Math.sqrt(
+                    //     Math.pow(x - rightEyeCenterX, 2) +
+                    //         Math.pow(y - eyeCenterY, 2),
+                    // );
+
+                    // const distToInsideLeftEye = Math.sqrt(
+                    //     Math.pow(x - leftEyeCenterX, 2) +
+                    //         Math.pow(y - eyeCenterY, 2),
+                    // );
+                    // const distToInsideRightEye = Math.sqrt(
+                    //     Math.pow(x - rightEyeCenterX, 2) +
+                    //         Math.pow(y - eyeCenterY, 2),
+                    // );
+
+                    // if (
+                    //     (distToLeftEye <= eyeRadius && y <= eyeCenterY) ||
+                    //     (distToRightEye <= eyeRadius && y <= eyeCenterY)
+                    // ) {
+                    //     on = true;
+                    // }
+
+                    // if (
+                    //     (distToInsideLeftEye <= eyeInsideRadius &&
+                    //         y <= eyeCenterY) ||
+                    //     (distToInsideRightEye <= eyeInsideRadius &&
+                    //         y <= eyeCenterY)
+                    // ) {
+                    //     on = false;
+                    // }
+
+                    screen.push({ x, y, on });
+                }
+            }
+
+            return screen;
         }
 
         private attachEvents() {
