@@ -1,0 +1,263 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+
+        {
+            "name": "pxt",
+            "path": "pxt/"
+        },
+        {
+            "name": "pxt-common-packages",
+            "path": "pxt-common-packages/"
+        },
+        {
+            "name": "pxt-steami",
+            "path": "pxt-steami/"
+        },
+        {
+            "name": "pxt-steami-backend",
+            "path": "pxt-steami-backend/"
+        }
+    ],
+
+    "settings": {
+        "C_Cpp.default.browse.path": [
+            "${workspaceFolder}/**",
+            "/arm_toolchain/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/**"
+        ],
+
+        "cmake.generator": "Unix Makefiles",
+        "cmake.sourceDirectory": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/",
+        "cmake.buildDirectory": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/build",
+
+        "C_Cpp.default.compileCommands": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/build/compile_commands.json",
+        "C_Cpp.default.includePath": [
+            "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/utils/cmake/toolchains/ARM_GCC/*",
+            "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/build/libraries/codal-core/gen",
+            "${workspaceFolder:codal-core}/inc/core/*",
+            "${workspaceFolder:codal-core}/inc/driver-models/*",
+            "${workspaceFolder:codal-core}/inc/drivers/*",
+            "${workspaceFolder:codal-core}/inc/streams/*",
+            "${workspaceFolder:codal-core}/inc/types/*",
+            "${workspaceFolder:codal-core}/inc/*",
+            "${workspaceFolder:codal-stm32}/asm/*",
+            "${workspaceFolder:codal-stm32}/inc/drivers/*",
+            "${workspaceFolder:codal-stm32}/inc/*",
+            "${workspaceFolder:codal-stm32}/source/*",
+            "${workspaceFolder:codal-stm32}/source/stm32/*",
+            "${workspaceFolder:codal-stm32}/source/stm32/LL/*",
+            "${workspaceFolder:codal-stm32}/source/stm32/HAL/*",
+            "${workspaceFolder:codal-stm32}/source/stm32/OpenAMP/*",
+            "${workspaceFolder:codal-stm32}/source/stm32/usb/*",
+            "${workspaceFolder:codal-stm32}/source/stm32/usb/cdc/*",
+            "${workspaceFolder:codal-stm32}/source/stm32/usb/hid/*",
+            "${workspaceFolder:codal-stm32}/source/stm32/usb/webusb/*",
+            "${workspaceFolder:codal-stm32}/system/CMSIS_5/CMSIS/Core/Include/*",
+            "${workspaceFolder:codal-stm32}/variants/STM32WBxx/WB55R(C-E-G)V/*",
+            "${workspaceFolder:codal-stm32}/system/Drivers/CMSIS/Device/ST/STM32WBxx/Include/*",
+            "${workspaceFolder:codal-stm32}/system/Drivers/CMSIS/Device/ST/STM32WBxx/Source/Templates/gcc/*",
+            "${workspaceFolder:codal-stm32}/system/STM32WBxx/*",
+            "${workspaceFolder:codal-stm32}/system/Drivers/STM32WBxx_HAL_Driver/Inc/*",
+            "${workspaceFolder:codal-stm32}/system/Drivers/STM32WBxx_HAL_Driver/Src/*",
+            "${workspaceFolder:codal-stm32}/system/Middlewares/ST/STM32_USB_Device_Library/Core/Inc/*",
+            "${workspaceFolder:codal-stm32}/system/Middlewares/ST/STM32_USB_Device_Library/Core/Src/*",
+            "${workspaceFolder:codal-stm32}/system/Middlewares/ST/STM32_USB_Device_Library/Class/WebUSB/Inc/*",
+            "${workspaceFolder:codal-stm32}/system/Middlewares/ST/STM32_USB_Device_Library/Class/WebUSB/Src/*",
+            "${workspaceFolder:codal-stm32-STEAM32_WB55RG}/inc/*",
+            "${workspaceFolder:codal-stm32-STEAM32_WB55RG}/model/*",
+            "${workspaceFolder:codal-stm32-STEAM32_WB55RG}/samples/*"
+        ],
+
+        "files.associations": {
+            "digital_io.h": "c",
+            "pinconfigured.h": "c",
+            "hw_config.h": "c",
+            "peripheralpins.h": "c",
+            "cstring": "cpp",
+            "spi_com.h": "c",
+            "usbd_ctlreq.h": "c",
+            "usbd_ioreq.h": "c",
+            "usbd_def.h": "c",
+            "usbd_webusb.h": "c",
+            "usbd_ep_conf.h": "c",
+            "usbd_conf.h": "c",
+            "stm32_def.h": "c",
+            "core_cm4.h": "c",
+            "variant.h": "c"
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "amiralizadeh9480.cpp-helper",
+            "augustocdias.tasks-shell-input",
+            "dan-c-underwood.arm",
+            "dbaeumer.vscode-eslint",
+            "esbenp.prettier-vscode",
+            "github.vscode-pull-request-github",
+            "keroc.hex-fmt",
+            "marus25.cortex-debug",
+            "ms-python.python",
+            "ms-vscode.cpptools-extension-pack",
+            "ms-vscode.vscode-serial-monitor",
+            "rioj7.command-variable",
+            "trond-snekvik.gnu-mapfiles",
+            "vivaxy.vscode-conventional-commits",
+            "xaver.clang-format",
+            "ZixuanWang.linkerscript"
+        ]
+    },
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "type": "npm",
+                "script": "build",
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "problemMatcher": [],
+                "label": "build pxt-steami target"
+            },
+            {
+                "type": "npm",
+                "script": "clean",
+                "group": "build",
+                "problemMatcher": [],
+                "label": "clean pxt-steami target"
+            },
+            {
+                "type": "npm",
+                "script": "package",
+                "group": "build",
+                "problemMatcher": [],
+                "label": "build static package of pxt-steami"
+            },
+            {
+                "type": "npm",
+                "script": "staticserve",
+                "group": "test",
+                "problemMatcher": [],
+                "label": "serve static pxt-steami editor"
+            },
+            {
+                "type": "npm",
+                "script": "serve",
+                "group": "test",
+                "problemMatcher": [],
+                "label": "serve pxt-steami editor"
+            },
+            {
+                "label": "flash_openocd",
+                "args": [],
+                "type": "shell",
+                "command": "openocd -s /usr/share/openocd/scripts/ -s ./libraries/codal-stm32-STEAM32_WB55RG/scripts -f openocd.cfg -c 'program build/STM32 verify reset exit'",
+                "options": {
+                    "cwd": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/"
+                },
+                "presentation": {
+                    "reveal": "silent"
+                },
+                "group": {
+                    "kind": "test",
+                    "isDefault": true
+                }
+            },
+            {
+                "label": "flash_pyocd",
+                "args": [],
+                "type": "shell",
+
+                "command": "pyocd flash build/STM32 --format elf",
+                "options": {
+                    "cwd": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal"
+                },
+                "presentation": {
+                    "reveal": "silent"
+                },
+                "group": {
+                    "kind": "test"
+                }
+            }
+        ]
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "type": "cortex-debug",
+                "request": "launch",
+                "servertype": "openocd",
+                "cwd": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal",
+                "executable": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/build/STM32",
+                "name": "Debug (OpenOCD)",
+                "svdFile": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/scripts/STM32.svd",
+                "searchDir": [
+                    "/usr/share/openocd/scripts/",
+                    "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/scripts/"
+                ],
+                "configFiles": ["openocd.cfg"],
+                "liveWatch": {
+                    "enabled": true,
+                    "samplesPerSecond": 4
+                },
+                "preLaunchTask": "flash_openocd",
+                "runToEntryPoint": "main",
+                "showDevDebugOutput": "parsed",
+                "preLaunchCommands": [
+                    "set mem inaccessible-by-default off",
+                    "enable breakpoint",
+                    "monitor reset"
+                ]
+            },
+            {
+                "type": "cortex-debug",
+                "request": "launch",
+                "servertype": "pyocd",
+                "cwd": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal",
+                "executable": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/build/STM32",
+                "name": "Debug (PyOCD)",
+                "svdFile": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/scripts/STM32.svd",
+                "preLaunchTask": "flash_pyocd",
+                "runToEntryPoint": "main",
+                "showDevDebugOutput": "parsed"
+            },
+            {
+                "type": "cortex-debug",
+                "request": "attach",
+                "servertype": "openocd",
+                "cwd": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal",
+                "executable": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/build/STM32",
+                "name": "Debug (OpenOCD) -- attach",
+                "svdFile": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/scripts/STM32.svd",
+                "searchDir": [
+                    "/usr/share/openocd/scripts/",
+                    "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/scripts/"
+                ],
+                "configFiles": ["openocd.cfg"],
+                "liveWatch": {
+                    "enabled": true,
+                    "samplesPerSecond": 4
+                },
+                "preLaunchTask": "flash_openocd",
+                "runToEntryPoint": "main",
+                "showDevDebugOutput": "parsed"
+            },
+            {
+                "type": "cortex-debug",
+                "request": "attach",
+                "servertype": "pyocd",
+                "cwd": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal",
+                "executable": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/build/STM32",
+                "name": "Debug (PyOCD) -- attach",
+                "svdFile": "${workspaceFolder:pxt-steami}/libs/blocksprj/built/codal/scripts/STM32.svd",
+                "preLaunchTask": "build current target",
+                "runToEntryPoint": "main",
+                "showDevDebugOutput": "parsed"
+            }
+        ],
+        "compounds": []
+    }
+}
