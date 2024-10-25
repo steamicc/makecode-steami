@@ -71,11 +71,19 @@
                 "[cpp]": {
                     "editor.defaultFormatter": "xaver.clang-format"
                 },
+                "[json]": {
+                    "editor.defaultFormatter": "esbenp.prettier-vscode"
+                },
+                "[jsonc]": {
+                    "editor.defaultFormatter": "esbenp.prettier-vscode"
+                },
                 "editor.rulers": [130],
                 "javascript.validate.enable": false,
-                "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+                "javascript.format.semicolons": "insert",
                 "typescript.format.semicolons": "insert",
+                "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
                 "typescript.tsdk": "node_modules/typescript/lib",
+                "eslint.format.enable": true,
                 "eslint.validate": ["typescript", "typescriptreact"],
                 "C_Cpp.default.compilerPath": "/arm_toolchain/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc",
                 "C_Cpp.default.cStandard": "c23",
@@ -91,6 +99,7 @@
                 "amiralizadeh9480.cpp-helper",
                 "augustocdias.tasks-shell-input",
                 "dan-c-underwood.arm",
+                "dbaeumer.vscode-eslint",
                 "esbenp.prettier-vscode",
                 "github.vscode-pull-request-github",
                 "keroc.hex-fmt",
@@ -109,7 +118,9 @@
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     "forwardPorts": [3232, 3233],
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "make setup build",
+    "postAttachCommand": "make setup build",
+    "postCreateCommand": "sudo /lib/systemd/systemd-udevd --daemon",
+
     // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
     "remoteUser": "vscode"
 }

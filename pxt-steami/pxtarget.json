@@ -80,9 +80,9 @@
         },
         "codalBinary": "STM32",
         "githubCorePackage": "letssteam/codal",
-        "gittag": "v0.10.0",
+        "gittag": "main",
         "serviceId": "steami",
-        "dockerImage": "pext/yotta:latest"
+        "dockerImage": "letssteam/makecode-toolchain:latest"
     },
 
     "multiVariants": ["codalsteami"],
@@ -106,9 +106,9 @@
                 },
                 "codalBinary": "STM32",
                 "githubCorePackage": "letssteam/codal",
-                "gittag": "v0.10.0",
-                "serviceId": "codalsteami",
-                "dockerImage": "pext/yotta:latest"
+                "gittag": "main",
+                "serviceId": "steami",
+                "dockerImage": "letssteam/makecode-toolchain:latest"
             }
         }
     },
