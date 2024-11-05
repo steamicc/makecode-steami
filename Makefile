@@ -1,3 +1,8 @@
+.DEFAULT_GOAL = build
+
+default : build
+all : setup build
+
 .ONESHELL: # Applies to every targets in the file!
 
 export PATH := $(shell pwd)/node_modules/.bin:$(PATH)
@@ -6,6 +11,34 @@ export PXT_FORCE_LOCAL := 1
 export PXT_RUNTIME_DEV := 1 
 export PXT_ASMDEBUG := 1 
 export PXT_NODOCKER := 1 
+
+PXT_LIBRARIES := pxt pxt-common-packages pxt-steami pxt-steami-backend
+PXT_COMMANDS := add buildcss buildjres buildsimjs buildsprites buildtarget bump checkdocs checkpkgcfg ci console deploy extract help init install npminstallnative run serve staticpkg tag testghpkgs update usedblocks 
+# Arguments par défaut pour chaque commande PXT
+PXT_ADD_ARGS ?= 
+PXT_BUILDCSS_ARGS ?= 
+PXT_BUILDJRES_ARGS ?= 
+PXT_BUILDSIMJS_ARGS ?= 
+PXT_BUILDSPRITES_ARGS ?= 
+PXT_BUILDTARGET_ARGS ?= --localbuild --force
+PXT_BUMP_ARGS ?= 
+PXT_CHECKDOCS_ARGS ?= 
+PXT_CHECKPKGCFG_ARGS ?= 
+PXT_CI_ARGS ?= 
+PXT_CONSOLE_ARGS ?= 
+PXT_DEPLOY_ARGS ?= 
+PXT_EXTRACT_ARGS ?= 
+PXT_HELP_ARGS ?= 
+PXT_INIT_ARGS ?= 
+PXT_INSTALL_ARGS ?= 
+PXT_NPMINSTALLNATIVE_ARGS ?= 
+PXT_RUN_ARGS ?= 
+PXT_SERVE_ARGS ?= --localbuild --rebundle --noauth --no-browser --no-serial -h '0.0.0.0'
+PXT_STATICPKG_ARGS ?= -o ../static/ --localbuild
+PXT_TAG_ARGS ?=
+PXT_TESTGHPKGS_ARGS ?= 
+PXT_UPDATE_ARGS ?= 
+PXT_USEDBLOCKS_ARGS ?= 
 
 PXT="/workspaces/makecode-steami/node_modules/.bin/pxt"
 
@@ -117,76 +150,58 @@ define _install_cert_for_local_dev
 	fi
 endef
 
-.PHONY : all
-all : setup
-
-.PHONY : setup
-setup : | prepare _deepclean install-makecode-steami install-pxt install-pxt-common-packages install-pxt-steami install-pxt-steami-backend
-
 .PHONY : prepare
 prepare :
 	@echo "Install Git hooks"
 	git config core.hooksPath .hooks
 
-.PHONY : install-makecode-steami
-install-makecode-steami : node_modules/.package-lock.json package-lock.json
+.PHONY : setup
+setup : prepare clean $(PXT) install-makecode-steami $(addprefix install-,$(PXT_LIBRARIES))
 
-.PHONY : install-pxt
-install-pxt : pxt/node_modules/.package-lock.json pxt/package-lock.json 
+.PHONY : clean
+clean : ;@$(call _clean)
 
-.PHONY : install-pxt-common-packages
-install-pxt-common-packages : pxt-common-packages/node_modules/.package-lock.json pxt-common-packages/package-lock.json
+.PHONY : deepclean
+deepclean : ;@$(call _deepclean)
 
-.PHONY : install-pxt-steami
-install-pxt-steami : pxt-steami/node_modules/.package-lock.json pxt-steami/package-lock.json
+# Création des cibles de build pour chaque package pxt
+define _install_node_package_template
+.PHONY: install-$1
+install-$1: $2/node_modules/.package-lock.json $2/package-lock.json
 
-.PHONY : install-pxt-steami-backend
-install-pxt-steami-backend : pxt-steami-backend/node_modules/.package-lock.json pxt-steami-backend/package-lock.json
+$2/node_modules/.package-lock.json $2/package-lock.json: $2/package.json
+	@$$(call install_node_package,$$(<D))
+
+endef
+
+# Création de la target install-makecode-steami
+$(eval $(call _install_node_package_template,makecode-steami,.))
+
+# Création des targets install-pxt-XXX
+$(foreach target,$(PXT_LIBRARIES),$(eval $(call _install_node_package_template,$(target),$(target))))
 
 $(PXT) : pxt/built/target.json pxt-common-packages/node_modules/.package-lock.json node_modules/.package-lock.json
-
-node_modules/.package-lock.json package-lock.json : package.json
-	@$(call install_node_package,$(<D))
-
-pxt/node_modules/.package-lock.json pxt/package-lock.json : pxt/package.json 
-	@$(call install_node_package,$(<D))
-
-pxt-common-packages/node_modules/.package-lock.json pxt-common-packages/package-lock.json: pxt-common-packages/package.json pxt/built/target.json
-	@$(call install_node_package,$(<D))
-
-pxt-steami/node_modules/.package-lock.json pxt-steami/package-lock.json: pxt-steami/package.json pxt/built/target.json
-	@$(call install_node_package,$(<D))
-
-pxt-steami-backend/node_modules/.package-lock.json pxt-steami-backend/package-lock.json : pxt-steami-backend/package.json
-	@$(call install_node_package,$(<D))
 
 pxt/built/target.json : pxt/node_modules/.package-lock.json
 	cd pxt || exit 
 	npm run build
 
-.PHONY : clean
-clean : ;@$(call _clean)
+define _call_pxt_command_template
+.PHONY: $1
+$1: $3
+	@$$(call pxt_command,$2 $$(PXT_$(shell echo $2 | tr '[:lower:]' '[:upper:]')_ARGS))
 
-.PHONY : _deepclean
-_deepclean : ;@$(call _deepclean)
+endef
 
-.PHONY : build
-build : $(PXT)
-	@$(call pxt_command,buildtarget)
+$(eval $(call _call_pxt_command_template,build,buildtarget,$(PXT)))
 
-.PHONY : ci
-ci : $(PXT)
-	@$(call pxt_command,ci)
-
-.PHONY : serve
-serve : $(PXT)
-	@$(call pxt_command,serve --no-browser --no-serial -h '0.0.0.0')
+$(foreach command,$(PXT_COMMANDS),$(eval $(call _call_pxt_command_template,$(command),$(command),$(PXT))))
 
 .PHONY : package
 package : static/target.json
 
 static/target.json : $(PXT)
-	@$(call pxt_command,staticpkg -o ../static/)
+	@$(call pxt_command,staticpkg $(PXT_STATICPKG_ARGS))
 
 .PHONY : staticserve
 staticserve : static/target.json pxt-steami-backend/https/fastify.cert pxt-steami-backend/https/fastify.key pxt-steami-backend/node_modules/.package-lock.json
@@ -211,3 +226,9 @@ printvars:
 	@$(foreach V,$(sort $(.VARIABLES)), \
 	$(if $(filter-out environment% default automatic, \
 	$(origin $V)),$(warning $V=$($V) ($(value $V)))))
+
+# Affiche toutes les cibles disponibles dans le Makefile
+.PHONY: list
+list:
+	@LC_ALL=C $(MAKE) -pRrq -f $(firstword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/(^|\n)# Files(\n|$$)/,/(^|\n)# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | grep -E -v -e '^[^[:alnum:]]' -e '^$@$$'
+
