@@ -118,7 +118,7 @@
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     "forwardPorts": [3232, 3233],
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postAttachCommand": "make setup build",
+    "postAttachCommand": "make build",
     "postCreateCommand": "sudo /lib/systemd/systemd-udevd --daemon",
 
     // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
