@@ -15,7 +15,8 @@
         "PXT_NODOCKER": "1",
         "PXT_FORCE_LOCAL": "1",
         "PXT_ASMDEBUG": "1",
-        "PXT_RUNTIME_DEV": "1"
+        "PXT_RUNTIME_DEV": "1",
+        "PATH": "${containerEnv:PATH}:/workspaces/makecode-steami/node_modules/.bin"
     },
     "features": {
         "ghcr.io/devcontainers/features/node:1": {
