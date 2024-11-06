@@ -53,5 +53,28 @@
         "commitizen": {
             "path": "@commitlint/cz-commitlint"
         }
+    },
+    "nodemonConfig": {
+        "verbose": true,
+        "watch": [
+            "pxt",
+            "pxt-common-packages",
+            "pxt-steami",
+            "pxt-steami-backend"
+        ],
+        "ext": "js,json,mjs,cjs,ts,c,cpp,h",
+        "ignore": [
+            "**/test/**",
+            "**/build/**",
+            "**/built/**",
+            "**/docs/**",
+            "**/public/**",
+            "**/_locales/**",
+            "**/package-lock.json"
+        ],
+        "delay": 2500,
+        "events": {
+            "restart": "make package"
+        }
     }
 }

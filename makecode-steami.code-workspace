@@ -88,10 +88,6 @@
             "**/.DS_Store": true,
             "**/Thumbs.db": true,
             "**/node_modules": true,
-            "**/pxt/": true,
-            "**/pxt-common-packages/": true,
-            "**/pxt-steami/": true,
-            "**/pxt-steami-backend/": true,
         },
 
         "files.associations": {
