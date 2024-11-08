@@ -28,7 +28,7 @@ define deepclean_node_package
 
 endef
 
-define _clean_static
+define _clean_pxt_static_build
 	echo "Clean static build" 
 	$(call _remove_directory_if_exist,static)
 
@@ -45,9 +45,12 @@ define _clean_pxt_steami
 		fi
 	else
 		echo "pxt not found ! \n Manual cleanning"
+		$(call _remove_directory_if_exist,pxt-steami/.pxt)
 		$(call _remove_directory_if_exist,pxt-steami/built)
+		$(call _remove_directory_if_exist,pxt-steami/projects)
 		$(call _remove_directory_if_exist,pxt-steami/libs/core/built)
 		$(call _remove_directory_if_exist,pxt-steami/libs/blocksprj/built)
+		$(call _remove_directory_if_exist,pxt-steami/libs/tsprj/built)
 	fi
 
 endef
@@ -73,13 +76,13 @@ define _clean_pxt_steami_backend_certificates
 endef
 
 define _clean
-	$(call _clean_static)
+	$(call _clean_pxt_static_build)
 	$(call _clean_pxt_steami)
 
 endef
 
 define _clean_all
-	$(call _clean_static)
+	$(call _clean_pxt_static_build)
 	$(call _clean_pxt_steami)
 	$(call _clean_pxt_common_packages)
 	$(call _clean_pxt_core)

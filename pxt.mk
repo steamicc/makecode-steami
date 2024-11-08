@@ -1,4 +1,5 @@
 PXT_LIBRARIES := pxt pxt-common-packages pxt-steami pxt-steami-backend
+PXT_INSTALL_LIBRARIES := $(addprefix install-,$(PXT_LIBRARIES))
 PXT_COMMANDS := add buildcss buildjres buildsimjs buildsprites buildtarget bump checkdocs checkpkgcfg ci console deploy extract help init install npminstallnative run serve staticpkg tag testghpkgs update usedblocks 
 # Arguments par défaut pour chaque commande PXT
 PXT_ADD_ARGS ?= 
@@ -26,7 +27,7 @@ PXT_TESTGHPKGS_ARGS ?=
 PXT_UPDATE_ARGS ?= 
 PXT_USEDBLOCKS_ARGS ?= 
 
-PXT="/workspaces/makecode-steami/node_modules/.bin/pxt"
+PXT="$(shell pwd)/node_modules/.bin/pxt"
 
 define pxt_command
 	echo "PXT = $(PXT)"
@@ -57,4 +58,10 @@ install-$1: $2/node_modules/.package-lock.json $2/package-lock.json
 $2/node_modules/.package-lock.json $2/package-lock.json: $2/package.json
 	@$$(call install_node_package,$$(<D))
 
+endef
+
+define _build_pxt_core
+	@echo "Build pxt core"
+	cd pxt || exit 
+	npm run build
 endef

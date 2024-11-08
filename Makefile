@@ -16,13 +16,20 @@ prepare:
 	git config core.hooksPath .hooks
 
 .PHONY: setup
-setup: prepare clean $(PXT) 
+setup: deepclean $(PXT) $(PXT_INSTALL_LIBRARIES) build-pxt-core
+	@echo "Setup makecode-steami"
 
 .PHONY : clean
 clean : ;@$(call _clean)
 
+.PHONY : clean-pxt-core
+clean-pxt-core : ;@$(call _clean_pxt_core)
+
+.PHONY : clean-pxt-common-packages
+clean-pxt-common-packages : ;@$(call _clean_pxt_common_packages)
+
 .PHONY : clean-local-certificates
-clean-local-certificates:;@$(call _clean_pxt_steami_backend_certificates)
+clean-local-certificates : ;@$(call _clean_pxt_steami_backend_certificates)
 
 .PHONY : deepclean
 deepclean : ;@$(call _deepclean)
@@ -30,18 +37,31 @@ deepclean : ;@$(call _deepclean)
 # Create make rule for each PXT command
 $(foreach command,$(PXT_COMMANDS),$(eval $(call _call_pxt_command_template,$(command),$(command),$(PXT))))
 
-# Create install rules for each node package
-$(eval $(call _install_node_package_template,makecode-steami,.))
+# Create install rules for each pxt package
 $(foreach target,$(PXT_LIBRARIES),$(eval $(call _install_node_package_template,$(target),$(target))))
 
+.PHONY : install-makecode-steami
+install-makecode-steami: node_modules/.package-lock.json package-lock.json
+	
+node_modules/.package-lock.json package-lock.json:
+	@$(call install_node_package,.)
+
 # Install pxt CLI
-$(PXT) : | install-makecode-steami $(addprefix install-,$(PXT_LIBRARIES)) pxt/built/target.json
+$(PXT) : install-makecode-steami
+
+.NOTPARALLEL : $(PXT) setup
 
 # Build pxt cli
 pxt/built/target.json : pxt/node_modules/.package-lock.json
 	@echo "Build pxt core"
-	cd pxt || exit 
-	npm run build
+	@$(call _build_pxt_core)
+
+.PHONY : build-pxt-core 
+build-pxt-core : install-pxt
+	@echo "Building pxt core ..."
+	$(call _build_pxt_core)
+	@echo "pxt core built"
+
 
 # Create build rule by aliasing pxt buildtarget command
 .PHONY : build
