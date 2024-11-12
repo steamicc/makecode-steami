@@ -6,19 +6,19 @@
 
         {
             "name": "pxt",
-            "path": "pxt/",
+            "path": "./pxt/",
         },
         {
             "name": "pxt-common-packages",
-            "path": "pxt-common-packages/",
+            "path": "./pxt-common-packages/",
         },
         {
             "name": "pxt-steami",
-            "path": "pxt-steami/",
+            "path": "./pxt-steami/",
         },
         {
             "name": "pxt-steami-backend",
-            "path": "pxt-steami-backend/",
+            "path": "./pxt-steami-backend/",
         },
     ],
 
@@ -92,6 +92,10 @@
             "**/.DS_Store": true,
             "**/Thumbs.db": true,
             "**/node_modules": true,
+            "pxt": true,
+            "pxt-common-packages": true,
+            "pxt-steami": true,
+            "pxt-steami-backend": true,
         },
 
         "files.associations": {
