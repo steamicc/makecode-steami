@@ -83,7 +83,7 @@
             "*.cpp": "$(capture).hpp, $(capture).h, $(capture).hxx, $(capture).hh",
             "Makefile": "*.mk",
             "package.json": "package-lock.json, .gitignore, .gitattributes, *.code-workspace",
-            "README.md": "LICENSE.md, TODO.md, CONTRIBUTING.md",
+            "README.md": "LICENSE.md, TODO.md, CONTRIBUTING.md, CHANGELOG.md",
             ".eslintrc.js": ".clang-format, .prettierrc.json, .releaserc.json, .validate-branch-namerc.js, commitlint.config.js, git-precommit-checks.config.js",
         },
 
