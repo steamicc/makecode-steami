@@ -1,4 +1,4 @@
-# STeaMi MakeCode Editor
+# STeaMi MakeCode Editor [![buildtarget](https://github.com/steamicc/makecode-steami/actions/workflows/buildtarget.yml/badge.svg)](https://github.com/steamicc/makecode-steami/actions/workflows/buildtarget.yml)
 
 Welcome to the STeaMi MakeCode Editor repository! This repository provides the MakeCode environment for the STeaMi educational development board, designed to facilitate learning programming and electronics in an engaging and interactive way.
 
