@@ -17,7 +17,9 @@ jobs:
             packages: read
             actions: read
             contents: read
-
+        container:
+            image: letssteam/makecode-toolchain:latest
+            options: --user 1001 --security-opt no-new-privileges
         strategy:
             fail-fast: false
             matrix:
