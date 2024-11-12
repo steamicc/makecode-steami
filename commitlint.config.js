@@ -7,6 +7,7 @@ module.exports = {
   },
   rules: {
     'subject-case': [2, 'always', ['lower-case']],
-    'scope-enum': [1, 'always', ['wip', 'configs', 'formatting', 'code', 'deployment', 'tests']],
+    'scope-enum': [1, 'always', ['wip', 'configs', 'formatting', 'code', 'ci' ,'deployment', 'tests']],
+    'body-max-line-length': [1, 'always', 100],
   },
 };
