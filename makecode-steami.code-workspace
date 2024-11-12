@@ -111,6 +111,15 @@
             "core_cm4.h": "c",
             "variant.h": "c",
         },
+        "conventionalCommits.scopes": [
+            "wip",
+            "configs",
+            "formatting",
+            "code",
+            "ci",
+            "deployment",
+            "tests",
+        ],
     },
     "extensions": {
         "recommendations": [
