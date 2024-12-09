@@ -1,159 +1,4 @@
-// Auto-generated. Do not edit.
-
-
-    declare const enum NumberFormat {
-    Int8LE = 1,
-    UInt8LE = 2,
-    Int16LE = 3,
-    UInt16LE = 4,
-    Int32LE = 5,
-    Int8BE = 6,
-    UInt8BE = 7,
-    Int16BE = 8,
-    UInt16BE = 9,
-    Int32BE = 10,
-
-    UInt32LE = 11,
-    UInt32BE = 12,
-    Float32LE = 13,
-    Float64LE = 14,
-    Float32BE = 15,
-    Float64BE = 16,
-    }
-
-
-    declare const enum PerfCounters {
-    GC = 0,
-    }
-
-
-    declare const enum EventFlags {
-    //%
-    QueueIfBusy = 16,  // MESSAGE_BUS_LISTENER_QUEUE_IF_BUSY
-    //%
-    DropIfBusy = 32,  // MESSAGE_BUS_LISTENER_DROP_IF_BUSY
-    //%
-    Reentrant = 8,  // MESSAGE_BUS_LISTENER_REENTRANT
-    }
-
-
-    declare const enum AllLeds {
-    //% block="LED_CHG"
-    LED_CHG = 1,
-    //% block="LED_STATUS"
-    LED_STATUS = 2,
-    //% block="LED_BLE"
-    LED_ble = 3,
-    //% block="LED_FLASH"
-    LED_FLASH = 4,
-    //% block="LED_DAPLINK"
-    LED_DAPLINK = 5,
-    //% block="LED_RGB"
-    LED_RGB = 6,
-    }
-
-
-    declare const enum AllColors {
-    //% block="Red" color=#ff0000
-    Red = 0,
-    //% block="Green" color=#00ff00
-    Green = 1,
-    //% block="Blue" color=#0000ff
-    Blue = 2,
-    //% block="Yellow" color=#ffff00
-    Yellow = 3,
-    //% block="Magenta" color=#ff00ff
-    Magenta = 4,
-    //% block="Cyan" color=#00ffff
-    Cyan = 5,
-    //% block="White" color=#ffffff
-    White = 6,
-    }
-declare namespace leds {
-}
-
-
-    declare const enum AllButtons {
-    //% block="Button A"
-    BTN_A = 1,
-    //% block="Button B"
-    BTN_B = 2,
-    //% block="Button Menu"
-    BTN_MENU = 3,
-    }
-declare namespace buttons {
-}
-
-
-    declare const enum AllTones {
-    //% block="C"
-    C = 261,
-    //% block="C♯ or D♭"
-    C_SHARP_D_FLAT = 277,
-    //% block="D"
-    D = 294,
-    //% block="D♯ or E♭"
-    D_SHARP_E_FLAT = 311,
-    //% block="E"
-    E = 330,
-    //% block="F"
-    F = 349,
-    //% block="F♯ or G♭"
-    F_SHARP_G_FLAT = 370,
-    //% block="G"
-    G = 392,
-    //% block="G♯ or A♭"
-    G_SHARP_A_FLAT = 415,
-    //% block="A"
-    A = 440,
-    //% block="A♯ or B♭"
-    A_SHARP_B_FLAT = 466,
-    //% block="B"
-    B = 494,
-    }
-
-
-    declare const enum AllSounds {
-    //% block="beep"
-    BEEP = 0,
-    //% block="boop"
-    BOOP = 1,
-    //% block="bloop"
-    BLOOP = 2,
-    //% block="ding"
-    DING = 3,
-    //% block="buzz"
-    BUZZ = 4,
-    //% block="zing"
-    ZING = 5,
-    //% block="click"
-    CLICK = 6,
-    //% block="whoop"
-    WHOOP = 7,
-    //% block="ta-da"
-    TA_DA = 8,
-    //% block="womp-womp"
-    WOMP_WOMP = 9,
-    }
-
-
-    declare const enum AllSongs {
-    //% block="happy tune"
-    HAPPY_TUNE = 0,
-    //% block="sad tune"
-    SAD_TUNE = 1,
-    //% block="funky beat"
-    FUNKY_BEAT = 2,
-    //% block="mystery tune"
-    MYSTERY_TUNE = 3,
-    //% block="alert tune"
-    ALERT_TUNE = 4,
-    }
-declare namespace music {
-}
-
-
-    declare const enum Smiley {
+enum class Smiley {
     //% block="🙂"
     Zero = 0,
     //% block="😐"
@@ -335,9 +180,106 @@ declare namespace music {
     //% block="🫤"
     EightyNine = 89,
     //% block="🛜"
-    Ninety = 90,
-    }
-declare namespace screen {
-}
+    Ninety = 90
+};
 
-// Auto-generated. Do not edit. Really.
+//% block="Screen" weight=100 color=#f57e00 icon=""
+namespace screen {
+/**
+ * @brief a pixel on the screen at the specified coordinates with the given color.
+ * @param x the x-coordinate of the pixel, eg: 0
+ * @param y the y-coordinate of the pixel, eg: 0
+ * @param on the state of the pixel
+ */
+//% block="Set pixel at x $x y $y $on"
+//% help=screen/drawPixel
+//% blockId="screen_drawPixel" blockGap=8
+//% x.min=0 x.max=130
+//% y.min=0 y.max=130
+//% weight=100
+//% group="Draw"
+void drawPixel(int x, int y, bool on) {}
+
+/**
+ * @brief Draw a line on the screen from the specified coordinates to the specified coordinates.
+ * @param x0 the x-coordinate of the start of the line, eg: 0
+ * @param y0 the y-coordinate of the start of the line, eg: 0
+ * @param x1 the x-coordinate of the end of the line, eg: 128
+ * @param y1 the y-coordinate of the end of the line, eg: 128
+ * @param on the state of the pixel
+ */
+//% block="Set line from (x0: $x0, y0: $y0) to (x1: $x1, y1: $y1) $on"
+//% help=screen/drawLine
+//% blockId="screen_drawLine" blockGap=8
+//% x0.min=0 x0.max=128
+//% y0.min=0 y0.max=128
+//% x1.min=0 x1.max=128
+//% y1.min=0 y1.max=128
+//% inlineInputMode=inline
+//% weight=90
+//% group="Draw"
+void drawLine(int x0, int y0, int x1, int y1, bool on) {}
+
+/**
+ * @brief Draw a rectangle on the screen at the specified coordinates with the specified width and
+ * height.
+ * @param x the x-coordinate of the top-left corner of the rectangle, eg: 0
+ * @param y the y-coordinate of the top-left corner of the rectangle, eg: 0
+ * @param width the width of the rectangle, eg: 128
+ * @param height the height of the rectangle, eg: 128
+ * @param on the state of the pixel
+ */
+//% block="Set rectangle at (x $x, y $y) of width $width and height $height $on"
+//% help=screen/drawRectangle
+//% blockId="screen_drawRectangle" blockGap=8
+//% x.min=0 x.max=128
+//% y.min=0 y.max=128
+//% width.min=0 width.max=128
+//% height.min=0 height.max=128
+//% inlineInputMode=inline
+//% weight=80
+//% group="Draw"
+void drawRectangle(int x, int y, int width, int height, bool on) {}
+
+/**
+ * @brief Draw a circle on the screen at the specified coordinates with the specified radius.
+ * @param x0 the x-coordinate of the center of the circle, eg: 64
+ * @param y0 the y-coordinate of the center of the circle, eg: 64
+ * @param r the radius of the circle, eg: 64
+ * @param on the state of the pixel
+ */
+//% block="Set circle at (x $x0 y $y0) of radius $r $on"
+//% help=screen/drawCircle
+//% blockId="screen_drawCircle" blockGap=8
+//% x0.min=0 x0.max=128
+//% y0.min=0 y0.max=128
+//% r.min=0 r.max=128
+//% inlineInputMode=inline
+//% weight=70
+//% group="Draw"
+void drawCircle(int x0, int y0, int r, bool on) {}
+
+/**
+ * @brief Clear the screen
+ */
+//% block="Clear the screen" weight=80
+//% help=screen/clearScreen
+//% blockId="screen_clearScreen" blockGap=8
+//% group="Basic"
+void clearScreen() {}
+
+/**
+ * @brief draw a smiley face on the screen.
+ * @param smiley the smiley face to draw
+ */
+//% block="draw smiley %smiley"
+//% help=screen/drawSmiley
+//% blockId="screen_drawSmiley" blockGap=8
+//% weight=90
+//% group="Preset"
+//% smiley.fieldEditor="gridpicker"
+//% smiley.fieldOptions.columns=5
+//% smiley.fieldOptions.maxRows=5
+//% smiley.fieldOptions.itemSize=40
+void drawSmiley(Smiley smiley) {}
+} // namespace screen

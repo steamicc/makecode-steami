@@ -337,7 +337,7 @@ namespace pxsim.visuals {
         private buttons: SVGElement[];
         private buttonsOuter: SVGElement[];
         private screen: SVGElement;
-        private screen_showcase: SVGElement;
+        private screen_showcase: { x: number; y: number; on: boolean }[];
         private leds: SVGElement[];
         private buttonABText: SVGTextElement;
         private pins: SVGElement[];
@@ -459,8 +459,14 @@ namespace pxsim.visuals {
         public updateState() {
             let state = this.board;
             if (!state) return;
+            this.buttonsOuter.forEach(element => {
+                if (!state.buttonsState.getState(element.id)) {
+                    state.buttonsState.setState(element.id, false);
+                }
+            });
 
             this.UpdateLeds();
+            this.UpdateScreen();
 
             if (!runtime || runtime.dead)
                 pxsim.U.addClass(this.element, 'grayscale');
@@ -535,6 +541,24 @@ namespace pxsim.visuals {
             });
         }
 
+        private UpdateScreen() {
+            const screen = this.board.screenSteamiState.getState();
+            this.screenShow(screen);
+        }
+
+        private screenShow(
+            screenState: { x: number; y: number; on: boolean }[],
+        ) {
+            screenState.forEach(states => {
+                const { x, y, on } = states;
+                const color = on ? '#f2be02' : '#000000';
+                const pixel = document.getElementById(`x${x}_y${y}`);
+                if (pixel) {
+                    pixel.setAttribute('fill', color);
+                }
+            });
+        }
+
         private makeLedGlow(led: SVGElement, color: string, intensity: number) {
             const filterId = `glow-${color.replace('#', '')}-${intensity}`;
             let glowFilter = this.element.getElementById(filterId);
@@ -603,7 +627,7 @@ namespace pxsim.visuals {
             this.buildPins();
             this.buildBtn();
             this.buildJoystick();
-            this.buildLcdScreen();
+            this.buildScreen();
         }
 
         private buildBtn() {
@@ -723,85 +747,123 @@ namespace pxsim.visuals {
             });
         }
 
-        private buildLcdScreen() {
+        private buildScreen() {
             this.screen = this.element.getElementById('screen') as SVGGElement;
-            const screen_showcase = this.element.getElementById(
+            const screen_face = this.element.getElementById(
                 'screen_showcase',
             ) as SVGGElement;
-            screen_showcase.style.display = 'none';
+            screen_face.style.display = 'none';
+            this.screen_showcase = this.createDefaultScreen();
 
-            const matrix = [];
-            const rows = 25;
-            const cols = 25;
+            const screenWidth = 155;
+            const screenHeight = 155;
 
-            const leftEye = {
-                rowStart: 5,
-                rowEnd: 10,
-                colStart: 3,
-                colEnd: 8,
-            };
-            const rightEye = {
-                rowStart: 5,
-                rowEnd: 10,
-                colStart: 15,
-                colEnd: 20,
-            };
+            const screenSize = 132;
+            const DIA_SCREEN = 128;
+            const pixelWidth = screenWidth / screenSize;
+            const pixelHeight = screenHeight / screenSize;
 
-            for (let i = 0; i < rows; i++) {
-                const row = [];
-                for (let j = 0; j < cols; j++) {
-                    if (
-                        (i >= leftEye.rowStart &&
-                            i <= leftEye.rowEnd &&
-                            j >= leftEye.colStart &&
-                            j <= leftEye.colEnd) ||
-                        (i >= rightEye.rowStart &&
-                            i <= rightEye.rowEnd &&
-                            j >= rightEye.colStart &&
-                            j <= rightEye.colEnd)
-                    ) {
-                        row.push('yellow');
-                    } else {
-                        row.push('black');
-                    }
-                }
-                matrix.push(row);
-            }
-
-            this.screenShow(matrix);
-        }
-
-        private screenShow(matScreen: string[][]) {
-            const screenWidth = 105;
-            const screenHeight = 105;
-
-            const numRows = matScreen.length;
-            const numCols = matScreen[0].length;
-
-            const pixelWidth = screenWidth / numCols;
-            const pixelHeight = screenHeight / numRows;
+            const centerX = screenSize / 2;
+            const centerY = screenSize / 2;
+            const radius = DIA_SCREEN / 2;
 
             const svgNS = 'http://www.w3.org/2000/svg';
             const pixelGroup = document.createElementNS(svgNS, 'g');
 
-            pixelGroup.setAttribute('transform', 'translate(365,40)');
+            pixelGroup.setAttribute('transform', 'translate(339,14)');
 
-            for (let row = 0; row < numRows; row++) {
-                for (let col = 0; col < numCols; col++) {
-                    const color = matScreen[row][col];
+            this.screen_showcase.forEach(states => {
+                const { x, y, on } = states;
+
+                const dx = x - centerX;
+                const dy = y - centerY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance <= radius) {
+                    const color = on ? '#f2be02' : '#000000';
+
                     const rect = document.createElementNS(svgNS, 'rect');
-
-                    rect.setAttribute('x', (col * pixelWidth).toString());
-                    rect.setAttribute('y', (row * pixelHeight).toString());
+                    rect.setAttribute('x', (x * pixelWidth).toString());
+                    rect.setAttribute('y', (y * pixelHeight).toString());
                     rect.setAttribute('width', pixelWidth.toString());
                     rect.setAttribute('height', pixelHeight.toString());
                     rect.setAttribute('fill', color);
+                    rect.setAttribute('stroke', 'none');
+                    rect.setAttribute('stroke-width', '0');
+                    rect.setAttribute('shape-rendering', 'crispEdges');
+                    rect.setAttribute('vector-effect', 'non-scaling-stroke');
+
+                    // Add the unique ID for each pixel
+                    rect.setAttribute('id', `x${x}_y${y}`);
 
                     pixelGroup.appendChild(rect);
                 }
-            }
+            });
 
             this.screen.appendChild(pixelGroup);
+        }
+
+        private createDefaultScreen(): {
+            x: number;
+            y: number;
+            on: boolean;
+        }[] {
+            const DIA_SCREEN = 128;
+            const SCREEN_PADDING = 2;
+            const SCREEN_SIZE = DIA_SCREEN + SCREEN_PADDING * 2;
+
+            const screen: { x: number; y: number; on: boolean }[] = [];
+
+            // Paramètres des yeux
+            const leftEyeCenterX = 36;
+            const rightEyeCenterX = 96;
+            const eyeCenterY = 70;
+            const eyeRadius = 23;
+            const eyeInsideRadius = 10;
+
+            for (let y = 0; y < SCREEN_SIZE; y++) {
+                for (let x = 0; x < SCREEN_SIZE; x++) {
+                    let on = false;
+
+                    // const distToLeftEye = Math.sqrt(
+                    //     Math.pow(x - leftEyeCenterX, 2) +
+                    //         Math.pow(y - eyeCenterY, 2),
+                    // );
+                    // const distToRightEye = Math.sqrt(
+                    //     Math.pow(x - rightEyeCenterX, 2) +
+                    //         Math.pow(y - eyeCenterY, 2),
+                    // );
+
+                    // const distToInsideLeftEye = Math.sqrt(
+                    //     Math.pow(x - leftEyeCenterX, 2) +
+                    //         Math.pow(y - eyeCenterY, 2),
+                    // );
+                    // const distToInsideRightEye = Math.sqrt(
+                    //     Math.pow(x - rightEyeCenterX, 2) +
+                    //         Math.pow(y - eyeCenterY, 2),
+                    // );
+
+                    // if (
+                    //     (distToLeftEye <= eyeRadius && y <= eyeCenterY) ||
+                    //     (distToRightEye <= eyeRadius && y <= eyeCenterY)
+                    // ) {
+                    //     on = true;
+                    // }
+
+                    // if (
+                    //     (distToInsideLeftEye <= eyeInsideRadius &&
+                    //         y <= eyeCenterY) ||
+                    //     (distToInsideRightEye <= eyeInsideRadius &&
+                    //         y <= eyeCenterY)
+                    // ) {
+                    //     on = false;
+                    // }
+
+                    screen.push({ x, y, on });
+                }
+            }
+
+            return screen;
         }
 
         private attachEvents() {
@@ -818,12 +880,11 @@ namespace pxsim.visuals {
 
             // let bpState = this.board.buttonState;
             // let stateButtons = bpState.buttons;
+            let buttonsState = this.board.buttonsState;
             this.buttonsOuter.forEach((btn, index) => {
-                // let button = stateButtons[index];
-
                 pointerEvents.down.forEach(evid =>
                     btn.addEventListener(evid, ev => {
-                        // button.setPressed(true);
+                        buttonsState.setState(btn.id, true);
                         svg.fill(
                             this.buttons[index],
                             this.props.theme.buttonDown,
@@ -831,14 +892,14 @@ namespace pxsim.visuals {
                     }),
                 );
                 btn.addEventListener(pointerEvents.leave, ev => {
-                    // button.setPressed(false);
+                    buttonsState.setState(btn.id, false);
                     svg.fill(
                         this.buttons[index],
                         this.props.theme.buttonUps[index],
                     );
                 });
                 btn.addEventListener(pointerEvents.up, ev => {
-                    // button.setPressed(false);
+                    buttonsState.setState(btn.id, false);
                     svg.fill(
                         this.buttons[index],
                         this.props.theme.buttonUps[index],

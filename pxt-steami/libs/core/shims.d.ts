@@ -307,4 +307,202 @@ declare namespace leds {
     function setLedRGB(color: AllColors): void;
 }
 
+
+
+    //% block="buttons" weight=100 color=#fc030b icon=""
+declare namespace buttons {
+
+    /**
+     * Registers an event for when a button is pressed.
+     * @param button The button to monitor.
+     * @param handler The function to execute when the button is pressed.
+     */
+    //% block="on button %button pressed"
+    //% weight=80 group="Buttons"
+    //% help=buttons/on-button-pressed
+    //% blockId=buttons_on_button_pressed
+    //% button.shadow="dropdown"
+    //% handler.shadow="basic" shim=buttons::onButtonPressed
+    function onButtonPressed(button: AllButtons, body: () => void): void;
+
+    /**
+     * @brief Is button selected pressed
+     * @param buttons button to check
+     */
+    //% block="is %buttons pressed" weight=80 group="Buttons"
+    //% help=buttons/buttons_isButtonPressed
+    //% blockId="buttons_isButtonPressed" blockGap=8 shim=buttons::isButtonPressed
+    function isButtonPressed(button: AllButtons): boolean;
+}
+
+
+
+    //% block="music" weight=100 color=#f200fa icon=""
+declare namespace music {
+
+    /**
+     * Make the buzzer ring to a tone.
+     * @param tone The tone the buzzer ring to.
+     */
+    //% block="ring tone at %tone"
+    //% weight=80 group="Tones"
+    //% help=music/ring-tone
+    //% blockId=music_ringTone
+    //% button.shadow="dropdown"
+    //% handler.shadow="basic" shim=music::ringTone
+    function ringTone(tone: AllTones): void;
+
+    /**
+     * Make the buzzer stop ringing.
+     */
+    //% block="stop ring tone"
+    //% weight=80 group="Tones"
+    //% help=music/stop-ring-tone
+    //% blockId=music_stopRingTone
+    //% button.shadow="dropdown"
+    //% handler.shadow="basic" shim=music::stopRingTone
+    function stopRingTone(): void;
+
+    /**
+     * Make the buzzer ring to a tone for a duration.
+     * @param tone The tone the buzzer ring to.
+     * @param duration The duration the buzzer ring for.
+     */
+    //% block="ring tone at %tone for %duration ms"
+    //% weight=80 group="Tones"
+    //% help=music/ring-tone-for-duration
+    //% blockId=music_ringToneForDuration
+    //% button.shadow="dropdown"
+    //% handler.shadow="basic" shim=music::ringToneForDuration
+    function ringToneForDuration(tone: AllTones, duration: int32): void;
+
+    /**
+     * Make the buzzer ring to a sound.
+     * @param sound The sound the buzzer ring to.
+     */
+    //% block="ring sound %sound"
+    //% weight=80 group="Sounds"
+    //% help=music/ring-sound
+    //% blockId=music_ringSound
+    //% button.shadow="dropdown"
+    //% handler.shadow="basic" shim=music::ringSound
+    function ringSound(sound: AllSounds): void;
+
+    /**
+     * Make the buzzer ring to a song.
+     * @param song The song the buzzer ring to.
+     */
+    //% block="ring song %song"
+    //% weight=80 group="Songs"
+    //% help=music/ring-song
+    //% blockId=music_ringSong
+    //% button.shadow="dropdown"
+    //% handler.shadow="basic" shim=music::playSong
+    function playSong(song: AllSongs): void;
+}
+
+
+
+    //% block="Screen" weight=100 color=#f57e00 icon=""
+declare namespace screen {
+
+    /**
+     * @brief a pixel on the screen at the specified coordinates with the given color.
+     * @param x the x-coordinate of the pixel, eg: 0
+     * @param y the y-coordinate of the pixel, eg: 0
+     * @param on the state of the pixel
+     */
+    //% block="Set pixel at x $x y $y $on"
+    //% help=screen/drawPixel
+    //% blockId="screen_drawPixel" blockGap=8
+    //% x.min=0 x.max=130
+    //% y.min=0 y.max=130
+    //% weight=100
+    //% group="Draw" shim=screen::drawPixel
+    function drawPixel(x: int32, y: int32, on: boolean): void;
+
+    /**
+     * @brief Draw a line on the screen from the specified coordinates to the specified coordinates.
+     * @param x0 the x-coordinate of the start of the line, eg: 0
+     * @param y0 the y-coordinate of the start of the line, eg: 0
+     * @param x1 the x-coordinate of the end of the line, eg: 128
+     * @param y1 the y-coordinate of the end of the line, eg: 128
+     * @param on the state of the pixel
+     */
+    //% block="Set line from (x0: $x0, y0: $y0) to (x1: $x1, y1: $y1) $on"
+    //% help=screen/drawLine
+    //% blockId="screen_drawLine" blockGap=8
+    //% x0.min=0 x0.max=128
+    //% y0.min=0 y0.max=128
+    //% x1.min=0 x1.max=128
+    //% y1.min=0 y1.max=128
+    //% inlineInputMode=inline
+    //% weight=90
+    //% group="Draw" shim=screen::drawLine
+    function drawLine(x0: int32, y0: int32, x1: int32, y1: int32, on: boolean): void;
+
+    /**
+     * @brief Draw a rectangle on the screen at the specified coordinates with the specified width and
+     * height.
+     * @param x the x-coordinate of the top-left corner of the rectangle, eg: 0
+     * @param y the y-coordinate of the top-left corner of the rectangle, eg: 0
+     * @param width the width of the rectangle, eg: 128
+     * @param height the height of the rectangle, eg: 128
+     * @param on the state of the pixel
+     */
+    //% block="Set rectangle at (x $x, y $y) of width $width and height $height $on"
+    //% help=screen/drawRectangle
+    //% blockId="screen_drawRectangle" blockGap=8
+    //% x.min=0 x.max=128
+    //% y.min=0 y.max=128
+    //% width.min=0 width.max=128
+    //% height.min=0 height.max=128
+    //% inlineInputMode=inline
+    //% weight=80
+    //% group="Draw" shim=screen::drawRectangle
+    function drawRectangle(x: int32, y: int32, width: int32, height: int32, on: boolean): void;
+
+    /**
+     * @brief Draw a circle on the screen at the specified coordinates with the specified radius.
+     * @param x0 the x-coordinate of the center of the circle, eg: 64
+     * @param y0 the y-coordinate of the center of the circle, eg: 64
+     * @param r the radius of the circle, eg: 64
+     * @param on the state of the pixel
+     */
+    //% block="Set circle at (x $x0 y $y0) of radius $r $on"
+    //% help=screen/drawCircle
+    //% blockId="screen_drawCircle" blockGap=8
+    //% x0.min=0 x0.max=128
+    //% y0.min=0 y0.max=128
+    //% r.min=0 r.max=128
+    //% inlineInputMode=inline
+    //% weight=70
+    //% group="Draw" shim=screen::drawCircle
+    function drawCircle(x0: int32, y0: int32, r: int32, on: boolean): void;
+
+    /**
+     * @brief Clear the screen
+     */
+    //% block="Clear the screen" weight=80
+    //% help=screen/clearScreen
+    //% blockId="screen_clearScreen" blockGap=8
+    //% group="Basic" shim=screen::clearScreen
+    function clearScreen(): void;
+
+    /**
+     * @brief draw a smiley face on the screen.
+     * @param smiley the smiley face to draw
+     */
+    //% block="draw smiley %smiley"
+    //% help=screen/drawSmiley
+    //% blockId="screen_drawSmiley" blockGap=8
+    //% weight=90
+    //% group="Preset"
+    //% smiley.fieldEditor="gridpicker"
+    //% smiley.fieldOptions.columns=5
+    //% smiley.fieldOptions.maxRows=5
+    //% smiley.fieldOptions.itemSize=40 shim=screen::drawSmiley
+    function drawSmiley(smiley: Smiley): void;
+}
+
 // Auto-generated. Do not edit. Really.
