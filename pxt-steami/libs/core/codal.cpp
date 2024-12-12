@@ -1,5 +1,6 @@
 #include "pxt.h"
 #include "LowLevelTimer.h"
+#include "STeaMi.h"
 using namespace codal;
 
 void cpu_clock_init(void);
@@ -161,7 +162,7 @@ void runForever(Action a) {
 void runInParallel(Action a) {
     if (a != 0) {
         registerGCPtr(a);
-        create_fiber((void (*)(void *))(void*)runAction0, (void *)a, fiberDone);
+        create_fiber((void (*)(void *))(void *)runAction0, (void *)a, fiberDone);
     }
 }
 
@@ -257,6 +258,13 @@ LowLevelTimer *getJACDACTimer() {
 }
 void initSystemTimer() {
     new CODAL_TIMER(*allocateTimer());
+}
+
+STeaMi *steami = nullptr;
+
+void initSTeaMi() {
+    steami = new STeaMi();
+    steami->init();
 }
 
 } // namespace pxt

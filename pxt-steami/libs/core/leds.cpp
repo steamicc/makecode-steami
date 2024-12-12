@@ -1,6 +1,8 @@
 #include "pxt.h"
 #include "STeaMi.h"
 
+extern STeaMi *steami;
+
 enum class AllColors {
     //% block="Red" color=#ff0000
     Red,
@@ -43,50 +45,53 @@ void setLedRGBOff() {
 //% help=leds/leds_setLedRGB
 //% blockId="leds_setLedRGB" blockGap=8
 void setLedRGB(AllColors color) {
-    STM32Pin *led_b = getPin(LED_RGB_Blue);  // BLUE
-    STM32Pin *led_g = getPin(LED_RGB_Green); // GREEN
-    STM32Pin *led_r = getPin(LED_RGB_Red);   // RED
+    // STM32Pin *led_b = getPin(LED_RGB_Blue);  // BLUE
+    // STM32Pin *led_g = getPin(LED_RGB_Green); // GREEN
+    // STM32Pin *led_r = getPin(LED_RGB_Red);   // RED
+    STM32Pin led_b = steami->io.ledBlue;
+    STM32Pin led_g = steami->io.ledGreen; // GREEN
+    STM32Pin led_r = steami->io.ledRed;   // RED
 
     switch (color) {
     case AllColors::Red:
-        led_r->setDigitalValue(1);
-        led_g->setDigitalValue(0);
-        led_b->setDigitalValue(0);
+        led_r.setDigitalValue(1);
+        led_g.setDigitalValue(0);
+        led_b.setDigitalValue(0);
         break;
     case AllColors::Green:
-        led_r->setDigitalValue(0);
-        led_g->setDigitalValue(1);
-        led_b->setDigitalValue(0);
+        led_r.setDigitalValue(0);
+        led_g.setDigitalValue(1);
+        led_b.setDigitalValue(0);
         break;
     case AllColors::Blue:
-        led_r->setDigitalValue(0);
-        led_g->setDigitalValue(0);
-        led_b->setDigitalValue(1);
+        led_r.setDigitalValue(0);
+        led_g.setDigitalValue(0);
+        led_b.setDigitalValue(1);
         break;
     case AllColors::Yellow:
-        led_r->setDigitalValue(1);
-        led_g->setDigitalValue(1);
-        led_b->setDigitalValue(0);
+        led_r.setDigitalValue(1);
+        led_g.setDigitalValue(1);
+        led_b.setDigitalValue(0);
         break;
     case AllColors::Magenta:
-        led_r->setDigitalValue(1);
-        led_g->setDigitalValue(0);
-        led_b->setDigitalValue(1);
+        led_r.setDigitalValue(1);
+        led_g.setDigitalValue(0);
+        led_b.setDigitalValue(1);
         break;
     case AllColors::Cyan:
-        led_r->setDigitalValue(0);
-        led_g->setDigitalValue(1);
-        led_b->setDigitalValue(1);
+        led_r.setDigitalValue(0);
+        led_g.setDigitalValue(1);
+        led_b.setDigitalValue(1);
         break;
     case AllColors::White:
-        led_r->setDigitalValue(1);
-        led_g->setDigitalValue(1);
-        led_b->setDigitalValue(1);
+        led_r.setDigitalValue(1);
+        led_g.setDigitalValue(1);
+        led_b.setDigitalValue(1);
         break;
     default:
-        led_r->setDigitalValue(0);
-        led_g->setDigitalValue(0);
-        led_b->setDigitalValue(0);
+        led_r.setDigitalValue(0);
+        led_g.setDigitalValue(0);
+        led_b.setDigitalValue(0);
         break;
     }
     target_wait_us(300);
