@@ -1,8 +1,6 @@
 #include "pxt.h"
 #include "STeaMi.h"
 
-extern STeaMi *steami;
-
 enum class AllColors {
     //% block="Red" color=#ff0000
     Red,

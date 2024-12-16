@@ -105,6 +105,7 @@ uint32_t readButtonMultiplexer(int bits);
 void disableButtonMultiplexer();
 
 void initSTeaMi();
+extern STeaMi *steami;
 } // namespace pxt
 
 namespace serial {
