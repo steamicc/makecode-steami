@@ -68,6 +68,8 @@ static void commInit() {
 }
 
 static void initCodal() {
+    steami = new STeaMi();
+    steami->init();
     cpu_clock_init();
 
     commInit();
@@ -138,11 +140,13 @@ void releaseFiber() {
 }
 
 void sleep_ms(unsigned ms) {
-    fiber_sleep(ms);
+    // fiber_sleep(ms);
+    steami->sleep(ms);
 }
 
 void sleep_us(uint64_t us) {
-    target_wait_us(us);
+    steami->sleep(us);
+    // target_wait_us(us);
 }
 
 void forever_stub(void *a) {
@@ -262,9 +266,9 @@ void initSystemTimer() {
 
 STeaMi *steami = nullptr;
 
-void initSTeaMi() {
-    steami = new STeaMi();
-    steami->init();
-}
+// void initSTeaMi() {
+//     steami = new STeaMi();
+//     steami->init();
+// }
 
 } // namespace pxt

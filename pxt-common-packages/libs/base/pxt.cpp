@@ -380,21 +380,21 @@ uint16_t *bytecode;
 TValue *globals;
 
 void checkStr(bool cond, const char *msg) {
-    if (!cond) {
-        while (true) {
-            // uBit.display.scroll(msg, 100);
-            // uBit.sleep(100);
-        }
-    }
+    // if (!cond) {
+    //     while (true) {
+    //         // uBit.display.scroll(msg, 100);
+    //         // uBit.sleep(100);
+    //     }
+    // }
 }
 
 #ifdef PXT_VM
 int templateHash() {
-    return *(int*)&vmImg->infoHeader->hexHash;
+    return *(int *)&vmImg->infoHeader->hexHash;
 }
 
 int programHash() {
-    return *(int*)&vmImg->infoHeader->programHash;
+    return *(int *)&vmImg->infoHeader->programHash;
 }
 
 int getNumGlobals() {

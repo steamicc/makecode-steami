@@ -104,7 +104,7 @@ class PressureButton;
 uint32_t readButtonMultiplexer(int bits);
 void disableButtonMultiplexer();
 
-void initSTeaMi();
+// void initSTeaMi();
 extern STeaMi *steami;
 } // namespace pxt
 
@@ -127,14 +127,5 @@ typedef jacdac::JDProxyDriver *JacDacDriverStatus;
 
 #define PXT_INTERNAL_KEY_UP 2050
 #define PXT_INTERNAL_KEY_DOWN 2051
-
-using namespace pxt;
-#undef PXT_MAIN
-#define PXT_MAIN                                                                                   \
-    int main() {                                                                                   \
-        pxt::initSTeaMi();                                                                         \
-        pxt::start();                                                                              \
-        return 0;                                                                                  \
-    }
 
 #endif
